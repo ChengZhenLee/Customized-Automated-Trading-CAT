@@ -2,6 +2,7 @@ import backtrader as bt
 
 class DynamicStrategy(bt.Strategy):
     order = None
+    required_params = []
 
     def log(self, txt, dt=None, doprint=False):
         if doprint:
@@ -29,11 +30,10 @@ class DynamicStrategy(bt.Strategy):
         
         self.log("OPERATION PROFIT: GROSS {:.2f}, NET {:.2f}".format(trade.pnl, trade.pnlcomm))
 
-    def error(self):
-        pass
-
 
 class SMAStrategy(DynamicStrategy):
+    required_params = ["fastmaperiod", "slowmaperiod"]
+    
     def __init__(self, params):
         self.params = params
         self.dataclose = self.datas[0].close

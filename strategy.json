@@ -1,7 +1,5 @@
 {   
-    "STRATEGY": {
-        "name": "sma",
-        "params": {"fastmaperiod": 5,
-                    "slowmaperiod" : 15}
-    }
+    "name": "sma",
+    "params": {"fastmaperiod": 5,
+                "slowmaperiod" : 15}
 }
