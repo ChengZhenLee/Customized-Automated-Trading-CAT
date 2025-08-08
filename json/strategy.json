@@ -1,0 +1,11 @@
+{   
+    "name": "rsi",
+    "params": {"rsiperiod": 14,
+                "overbought" : 70,
+                "oversold": 30},
+    "optimize_params": {
+        "rsiperiod": [10, 12, 14],
+        "overbought": [70, 80, 90],
+        "oversold": [10, 20, 30]
+    }
+}

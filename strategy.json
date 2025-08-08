@@ -1,5 +1,0 @@
-{   
-    "name": "sma",
-    "params": {"fastmaperiod": 5,
-                "slowmaperiod" : 15}
-}

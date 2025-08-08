@@ -5,14 +5,24 @@ from datetime import datetime
 import json
 import pandas as pd
 
-with open("config.json", 'r') as inFile:
-    config = json.load(inFile)
+try:
+    with open("json/data.json", 'r') as dataFile:
+        data = json.load(dataFile)
+except FileNotFoundError as e:
+    print("File not found error: {}".format(e))
 
-alpaca_api_key = config["ALPACA_API_KEY"]
-alpaca_secret_key = config["ALPACA_SECRET_KEY"]
-symbols_to_trade = config["SYMBOLS_TO_TRADE"]
-start_time = config["START_TIME"]
-end_time = config["END_TIME"]
+symbols_to_trade = data["SYMBOLS_TO_TRADE"]
+start_time = data["START_TIME"]
+end_time = data["END_TIME"]
+
+try:
+    with open("json/keys.json") as keysFile:
+        keys = json.load(keysFile)
+except FileNotFoundError as e:
+    print("File not found error: {}".format(e))
+
+alpaca_api_key = keys["ALPACA_API_KEY"]
+alpaca_secret_key = keys["ALPACA_SECRET_KEY"]
 
 client = StockHistoricalDataClient(alpaca_api_key, alpaca_secret_key)
 

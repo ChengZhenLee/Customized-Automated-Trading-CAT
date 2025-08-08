@@ -3,11 +3,13 @@ import backtrader as bt
 class DynamicStrategy(bt.Strategy):
     order = None
     required_params = []
+    params = ()
 
     def log(self, txt, dt=None, doprint=False):
+        dt = dt or self.datas[0].datetime.date(0)
+        message = "{}, {}".format(dt.isoformat(), txt)
         if doprint:
-            dt = dt or self.datas[0].datetime.date(0)
-            print("{}, {}".format(dt.isoformat(), txt))
+            print(message)
         
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
@@ -15,9 +17,9 @@ class DynamicStrategy(bt.Strategy):
         
         if order.status in [order.Completed]:
             if order.isbuy():
-                self.log("BUY EXECUTED {:.2f}".format(self.dataclose[0]), doprint=True)
+                self.log("BUY EXECUTED {:.2f}".format(self.dataclose[0]))
             elif order.issell():
-                self.log("SELL EXECUTED {:.2f}".format(self.dataclose[0]), doprint=True)
+                self.log("SELL EXECUTED {:.2f}".format(self.dataclose[0]))
 
         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
             self.log("Order Canceled/Margin/Rejected")
@@ -25,20 +27,29 @@ class DynamicStrategy(bt.Strategy):
         self.order = None
 
     def notify_trade(self, trade):
-        if not trade.isclosed():
+        if not trade.isclosed:
             return
         
         self.log("OPERATION PROFIT: GROSS {:.2f}, NET {:.2f}".format(trade.pnl, trade.pnlcomm))
 
+    def stop(self):
+        txt = ""
+        for param in self.required_params:
+            txt += "{}: {}, ".format(param, getattr(self.params, param))
+        self.log(txt + "Final Result: {}".format(self.broker.getvalue()), doprint=True)
+
 
 class SMAStrategy(DynamicStrategy):
     required_params = ["fastmaperiod", "slowmaperiod"]
+    params = (
+        ("fastmaperiod", 0),
+        ("slowmaperiod", 0),
+    )
     
-    def __init__(self, params):
-        self.params = params
+    def __init__(self):
         self.dataclose = self.datas[0].close
-        self.fastsma = bt.indicators.SimpleMovingAverage(self.datas[0], period=self.params["fastmaperiod"])
-        self.slowsma = bt.indicators.SimpleMovingAverage(self.datas[0], period=self.params["slowmaperiod"])
+        self.fastsma = bt.indicators.SimpleMovingAverage(self.datas[0], period=self.params.fastmaperiod)
+        self.slowsma = bt.indicators.SimpleMovingAverage(self.datas[0], period=self.params.slowmaperiod)
 
     def next(self):
         if self.order:
@@ -50,9 +61,27 @@ class SMAStrategy(DynamicStrategy):
         
         elif self.fastsma[0] < self.slowsma[0]:
             self.order = self.sell()
+
+
+class RSIStrategy(DynamicStrategy):
+    required_params = ["rsiperiod", "overbought", "oversold"]
+    params = (
+        ("rsiperiod", 0),
+        ("overbought", 0),
+        ("oversold", 0),
+    )
+
+    def __init__(self):
+        self.dataclose = self.datas[0].close
+        self.rsi = bt.indicators.RelativeStrengthIndex(self.datas[0], period=self.params.rsiperiod)
+    
+    def next(self):
+        if self.order:
+            return
         
-    def stop(self):
-        if self.position:
-            self.close()
-        self.log("Fast MA: {:.2f}, Slow MA: {:.2f}, End Value: {:.2f}".format(
-            self.params["fastmaperiod"], self.params["slowmaperiod"], self.broker.getvalue()))
+        if not self.position:
+            if self.rsi < self.params.oversold:
+                self.order = self.buy()
+
+        elif self.rsi > self.params.overbought:
+            self.order = self.sell()

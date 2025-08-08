@@ -1,0 +1,11 @@
+{
+    "STARTING_CASH": 1000000,
+
+    "COMMISSION": 0.001,
+    
+    "OPTIMIZE": false,
+
+    "PLOT": false,
+
+    "SIZE": 10
+}
