@@ -13,20 +13,21 @@ data = bt.feeds.GenericCSVData(
     openinterest=-1
 )
 
-cerebro = bt.Cerebro()
+if __name__ == "__main__":
+    cerebro = bt.Cerebro()
 
-cerebro.adddata(data)
+    cerebro.adddata(data)
 
-cerebro.addstrategy(TestStrategy)
+    strats = cerebro.optstrategy(TestStrategy, maperiod=range(10,30))
 
-cerebro.broker.setcash(1000000)
+    cerebro.broker.setcash(1000000)
 
-cerebro.broker.setcommission(commission=0.001)
+    cerebro.broker.setcommission(commission=0.001)
 
-print("Starting value {:.2f}".format(cerebro.broker.getvalue()))
+    cerebro.addsizer(bt.sizers.FixedSize, stake=10)
 
-cerebro.run()
+    print("Starting value {:.2f}".format(cerebro.broker.getvalue()))
 
-print("End value {:.2f}".format(cerebro.broker.getvalue()))
+    cerebro.run()
 
-cerebro.plot()
+    print("End value {:.2f}".format(cerebro.broker.getvalue()))

@@ -3,14 +3,21 @@ import backtrader as bt
 # Create a Stratey
 class TestStrategy(bt.Strategy):
 
-    def log(self, txt, dt=None):
+    params = (
+        ("maperiod", 15),
+        ("doprint", False),
+    )
+
+    def log(self, txt, dt=None, doprint=False):
         ''' Logging function for this strategy'''
-        dt = dt or self.datas[0].datetime.date(0)
-        print('%s, %s' % (dt.isoformat(), txt))
+        if doprint:
+            dt = dt or self.datas[0].datetime.date(0)
+            print('%s, %s' % (dt.isoformat(), txt))
 
     def __init__(self):
         self.dataclose = self.datas[0].close
         self.order = None
+        self.sma = bt.indicators.SimpleMovingAverage(self.datas[0], period=self.params.maperiod)
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
@@ -41,11 +48,16 @@ class TestStrategy(bt.Strategy):
         if self.order:
             return
 
-        if not self.position:
-            if self.dataclose[0] < self.dataclose[-2]:
-                self.log("BUY CREATE {:.2f}".format(self.dataclose[0]))
-                self.order = self.buy()
+        if not self.position and self.dataclose[0] > self.sma[0]:
+            self.log("BUY CREATE {:.2f}".format(self.dataclose[0]))
+            self.order = self.buy()
 
-        elif len(self) >= self.bar_executed + 5:
+        elif self.dataclose[0] < self.sma[0]:
             self.log("SELL CREATE {:.2f}".format(self.dataclose[0]))
             self.order = self.sell()
+
+    def stop(self):
+        if self.position:
+            self.close()
+        self.log("MA period {:.2f}, Ending Value: {:.2f}".format(self.params.maperiod, self.broker.getvalue()), doprint=True)
+        
