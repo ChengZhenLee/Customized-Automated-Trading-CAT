@@ -1,5 +1,6 @@
 import backtrader as bt
 from signal_map import SIGNAL_MAP
+from signal_parser import deconstruct_signals_optimize
 
 class DynamicStrategy(bt.Strategy):
     def log(self, txt, dt=None, printdt=True):
@@ -64,3 +65,8 @@ class DynamicStrategy(bt.Strategy):
                 self.log("{}: {:.2f}".format(param, getattr(signal.params, param)), printdt=False)
             self.log("=" * 30, printdt=False)
         self.log("Final Value: {:.2f}".format(self.broker.getvalue()), printdt=False)
+
+
+class DynamicStrategyOptimize(DynamicStrategy):
+    def __init__(self, **signals_optimize):
+        super().__init__(**deconstruct_signals_optimize(signals_optimize))

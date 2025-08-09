@@ -1,6 +1,6 @@
 import backtrader as bt
-from signal_parser import signal_names, all_signal_params
-from dynamic_strategy import DynamicStrategy
+from signal_parser import signals, signals_optimize
+from dynamic_strategy import DynamicStrategy, DynamicStrategyOptimize
 import json
 
 try:
@@ -39,9 +39,9 @@ if __name__ == "__main__":
     cerebro.adddata(data)
 
     if optimize:
-        cerebro.optstrategy(DynamicStrategy, signal_names, all_signal_params)
+        cerebro.optstrategy(DynamicStrategyOptimize, **signals_optimize)
     else:
-        cerebro.addstrategy(DynamicStrategy, signal_names, all_signal_params)
+        cerebro.addstrategy(DynamicStrategy, **signals)
     
     results = cerebro.run()
     
