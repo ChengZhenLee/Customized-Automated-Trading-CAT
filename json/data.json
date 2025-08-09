@@ -3,6 +3,8 @@
         "AAPL"
     ],
 
+    "TIMEFRAME": "Day",
+
     "START_TIME": {
         "year": 2022,
         "month": 1,

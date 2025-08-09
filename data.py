@@ -3,7 +3,6 @@ from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 from datetime import datetime
 import json
-import pandas as pd
 
 try:
     with open("json/data.json", 'r') as dataFile:
@@ -12,6 +11,7 @@ except FileNotFoundError as e:
     print("File not found error: {}".format(e))
 
 symbols_to_trade = data["SYMBOLS_TO_TRADE"]
+timeframe = data["TIMEFRAME"]
 start_time = data["START_TIME"]
 end_time = data["END_TIME"]
 
@@ -27,8 +27,8 @@ alpaca_secret_key = keys["ALPACA_SECRET_KEY"]
 client = StockHistoricalDataClient(alpaca_api_key, alpaca_secret_key)
 
 request_params = StockBarsRequest(
-    symbol_or_symbols="AAPL",
-    timeframe=TimeFrame.Day,
+    symbol_or_symbols=symbols_to_trade,
+    timeframe=getattr(TimeFrame, timeframe),
     start=datetime(start_time["year"], start_time["month"], start_time["day"]),
     end=datetime(end_time["year"], end_time["month"], end_time["day"])
 )
