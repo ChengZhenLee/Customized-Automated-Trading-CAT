@@ -1,6 +1,7 @@
 import backtrader as bt
-from signal_parser import signals, signals_optimize
-from dynamic_strategy import DynamicStrategy, DynamicStrategyOptimize
+from utilities.signal_parser import SignalParser
+from utilities.strategy_selector import StrategySelector
+from strategies import *
 import json
 
 try:
@@ -26,6 +27,9 @@ data = bt.feeds.GenericCSVData(
     openinterest=-1
 )
 
+(signals, signals_optimize) = SignalParser.parse_signal_file("json/signals.json")
+strategy = StrategySelector.select_strategy_from_file("json/strategies.json")
+
 
 if __name__ == "__main__":
     cerebro = bt.Cerebro()
@@ -41,7 +45,7 @@ if __name__ == "__main__":
     if optimize:
         cerebro.optstrategy(DynamicStrategyOptimize, **signals_optimize)
     else:
-        cerebro.addstrategy(DynamicStrategy, **signals)
+        cerebro.addstrategy(strategy, **signals)
     
     results = cerebro.run()
     

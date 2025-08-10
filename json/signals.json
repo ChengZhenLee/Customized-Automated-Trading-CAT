@@ -1,5 +1,5 @@
 {   
-    "SIGNAL_NAMES": ["sma"],
+    "SIGNAL_NAMES": ["rsi"],
 
     "ALL_SIGNAL_PARAMS": {
         "sma": {
@@ -11,6 +11,12 @@
             "period": 14,
             "overbought": 70,
             "oversold": 30
+        },
+
+        "pricediff": {
+            "price_drop_pct": 0.0,
+            "price_rise_pct": 0.01,
+            "initial_entry_price": 200
         }
     },
 
@@ -24,6 +30,12 @@
             "period": [10, 12, 14],
             "overbought": [70],
             "oversold": [30]
+        },
+
+        "pricediff": {
+            "price_drop_pct": [0.01],
+            "price_rise_pct": [0.01],
+            "initial_entry_price": [200]
         }
     }
 }
