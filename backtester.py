@@ -45,6 +45,6 @@ if __name__ == "__main__":
     
     results = cerebro.run()
     
-    if plot:
+    if plot and not optimize:
         cerebro.plot()
 
