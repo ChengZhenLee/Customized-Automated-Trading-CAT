@@ -24,6 +24,6 @@ class SignalParser():
             print("Validation error {}".format(e))
 
         signals = SignalConstructor.construct_signals(signal_names, all_signal_params)
-        signals_optimize = SignalConstructor.construct_signals_optimize(signal_names, all_signal_optimize_params)
+        signals_optimize = SignalConstructor.construct_signals(signal_names, all_signal_optimize_params)
 
         return (signals, signals_optimize)

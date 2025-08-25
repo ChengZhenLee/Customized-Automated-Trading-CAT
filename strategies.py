@@ -4,7 +4,21 @@ from utilities.signal_constructor import SignalConstructor
 from utilities.log_and_message import Logger, MessageCreater
 
 class DynamicStrategy(bt.Strategy):
-    def __init__(self, signal_names, all_signal_params):
+    # def __init__(self, signal_names, all_signal_params):
+    #     self.order = None
+    #     self.date = self.data.datetime.date
+    #     self.dataclose = self.data.close
+    #     self.signals = []
+
+    #     for signal_name in signal_names:
+    #         signal_class = SIGNAL_MAP[signal_name]
+    #         signal_params = all_signal_params[signal_name]
+
+    #         self.signals.append(signal_class(self.data, **signal_params))
+
+    #TODO: a simple test
+    def __init__(self, **signals):
+        (signal_names, all_signal_params) = SignalConstructor.deconstruct_signals(signals)
         self.order = None
         self.date = self.data.datetime.date
         self.dataclose = self.data.close
@@ -15,10 +29,11 @@ class DynamicStrategy(bt.Strategy):
             signal_params = all_signal_params[signal_name]
 
             self.signals.append(signal_class(self.data, **signal_params))
-        
+
+    
     def notify_order(self, order):
         for signal in self.signals:
-            signal.notify_order(order)
+            signal.update_state(order)
 
         if order.status in [order.Submitted, order.Accepted]:
             return
@@ -36,9 +51,6 @@ class DynamicStrategy(bt.Strategy):
         self.order = None
 
     def notify_trade(self, trade):
-        for signal in self.signals:
-            signal.notify_trade(trade)
-
         if not trade.isclosed:
             return
         
@@ -48,11 +60,6 @@ class DynamicStrategy(bt.Strategy):
     def stop(self):
         final_result_message = MessageCreater.create_final_result_message(self.signals, self.broker.getvalue())
         Logger.log(final_result_message)
-
-
-class DynamicStrategyOptimize(DynamicStrategy):
-    def __init__(self, **signals_optimize):
-        super().__init__(**SignalConstructor.deconstruct_signals_optimize(signals_optimize))
 
 
 class SinglePositionStrategy(DynamicStrategy):
@@ -67,7 +74,7 @@ class SinglePositionStrategy(DynamicStrategy):
         if not self.position and all_buy_conditions_met:
             self.order = self.buy()
             order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "buy")
-        elif all_sell_conditions_met:
+        elif self.position and all_sell_conditions_met:
             self.order = self.sell()
             order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "sell")
         

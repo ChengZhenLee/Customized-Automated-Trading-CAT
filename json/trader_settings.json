@@ -3,9 +3,9 @@
 
     "COMMISSION": 0.001,
     
-    "OPTIMIZE": false,
+    "OPTIMIZE": true,
 
-    "PLOT": true,
+    "PLOT": false,
 
     "SIZE": 10
 }

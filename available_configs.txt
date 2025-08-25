@@ -1,0 +1,2 @@
+signals: sma, rsi, pricediff
+strategies: single, dca

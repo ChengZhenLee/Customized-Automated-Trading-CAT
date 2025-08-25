@@ -43,7 +43,7 @@ if __name__ == "__main__":
     cerebro.adddata(data)
 
     if optimize:
-        cerebro.optstrategy(DynamicStrategyOptimize, **signals_optimize)
+        cerebro.optstrategy(strategy, **signals_optimize)
     else:
         cerebro.addstrategy(strategy, **signals)
     
@@ -52,3 +52,5 @@ if __name__ == "__main__":
     if plot and not optimize:
         cerebro.plot()
 
+# TODO: refactor this file into classes and functions
+# TODO: fix the plotting to plot indicators instead of signals
