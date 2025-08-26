@@ -45,6 +45,6 @@ class MessageCreater():
             for param in signal.required_params:
                 message += "{}: {:.2f}\n".format(param, getattr(signal.params, param))
             message += "=" *30 + "\n"
-        message += "✨ Final Value: {:.2f}".format(final_value)
+        message += "✨ Final Value: {:.2f}\n".format(final_value)
 
         return message

@@ -18,6 +18,7 @@ class Validator():
                 missing_params = required_params - given_params
                 raise ValueError("Signal {} missing parameters {} for optimization".format(signal_name, missing_params))
         
-    def validate_strategy(strategy_name):
-        if strategy_name not in STRATEGY_MAP.keys():
-            raise ValueError("Strategy {} not found".format(strategy_name))
+    def validate_strategy(strategy_names):
+        for strategy_name in strategy_names:
+            if strategy_name not in STRATEGY_MAP.keys():
+                raise ValueError("Strategy {} not found".format(strategy_name))

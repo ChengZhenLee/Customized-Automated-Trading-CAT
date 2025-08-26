@@ -1,20 +1,11 @@
 import backtrader as bt
 from utilities.signal_parser import SignalParser
 from utilities.strategy_selector import StrategySelector
-from strategies import *
-import json
+from utilities.settings_parser import SettingsParser
+from strategies import CombinedStrategy
 
-try:
-    with open("json/trader_settings.json", "r") as inFile:
-        settings = json.load(inFile)
-except FileNotFoundError as e:
-    print("File not found error: {}".format(e))
-
-starting_cash = settings["STARTING_CASH"]
-commission = settings["COMMISSION"]
-optimize = settings["OPTIMIZE"]
-plot = settings["PLOT"]
-size = settings["SIZE"]
+#TODO: refactor using settings_parser and data.py file, then move all to a main file
+settings = SettingsParser.parse_settings_from_file("json/trader_settings.json")
 
 data = bt.feeds.GenericCSVData(
     dataname="data.csv",
@@ -27,8 +18,10 @@ data = bt.feeds.GenericCSVData(
     openinterest=-1
 )
 
-(signals, signals_optimize) = SignalParser.parse_signal_file("json/signals.json")
-strategy = StrategySelector.select_strategy_from_file("json/strategies.json")
+(signals_single, signals_optimize) = SignalParser.parse_signal_file("json/signals.json")
+selected_strategies = StrategySelector.select_strategies_from_file("json/strategies.json")
+input_single = {**selected_strategies, **signals_single}
+input_optimize = {"selected_strategies": [selected_strategies["selected_strategies"]], **signals_optimize}
 
 
 if __name__ == "__main__":
@@ -43,9 +36,9 @@ if __name__ == "__main__":
     cerebro.adddata(data)
 
     if optimize:
-        cerebro.optstrategy(strategy, **signals_optimize)
+        cerebro.optstrategy(CombinedStrategy, **input_optimize)
     else:
-        cerebro.addstrategy(strategy, **signals)
+        cerebro.addstrategy(CombinedStrategy, **input_single)
     
     results = cerebro.run()
     
@@ -53,4 +46,3 @@ if __name__ == "__main__":
         cerebro.plot()
 
 # TODO: refactor this file into classes and functions
-# TODO: fix the plotting to plot indicators instead of signals

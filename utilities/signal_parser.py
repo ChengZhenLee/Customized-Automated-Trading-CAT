@@ -23,7 +23,7 @@ class SignalParser():
         except ValueError as e:
             print("Validation error {}".format(e))
 
-        signals = SignalConstructor.construct_signals(signal_names, all_signal_params)
+        signals_single = SignalConstructor.construct_signals(signal_names, all_signal_params)
         signals_optimize = SignalConstructor.construct_signals(signal_names, all_signal_optimize_params)
 
-        return (signals, signals_optimize)
+        return (signals_single, signals_optimize)
