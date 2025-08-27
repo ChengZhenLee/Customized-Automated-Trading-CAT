@@ -40,21 +40,6 @@ class CombinedStrategy(bt.Strategy):
 class GenericStrategy():
     plotinfo = dict(subplot=True)
 
-    # def __init__(self, **kwargs):
-    #     self.order = None
-    #     self.date = self.data.datetime.date
-    #     self.dataclose = self.data.close
-    #     self.signals = []
-
-    #     selected_strategies = kwargs.pop("selected_strategies")
-
-    #     (signal_names, all_signal_params) = SignalConstructor.deconstruct_signals(kwargs)
-    #     for signal_name in signal_names:
-    #         signal_class = SIGNAL_MAP[signal_name]
-    #         signal_params = all_signal_params[signal_name]
-
-    #         self.signals.append(signal_class(self.data, **signal_params))
-
     def __init__(self, parent):
         self.order = None
         self.parent = parent

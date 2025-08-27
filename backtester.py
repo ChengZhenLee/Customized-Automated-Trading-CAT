@@ -1,48 +1,50 @@
 import backtrader as bt
-from utilities.signal_parser import SignalParser
-from utilities.strategy_selector import StrategySelector
-from utilities.settings_parser import SettingsParser
 from strategies import CombinedStrategy
 
-#TODO: refactor using settings_parser and data.py file, then move all to a main file
-settings = SettingsParser.parse_settings_from_file("json/trader_settings.json")
+class Backtester():
+    def __init__(self, signals, strategies, trader_settings, data_csv, bt_data_format):
+        self.initialize_signals_strategies(signals, strategies)
+        self.initialize_data(data_csv, bt_data_format)
+        self.initialize_trader(trader_settings)
 
-data = bt.feeds.GenericCSVData(
-    dataname="data.csv",
-    dtformat=("%Y-%m-%d %H:%M:%S%z"),
-    datetime=1,
-    open=2,
-    high=3,
-    low=4,
-    close=5,
-    openinterest=-1
-)
-
-(signals_single, signals_optimize) = SignalParser.parse_signal_file("json/signals.json")
-selected_strategies = StrategySelector.select_strategies_from_file("json/strategies.json")
-input_single = {**selected_strategies, **signals_single}
-input_optimize = {"selected_strategies": [selected_strategies["selected_strategies"]], **signals_optimize}
-
-
-if __name__ == "__main__":
-    cerebro = bt.Cerebro()
-
-    cerebro.broker.setcash(starting_cash)
-
-    cerebro.broker.setcommission(commission=commission)
+    def initialize_signals_strategies(self, signals, strategies):
+        (signals_single, signals_optimize) = signals
+        self.input_single = {**strategies, **signals_single}
+        self.input_optimize = {"selected_strategies": [strategies["selected_strategies"]], **signals_optimize}
     
-    cerebro.addsizer(bt.sizers.FixedSize, stake=size)
-
-    cerebro.adddata(data)
-
-    if optimize:
-        cerebro.optstrategy(CombinedStrategy, **input_optimize)
-    else:
-        cerebro.addstrategy(CombinedStrategy, **input_single)
+    def initialize_data(self, data_csv, data_csv_format):
+        self.data = bt.feeds.GenericCSVData(
+            dataname=data_csv,
+            dtformat=data_csv_format["dtformat"],
+            datetime=data_csv_format["datetime"],
+            open=data_csv_format["open"],
+            high=data_csv_format["high"],
+            low=data_csv_format["low"],
+            close=data_csv_format["close"],
+            openinterest=data_csv_format["openinterest"]
+        )
     
-    results = cerebro.run()
-    
-    if plot and not optimize:
-        cerebro.plot()
+    def initialize_trader(self, trader_settings):
+        self.cerebro = bt.Cerebro()
+        self.cerebro.broker.setcash(trader_settings["starting_cash"])
+        self.cerebro.broker.setcommission(trader_settings["commission"])
+        self.cerebro.addsizer(bt.sizers.FixedSize, stake=trader_settings["size"])
 
-# TODO: refactor this file into classes and functions
+        self.cerebro.adddata(self.data)
+
+        self.optimize = trader_settings["optimize"]
+        self.plot = trader_settings["plot"]
+    
+    def run_backtest(self):
+        if self.optimize:
+            self.cerebro.optstrategy(CombinedStrategy, **(self.input_optimize))
+        else:
+            self.cerebro.addstrategy(CombinedStrategy, **(self.input_single))
+
+        self.plot_backtester()
+        
+        return self.cerebro.run()
+    
+    def plot_backtester(self):
+        if self.plot and not self.optimize:
+            self.cerebro.plot()
