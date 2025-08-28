@@ -82,45 +82,9 @@ class PriceDiffSignal(DynamicSignal):
                 self.lines.sell_signal[0] = True
 
 
-# TODO: implement as a strategy
-class DurationSignal(DynamicSignal):
-    required_params = ["duration"]
-    params = (
-        ("duration", 0),
-    )
-
-    def __init__(self):
-        self.counter = 0
-        self.position_direction = None
-
-    def update_state_with_order(self, order):
-        if order.status in [order.Completed] and not self.position_direction:
-            if order.isbuy():
-                self.position_direction = "long"
-            elif order.issell():
-                self.position_direction = "short"
-
-    def update_state_with_trade(self, trade):
-        if trade.isclosed:
-            self.counter = 0
-            self.position_direction = None
-
-    def next(self):
-        self.lines.buy_signal[0] = False
-        self.lines.sell_signal[0] = False
-
-        if self.position_direction is not None:
-            self.counter += 1
-
-        if self.counter >= self.params.duration:
-            if self.position_direction == "long":
-                self.lines.sell_signal[0] = True
-            elif self.position_direction == "short":
-                self.lines.buy_signal[0] = True
-
-
 SIGNAL_MAP = {
     "sma": SMASignal,
     "rsi": RSISignal,
     "pricediff": PriceDiffSignal,
 }
+

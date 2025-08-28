@@ -1,4 +1,4 @@
-from constants import DATAFRAME_FORMAT, DATAFRAME_RENAME
+from config.constants import DATAFRAME_FORMAT, DATAFRAME_RENAME
 from utilities.alpaca_api_handler import AlpacaAPIHandler
 
 class DataGenerator():

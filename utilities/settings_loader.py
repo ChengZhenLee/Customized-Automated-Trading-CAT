@@ -1,4 +1,4 @@
-from constants import *
+from config.constants import *
 from utilities.parser import *
 from utilities.alpaca_api_handler import AlpacaAPIHandler
 

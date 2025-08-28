@@ -1,6 +1,6 @@
 import backtrader as bt
-from signals import SIGNAL_MAP
-from utilities.signal_constructor import SignalConstructor
+from trading_logic.signals import SIGNAL_MAP
+from utilities.parameter_manager import BacktesterParameterManager, StrategyParameterManager, SignalParameterManager
 from utilities.log_and_message import Logger, MessageCreater
 
 
@@ -9,16 +9,19 @@ class CombinedStrategy(bt.Strategy):
         self.signals = []
         self.strategies = []
 
-        selected_strategies = kwargs.pop("selected_strategies")
-        (signal_names, all_signal_params) = SignalConstructor.deconstruct_signals(kwargs)
+        (strategies, signals) = BacktesterParameterManager.deserialize_backtester_parameters(kwargs)
+        (selected_strategies, all_strategy_params) = StrategyParameterManager.deserialize_strategies(strategies)
+        (signal_names, all_signal_params) = SignalParameterManager.deserialize_signals(signals)
 
         for signal_name in signal_names:
             signal_class = SIGNAL_MAP[signal_name]
-            signal_params = all_signal_params[signal_name]
+            signal_params = all_signal_params.get(signal_name, {})
             self.signals.append(signal_class(self.data, **signal_params))
 
-        for selected_strategy in selected_strategies:
-            self.strategies.append(selected_strategy(self))
+        for strategy_name in selected_strategies:
+            strategy_class = STRATEGY_MAP[strategy_name]
+            strategy_params = all_strategy_params.get(strategy_name, {})
+            self.strategies.append(strategy_class(self, **strategy_params))
 
     def notify_order(self, order):
         for strategy in self.strategies:
@@ -33,14 +36,17 @@ class CombinedStrategy(bt.Strategy):
             strategy.next()
 
     def stop(self):
-        final_result_message = MessageCreater.create_final_result_message(self.signals, self.broker.getvalue())
-        Logger.log(final_result_message)
+        final_value = self.broker.getvalue()
+        final_message = MessageCreater.create_final_result_message(self.strategies, self.signals, final_value)
+        Logger.log(final_message)
         
         
 class GenericStrategy():
     plotinfo = dict(subplot=True)
 
-    def __init__(self, parent):
+    required_params = []
+
+    def __init__(self, parent, **kwargs):
         self.order = None
         self.parent = parent
         self.date = self.parent.data.datetime.date
@@ -92,7 +98,7 @@ class SinglePositionStrategy(GenericStrategy):
         elif self.parent.position and all_sell_conditions_met:
             self.parent.order = self.parent.sell()
             order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "sell")
-        
+
         if order_creation_message:
             Logger.log(order_creation_message, self.date(0))
 
@@ -117,10 +123,49 @@ class DCAStrategy(GenericStrategy):
             Logger.log(order_creation_message, self.date(0))
 
 
-# TODO: Implement a component based hierarchy instead of a rigid hierarchy
+class DurationStrategy(GenericStrategy):
+    required_params = ["duration"]
+
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
+        self.duration = kwargs.get("duration")
+        self.bar_counter = 0
+
+    def next(self):
+        order_creation_message = None
+        buy_signals = [signal.lines.buy_signal[0] for signal in self.signals]
+        all_buy_conditions_met = all(buy_signals)
+
+        sell_signals = [signal.lines.sell_signal[0] for signal in self.signals]
+        all_sell_conditions_met = all(sell_signals)
+
+        # Not in a position yet
+        if not self.parent.position:
+            self.bar_counter = 0
+            if all_buy_conditions_met:
+                self.parent.order = self.parent.buy()
+                order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "buy")
+            elif all_sell_conditions_met:
+                self.parent.order = self.parent.sell()
+                order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "sell")
+
+        # Already in a position
+        elif self.parent.position:
+            self.bar_counter += 1
+            if all_buy_conditions_met or self.bar_counter >= self.duration:
+                if self.parent.position.size > 0:
+                    self.parent.order = self.parent.sell()
+                    order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "sell")
+                elif self.parent.position.size < 0:
+                    self.parent.order = self.parent.buy()
+                    order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "buy")
+
+        if order_creation_message:
+            Logger.log(order_creation_message, self.date(0))
 
 
 STRATEGY_MAP = {
     "single": SinglePositionStrategy,
-    "dca": DCAStrategy
+    "dca": DCAStrategy,
+    "duration": DurationStrategy
 }

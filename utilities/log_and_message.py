@@ -1,5 +1,3 @@
-from signals import SIGNAL_MAP
-
 class Logger():
     def log(txt, dt=None):
         if dt:
@@ -35,16 +33,33 @@ class MessageCreater():
         message += "NET {:.2f}".format(pnlcomm)
 
         return message
+    
+    def create_strategies_result_message(strategies):
+        message = ""
+        for strategy in strategies:
+            message += "=" * 30 + "\n"
+            strategy_name = strategy.__class__.__name__
+            message += "Strategy: {}\n".format(strategy_name)
+            for param in strategy.required_params:
+                message += "{}: {:.2f}\n".format(param, getattr(strategy, param))
+            message += "=" * 30 + "\n"
+        
+        return message
 
-    def create_final_result_message(signals, final_value):
+    def create_signals_result_message(signals):
         message = ""
         for signal in signals:
             message += "=" * 30 + "\n"
-            signal_name = [key for key, val in SIGNAL_MAP.items() if isinstance(signal, val)][0]
-            message += "{}\n".format(signal_name)
+            signal_name = signal.__class__.__name__
+            message += "Signal: {}\n".format(signal_name)
             for param in signal.required_params:
                 message += "{}: {:.2f}\n".format(param, getattr(signal.params, param))
-            message += "=" *30 + "\n"
-        message += "✨ Final Value: {:.2f}\n".format(final_value)
-
+            message += "=" * 30 + "\n"
+        return message
+    
+    def create_final_result_message(strategies, signals, final_value):
+        message = ""
+        message += MessageCreater.create_strategies_result_message(strategies)
+        message += MessageCreater.create_signals_result_message(signals)
+        message += "🏁 Final Portfolio Value: {:.2f}".format(final_value)
         return message

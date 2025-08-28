@@ -1,0 +1,15 @@
+{
+    "STRATEGY_NAMES": ["duration", "single"],
+
+    "ALL_STRATEGY_PARAMS": {
+        "duration": {
+            "duration": 30
+        }
+    },
+
+    "ALL_STRATEGY_OPTIMIZE_PARAMS": {
+        "duration": {
+            "duration": [10, 20, 30]
+        }
+    }
+}

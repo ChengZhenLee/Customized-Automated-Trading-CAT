@@ -1,5 +1,5 @@
-from backtester import Backtester
-from data import DataGenerator
+from core.backtester import Backtester
+from utilities.data_generator import DataGenerator
 import os
 from utilities.settings_loader import SettingsLoader
 

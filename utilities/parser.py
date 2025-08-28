@@ -1,8 +1,7 @@
 import json
-from constants import *
-from utilities.signal_constructor import SignalConstructor
+from config.constants import *
 from utilities.validator import Validator
-from strategies import STRATEGY_MAP
+from trading_logic.strategies import STRATEGY_MAP
 
 
 class DataSettingsParser():
@@ -68,10 +67,7 @@ class SignalParser():
         except ValueError as e:
             print("Validation error {}".format(e))
 
-        signals_single = SignalConstructor.construct_signals(signal_names, all_signal_params)
-        signals_optimize = SignalConstructor.construct_signals(signal_names, all_signal_optimize_params)
-
-        return (signals_single, signals_optimize)
+        return (signal_names, all_signal_params, all_signal_optimize_params)
     
 
 class StrategyParser():
@@ -85,12 +81,13 @@ class StrategyParser():
         return StrategyParser.parse_strategies_from_config(config)
     
     def parse_strategies_from_config(config):
-        selected_strategies = {"selected_strategies": []}
-        strategy_names = config["STRATEGY_NAME"]
+        strategy_names = config["STRATEGY_NAMES"]
+        all_strategy_params = config["ALL_STRATEGY_PARAMS"]
+        all_strategy_optimize_params = config["ALL_STRATEGY_OPTIMIZE_PARAMS"]
 
-        Validator.validate_strategy(strategy_names)
+        try:
+            Validator.validate_strategy_params(strategy_names, all_strategy_params, all_strategy_optimize_params)
+        except ValueError as e:
+            print("Validation error {}".format(e))
 
-        for strategy_name in strategy_names:
-            selected_strategies["selected_strategies"].append(STRATEGY_MAP[strategy_name])
-
-        return selected_strategies
+        return (strategy_names, all_strategy_params, all_strategy_optimize_params)
