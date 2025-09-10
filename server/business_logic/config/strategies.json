@@ -1,5 +1,5 @@
 {
-    "STRATEGY_NAMES": ["duration", "single"],
+    "STRATEGY_NAMES": ["single"],
 
     "ALL_STRATEGY_PARAMS": {
         "duration": {

@@ -1,5 +1,5 @@
 {   
-    "SIGNAL_NAMES": ["rsi"],
+    "SIGNAL_NAMES": ["sma"],
 
     "ALL_SIGNAL_PARAMS": {
         "sma": {

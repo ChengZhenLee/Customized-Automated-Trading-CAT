@@ -48,10 +48,12 @@ class Backtester():
             self.cerebro.optstrategy(CombinedStrategy, **(self.input_optimize))
         else:
             self.cerebro.addstrategy(CombinedStrategy, **(self.input_single))
+        
+        result = self.cerebro.run()
 
         self.plot_backtester()
-        
-        return self.cerebro.run()
+
+        return result
     
     def plot_backtester(self):
         if self.plot and not self.optimize:

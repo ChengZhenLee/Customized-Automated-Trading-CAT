@@ -3,7 +3,7 @@ from utilities.data_generator import DataGenerator
 import os
 from utilities.settings_loader import SettingsLoader
 
-if __name__ == "__main__":
+def main_logic():
     settings = SettingsLoader.load_all_settings()
 
     data_generator_settings = settings["data_generator_settings"]
@@ -15,4 +15,7 @@ if __name__ == "__main__":
     backtester = Backtester(**backtester_settings)
 
     result = backtester.run_backtest()
+
+if __name__ == "__main__":
+    main_logic()
 
