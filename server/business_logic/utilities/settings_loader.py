@@ -1,11 +1,15 @@
+from datetime import datetime
 from config.constants import *
 from utilities.parser import *
 from utilities.alpaca_api_handler import AlpacaAPIHandler
 from utilities.log_and_message import LoggerLoader
+from utilities.plot import Plot
 
 
 class SettingsLoader():
     def load_all_settings():
+        timestamp = SettingsLoader._get_timestamp()
+
         return {
             "data_generator_settings": {
                 "data_settings": DataSettingsParser.parse_data_settings_from_file(DATA_SETTINGS_FILE),
@@ -18,6 +22,14 @@ class SettingsLoader():
                 "trader_settings": TraderSettingsParser.parse_settings_from_file(TRADER_SETTINGS_FILE),
                 "data_csv": DATA_CSV,
                 "bt_data_format": BT_DATA_FORMAT,
-                "logger": LoggerLoader.setup_logger()
+                "logger": LoggerLoader.setup_logger(timestamp),
+                "plot_file": Plot.get_plot_filename(timestamp)
             }
         }
+    
+    def _get_timestamp():
+        timestamp = datetime.now().strftime(BT_DATA_FORMAT["dtformat"])
+        timestamp = timestamp.replace(" ", "-")
+        timestamp = timestamp.replace(":", "-")
+
+        return timestamp

@@ -1,10 +1,9 @@
-from config.constants import LOGGER_FILE, BT_DATA_FORMAT
-from datetime import datetime
+from config.constants import LOG_FILE, BT_DATA_FORMAT
 import os
 
 class Logger():
     def __init__(self, fileName):
-        self.fileName = Logger._modify_filename(fileName)
+        self.fileName = fileName
     
     def log(self, txt, dt=None):
         if dt:
@@ -17,15 +16,6 @@ class Logger():
                 outFile.write(message)
         else:
             print(message)
-
-    def _modify_filename(fileName):
-        timestamp = datetime.now().strftime(BT_DATA_FORMAT["dtformat"])
-        # Replace forbidden characters
-        timestamp = timestamp.replace(':', '-')
-        timestamp = timestamp.replace(' ', '-')
-
-        name = (fileName.split('.'))[0]
-        return name + "_" + timestamp + ".txt"
 
 
 class MessageCreater():
@@ -88,5 +78,10 @@ class MessageCreater():
 
 
 class LoggerLoader():
-    def setup_logger():
-        return Logger(LOGGER_FILE)
+    def setup_logger(timestamp):
+        fileName = LoggerLoader._get_log_filename(timestamp)
+        return Logger(fileName)
+
+    def _get_log_filename(timestamp):
+        name = (LOG_FILE.split('.'))[0]
+        return name + "_" + timestamp + "." + (LOG_FILE.split('.'))[1]

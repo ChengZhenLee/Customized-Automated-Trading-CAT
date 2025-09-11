@@ -2,7 +2,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/backtrader')
 def home():
     return "Hello, this is your backend speaking"
 
