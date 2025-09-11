@@ -11,6 +11,8 @@ TRADER_SETTINGS_FILE = "config/trader_settings.json"
 SIGNALS_SETTINGS_FILE = "config/signals.json"
 STRATEGIES_SETTINGS_FILE = "config/strategies.json"
 
+LOGGER_FILE = "data/results.txt"
+
 BT_DATA_FORMAT = {
     "dtformat":("%Y-%m-%d %H:%M:%S%z"),
     "datetime":1,

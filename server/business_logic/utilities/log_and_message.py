@@ -1,9 +1,31 @@
+from config.constants import LOGGER_FILE, BT_DATA_FORMAT
+from datetime import datetime
+import os
+
 class Logger():
-    def log(txt, dt=None):
+    def __init__(self, fileName):
+        self.fileName = Logger._modify_filename(fileName)
+    
+    def log(self, txt, dt=None):
         if dt:
-            print("{}: {}".format(dt.isoformat(), txt))
+            message = "{}: {}\n".format(dt.isoformat(), txt)
         else:
-            print(txt)
+            message = txt
+
+        if self.fileName:
+            with open(self.fileName, 'a', encoding='UTF-8') as outFile:
+                outFile.write(message)
+        else:
+            print(message)
+
+    def _modify_filename(fileName):
+        timestamp = datetime.now().strftime(BT_DATA_FORMAT["dtformat"])
+        # Replace forbidden characters
+        timestamp = timestamp.replace(':', '-')
+        timestamp = timestamp.replace(' ', '-')
+
+        name = (fileName.split('.'))[0]
+        return name + "_" + timestamp + ".txt"
 
 
 class MessageCreater():
@@ -63,3 +85,8 @@ class MessageCreater():
         message += MessageCreater.create_signals_result_message(signals)
         message += "🏁 Final Portfolio Value: {:.2f}".format(final_value)
         return message
+
+
+class LoggerLoader():
+    def setup_logger():
+        return Logger(LOGGER_FILE)

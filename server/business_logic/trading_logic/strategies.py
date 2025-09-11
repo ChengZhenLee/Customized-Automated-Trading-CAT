@@ -1,13 +1,14 @@
 import backtrader as bt
 from trading_logic.signals import SIGNAL_MAP
 from utilities.parameter_manager import BacktesterParameterManager, StrategyParameterManager, SignalParameterManager
-from utilities.log_and_message import Logger, MessageCreater
+from utilities.log_and_message import MessageCreater
 
 
 class CombinedStrategy(bt.Strategy):
     def __init__(self, **kwargs):
         self.signals = []
         self.strategies = []
+        self.logger = kwargs.pop("logger")
 
         (strategies, signals) = BacktesterParameterManager.deserialize_backtester_parameters(kwargs)
         (selected_strategies, all_strategy_params) = StrategyParameterManager.deserialize_strategies(strategies)
@@ -38,7 +39,7 @@ class CombinedStrategy(bt.Strategy):
     def stop(self):
         final_value = self.broker.getvalue()
         final_message = MessageCreater.create_final_result_message(self.strategies, self.signals, final_value)
-        Logger.log(final_message)
+        self.logger.log(final_message)
         
         
 class GenericStrategy():
@@ -52,6 +53,7 @@ class GenericStrategy():
         self.date = self.parent.data.datetime.date
         self.dataclose = self.parent.data.close
         self.signals = self.parent.signals
+        self.logger = self.parent.logger
 
     
     def notify_order(self, order):
@@ -69,7 +71,7 @@ class GenericStrategy():
         else:
             order_executed_message = MessageCreater.create_order_executed_message(mode="Canceled/Margin/Rejected")
         
-        Logger.log(order_executed_message, self.date(0))
+        self.logger.log(order_executed_message, self.date(0))
         self.order = None
 
     def notify_trade(self, trade):
@@ -80,7 +82,7 @@ class GenericStrategy():
             return
         
         trade_result_message = MessageCreater.create_trade_result_message(trade.pnl, trade.pnlcomm)
-        Logger.log(trade_result_message, self.date(0))
+        self.logger.log(trade_result_message, self.date(0))
 
 
 class SinglePositionStrategy(GenericStrategy):
@@ -100,7 +102,7 @@ class SinglePositionStrategy(GenericStrategy):
             order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "sell")
 
         if order_creation_message:
-            Logger.log(order_creation_message, self.date(0))
+            self.logger.log(order_creation_message, self.date(0))
 
 
 class DCAStrategy(GenericStrategy):
@@ -120,7 +122,7 @@ class DCAStrategy(GenericStrategy):
             order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "sell")
 
         if order_creation_message:
-            Logger.log(order_creation_message, self.date(0))
+            self.logger.log(order_creation_message, self.date(0))
 
 
 class DurationStrategy(GenericStrategy):
@@ -161,7 +163,7 @@ class DurationStrategy(GenericStrategy):
                     order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "buy")
 
         if order_creation_message:
-            Logger.log(order_creation_message, self.date(0))
+            self.logger.log(order_creation_message, self.date(0))
 
 
 STRATEGY_MAP = {

@@ -3,10 +3,11 @@ from utilities.parameter_manager import SignalParameterManager, StrategyParamete
 from trading_logic.strategies import CombinedStrategy
 
 class Backtester():
-    def __init__(self, signals, strategies, trader_settings, data_csv, bt_data_format):
+    def __init__(self, signals, strategies, trader_settings, data_csv, bt_data_format, logger):
         self._initialize_signals_strategies(signals, strategies)
         self._initialize_data(data_csv, bt_data_format)
         self._initialize_trader(trader_settings)
+        self._include_logger_in_input(logger)
 
     def _initialize_signals_strategies(self, signals, strategies):
         (signal_names, all_signal_params, all_signal_optimize_params) = signals
@@ -42,6 +43,10 @@ class Backtester():
 
         self.optimize = trader_settings["optimize"]
         self.plot = trader_settings["plot"]
+
+    def _include_logger_in_input(self, logger):
+        self.input_single["logger"] = logger
+        self.input_optimize["logger"] = logger
     
     def run_backtest(self):
         if self.optimize:

@@ -1,6 +1,7 @@
 from config.constants import *
 from utilities.parser import *
 from utilities.alpaca_api_handler import AlpacaAPIHandler
+from utilities.log_and_message import LoggerLoader
 
 
 class SettingsLoader():
@@ -17,5 +18,6 @@ class SettingsLoader():
                 "trader_settings": TraderSettingsParser.parse_settings_from_file(TRADER_SETTINGS_FILE),
                 "data_csv": DATA_CSV,
                 "bt_data_format": BT_DATA_FORMAT,
+                "logger": LoggerLoader.setup_logger()
             }
         }
