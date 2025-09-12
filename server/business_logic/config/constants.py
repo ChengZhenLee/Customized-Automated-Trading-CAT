@@ -4,7 +4,7 @@ STRATEGY_PREFIX = "strat"
 SIGNAL_PREFIX = "sig"
 
 DATA_SETTINGS_FILE = "config/data_settings.json"
-KEYS_FILE = "config/keys.json"
+KEYS_FILE = "../keys.json"
 DATA_CSV = "data/data.csv"
 
 TRADER_SETTINGS_FILE = "config/trader_settings.json"

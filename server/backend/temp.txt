@@ -1,0 +1,32 @@
+{
+    data_settings: {
+        "symbols_to_trade": [],
+        "time_frame": ,
+        "start_time": ,
+        "end_time": 
+    }
+
+    signals: {
+        "signal_names": [],
+
+        "all_signal_params": {{}},
+
+        "all_signal_optimize_params: {{}}.
+    }
+
+    strategies: {
+        "startegy_names": [],
+
+        "all_strategy_params": {{}},
+
+        "all_strategy_optimize_params": {{}}
+    }
+
+    trader_settings: {
+        "starting_cash": ,
+        "commission": ,
+        "optimize": ,
+        "plot": ,
+        "size": ,
+    }
+}

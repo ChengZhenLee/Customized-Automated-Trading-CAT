@@ -8,7 +8,7 @@
         },
 
         "rsi": {
-            "period": 14,
+            "period": 5,
             "overbought": 70,
             "oversold": 30
         },
