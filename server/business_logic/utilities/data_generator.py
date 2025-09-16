@@ -1,5 +1,5 @@
-from config.constants import DATAFRAME_FORMAT, DATAFRAME_RENAME
-from utilities.alpaca_api_handler import AlpacaAPIHandler
+from business_logic.config.constants import DATAFRAME_FORMAT, DATAFRAME_RENAME
+from business_logic.utilities.alpaca_api_handler import AlpacaAPIHandler
 
 class DataGenerator():
     def generate_data_csv(csv_filename, data_settings, alpaca_keys):

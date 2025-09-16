@@ -1,7 +1,7 @@
 import json
-from config.constants import *
-from utilities.validator import Validator
-from trading_logic.strategies import STRATEGY_MAP
+from business_logic.config.constants import *
+from business_logic.utilities.validator import Validator
+from business_logic.trading_logic.strategies import STRATEGY_MAP
 
 
 class DataSettingsParser():

@@ -1,5 +1,5 @@
-from trading_logic.signals import SIGNAL_MAP
-from trading_logic.strategies import STRATEGY_MAP
+from business_logic.trading_logic.signals import SIGNAL_MAP
+from business_logic.trading_logic.strategies import STRATEGY_MAP
 
 class Validator():
     def validate_signal_params(signal_names, all_signal_params, all_signal_optimize_params):

@@ -1,6 +1,6 @@
 import backtrader as bt
-from utilities.parameter_manager import SignalParameterManager, StrategyParameterManager, BacktesterParameterManager
-from trading_logic.strategies import CombinedStrategy
+from business_logic.utilities.parameter_manager import SignalParameterManager, StrategyParameterManager, BacktesterParameterManager
+from business_logic.trading_logic.strategies import CombinedStrategy
 
 class Backtester():
     def __init__(self, signals, strategies, trader_settings, data_csv, bt_data_format, logger, plot_file):

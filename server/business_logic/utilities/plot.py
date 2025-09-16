@@ -1,4 +1,4 @@
-from config.constants import PLOT_FILE
+from business_logic.config.constants import PLOT_FILE
 
 class Plot():
     def get_plot_filename(timestamp):

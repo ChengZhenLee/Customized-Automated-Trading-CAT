@@ -3,16 +3,16 @@ DIVIDER2 = '-'
 STRATEGY_PREFIX = "strat"
 SIGNAL_PREFIX = "sig"
 
-DATA_SETTINGS_FILE = "config/data_settings.json"
-KEYS_FILE = "../keys.json"
-DATA_CSV = "data/data.csv"
+DATA_SETTINGS_FILE = "business_logic/config/data_settings.json"
+KEYS_FILE = "keys.json"
+DATA_CSV = "business_logic/data/data.csv"
 
-TRADER_SETTINGS_FILE = "config/trader_settings.json"
-SIGNALS_SETTINGS_FILE = "config/signals.json"
-STRATEGIES_SETTINGS_FILE = "config/strategies.json"
+TRADER_SETTINGS_FILE = "business_logic/config/trader_settings.json"
+SIGNALS_SETTINGS_FILE = "business_logic/config/signals.json"
+STRATEGIES_SETTINGS_FILE = "business_logic/config/strategies.json"
 
-LOG_FILE = "results/results.txt"
-PLOT_FILE = "plots/plot.png"
+LOG_FILE = "business_logic/results/results.txt"
+PLOT_FILE = "business_logic/plots/plot.png"
 
 BT_DATA_FORMAT = {
     "dtformat":("%Y-%m-%d %H:%M:%S%z"),

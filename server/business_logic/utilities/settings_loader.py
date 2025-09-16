@@ -1,9 +1,9 @@
 from datetime import datetime
-from config.constants import *
-from utilities.parser import *
-from utilities.alpaca_api_handler import AlpacaAPIHandler
-from utilities.log_and_message import LoggerLoader
-from utilities.plot import Plot
+from business_logic.config.constants import *
+from business_logic.utilities.parser import *
+from business_logic.utilities.alpaca_api_handler import AlpacaAPIHandler
+from business_logic.utilities.log_and_message import LoggerLoader
+from business_logic.utilities.plot import Plot
 
 
 class SettingsLoader():

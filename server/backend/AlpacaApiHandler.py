@@ -1,8 +1,10 @@
 from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
+from alpaca.common.exceptions import APIError
+from backend.constants import ALPACA_API_KEYS
+from backend.ErrorMessages import ErrorMessages as em
 from datetime import datetime
-from constants import ALPACA_API_KEYS
 import json
 
 class AlpacaApiHandler():
@@ -40,7 +42,9 @@ class AlpacaApiHandler():
             bars = client.get_stock_bars(request_params)
 
             if len(bars.data) > 0:
-                return True
-            return False
-        except:
-            return False
+                return True, None
+            return False, em.invalid_value("symbols_to_trade", "The stock symbol is invalid")
+        except APIError as e:
+            return False, em.invalid_value("API Error: Alpaca API error: {e}")
+        except Exception as e:
+            return False, em.generic_error("Unexpected Error: An unexpected error occured")

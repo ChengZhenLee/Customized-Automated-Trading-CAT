@@ -1,4 +1,4 @@
-from config.constants import LOG_FILE, BT_DATA_FORMAT
+from business_logic.config.constants import LOG_FILE, BT_DATA_FORMAT
 import os
 
 class Logger():

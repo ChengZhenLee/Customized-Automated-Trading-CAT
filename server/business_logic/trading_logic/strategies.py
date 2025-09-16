@@ -1,7 +1,7 @@
 import backtrader as bt
-from trading_logic.signals import SIGNAL_MAP
-from utilities.parameter_manager import BacktesterParameterManager, StrategyParameterManager, SignalParameterManager
-from utilities.log_and_message import MessageCreater
+from business_logic.trading_logic.signals import SIGNAL_MAP
+from business_logic.utilities.parameter_manager import BacktesterParameterManager, StrategyParameterManager, SignalParameterManager
+from business_logic.utilities.log_and_message import MessageCreater
 
 
 class CombinedStrategy(bt.Strategy):

@@ -1,4 +1,4 @@
-from config.constants import DIVIDER1, DIVIDER2, STRATEGY_PREFIX, SIGNAL_PREFIX
+from business_logic.config.constants import DIVIDER1, DIVIDER2, STRATEGY_PREFIX, SIGNAL_PREFIX
 
 class SignalParameterManager():
     def serialize_signals(signal_names, all_signal_params):

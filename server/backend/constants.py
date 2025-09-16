@@ -1,23 +1,54 @@
-ALPACA_API_KEYS = "../keys.json"
+ALPACA_API_KEYS = "keys.json"
 
-DATA_SETTINGS_STRUCTURE = {
-    "symbols_to_trade", "time_frame", "start_time", "end_time"
-}
+LOGIC_CONFIG_FOLDER = "business_logic/config"
+
+LOGIC_TRADER_SETTINGS = "trader_settings.json"
+
+LOGIC_DATA_SETTINGS = "data_settings.json"
+
+LOGIC_SIGNALS = "signals.json"
+
+LOGIC_STRATEGIES = "strategies.json"
 
 TRADER_SETTINGS_STRUCTURE = {
-    "starting_cash", "commission", "optimize", "plot", "size"
+    "starting_cash": float, 
+    "commission": float, 
+    "optimize": bool, 
+    "plot": bool, 
+    "size": int
 }
 
-SIGNAL_PARAMS = {
-    "sma": {"fast", "slow"},
-    "rsi": {"period", "overbought", "oversold"},
-    "pricediff": {"price_drop_pct", "price_rise_pct", "initial_entry_price"}
+DATA_SETTINGS_STRUCTURE = {
+    "symbols_to_trade": [str], 
+    "timeframe": [str], 
+    "start_time": {"year": int, "month": int, "day": int}, 
+    "end_time": {"year": int, "month": int, "day": int}
 }
 
-STRATEGIES = {
-    "single", "dca", "duration"
+SIGNALS_STRUCTURE = {
+    "signal_names": {"sma", "rsi", "pricediff"},
+
+    "all_signal_params": {
+        "sma": {"fast": int, "slow": int},
+        "rsi": {"period": int, "overbought": float, "oversold": float},
+        "pricediff": {"price_drop_pct": float, "price_rise_pct": float, "initial_entry_price": float}
+    },
+
+    "all_signal_optimize_params": {
+        "sma": {"fast": [int], "slow": [int]},
+        "rsi": {"period": [int], "overbought": [float], "oversold": [float]},
+        "pricediff": {"price_drop_pct": [float], "price_rise_pct": [float], "initial_entry_price": [float]}
+    }
 }
 
-STRATEGY_PARAMS = {
-    "duration": {"duration"}
+STRATEGIES_STRUCTURE = {
+    "strategy_names": {"single", "dca", "duration"},
+
+    "all_strategy_params": {
+        "duration": {"duration": int}
+    },
+
+    "all_strategy_optimize_params": {
+        "duration": {"duration": [int]}
+    }
 }

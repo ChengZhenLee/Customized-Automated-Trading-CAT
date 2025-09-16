@@ -1,5 +1,5 @@
 import os
-from config.constants import DATA_CSV, LOG_FILE, PLOT_FILE
+from business_logic.config.constants import DATA_CSV, LOG_FILE, PLOT_FILE
 
 class Cleaner():
     def clean_up():
