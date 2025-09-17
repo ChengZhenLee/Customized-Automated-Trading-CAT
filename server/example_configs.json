@@ -1,0 +1,62 @@
+{
+    "trader_settings": {
+        "starting_cash": 1000000,
+        "commission": 0.001,
+        "optimize": true,
+        "plot": true,
+        "size": 10
+    },
+
+    "data_settings": {
+        "symbols_to_trade": [
+            "AAPL"
+        ],
+        "timeframe": "Day",
+        "start_time": {
+            "year": 2021,
+            "month": 1,
+            "day": 1
+        },
+        "end_time": {
+            "year": 2022,
+            "month": 12,
+            "day": 31
+        }
+    },
+
+    "signals": {
+        "signal_names": [
+            "sma"
+        ],
+        "all_signal_params": {
+            "sma": {
+                "fast": 15,
+                "slow": 30
+            }
+        },
+        "all_signal_optimize_params": {
+            "sma": {
+                "fast": [
+                    5,
+                    10,
+                    15
+                ],
+                "slow": [
+                    20,
+                    25,
+                    30
+                ]
+            }
+        }
+    },
+
+    "strategies": {
+        "strategy_names": [
+            "single"
+        ],
+        "all_strategy_params": {
+        },
+        "all_strategy_optimize_params": {
+        }
+    }
+}

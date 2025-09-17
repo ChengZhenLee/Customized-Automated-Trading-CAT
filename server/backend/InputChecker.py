@@ -11,7 +11,7 @@ class InputChecker():
         
         # Check if all data are present
         required_keys = {"trader_settings", "data_settings", "signals", "strategies"}
-        present_keys = {key for key in required_keys if config.get(key) is not None}
+        present_keys = {key for key in required_keys if configs.get(key) is not None}
         
         missing = required_keys - present_keys
         if missing:
@@ -113,10 +113,10 @@ class InputChecker():
         all_signal_params = signals.get(all_signal_params_key)
 
         # Check if all the data are present
-        if not signal_names:
+        if signal_names is None:
             return False, em.missing_keys(["signal_names"])
 
-        if not all_signal_params:
+        if all_signal_params is None:
             return False, em.missing_keys([all_signal_params_key])
 
         # Check if the signal_names are valid
@@ -170,10 +170,10 @@ class InputChecker():
         all_strategy_params = strategies.get(all_strategy_params_key)
 
         # Check if all the data are present
-        if not strategy_names:
+        if strategy_names is None:
             return False, em.missing_keys(["strategy_names"])
         
-        if not all_strategy_params:
+        if all_strategy_params is None:
             return False, em.missing_keys([all_strategy_params_key])
 
         # Check if the strategy_names are valid

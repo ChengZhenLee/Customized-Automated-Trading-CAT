@@ -1,4 +1,4 @@
-from business_logic.config.constants import DATAFRAME_FORMAT, DATAFRAME_RENAME
+from business_logic.constants.constants import DATAFRAME_FORMAT, DATAFRAME_RENAME
 from business_logic.utilities.alpaca_api_handler import AlpacaAPIHandler
 
 class DataGenerator():

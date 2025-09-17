@@ -1,29 +1,30 @@
 from datetime import datetime
-from business_logic.config.constants import *
+from business_logic.constants.constants import *
 from business_logic.utilities.parser import *
 from business_logic.utilities.alpaca_api_handler import AlpacaAPIHandler
 from business_logic.utilities.log_and_message import LoggerLoader
-from business_logic.utilities.plot import Plot
+from business_logic.utilities.dirs_and_files import DirsFiles
 
 
 class SettingsLoader():
-    def load_all_settings():
+    def load_all_settings(task_dir):
         timestamp = SettingsLoader._get_timestamp()
+        paths = DirsFiles.build_paths(task_dir, timestamp)
 
         return {
             "data_generator_settings": {
-                "data_settings": DataSettingsParser.parse_data_settings_from_file(DATA_SETTINGS_FILE),
-                "alpaca_keys": AlpacaAPIHandler.parse_alpaca_keys_from_file(KEYS_FILE)
+                "data_settings": DataSettingsParser.parse_data_settings_from_file(paths["data_settings"]),
+                "alpaca_keys": AlpacaAPIHandler.parse_alpaca_keys_from_file(paths["keys"])
             },
 
             "backtester_settings":{
-                "signals": SignalParser.parse_signal_file(SIGNALS_SETTINGS_FILE),
-                "strategies": StrategyParser.parse_strategies_from_file(STRATEGIES_SETTINGS_FILE),
-                "trader_settings": TraderSettingsParser.parse_settings_from_file(TRADER_SETTINGS_FILE),
-                "data_csv": DATA_CSV,
+                "signals": SignalParser.parse_signal_file(paths["signals"]),
+                "strategies": StrategyParser.parse_strategies_from_file(paths["strategies"]),
+                "trader_settings": TraderSettingsParser.parse_settings_from_file(paths["trader_settings"]),
+                "data_csv": paths["data"],
                 "bt_data_format": BT_DATA_FORMAT,
-                "logger": LoggerLoader.setup_logger(timestamp),
-                "plot_file": Plot.get_plot_filename(timestamp)
+                "logger": LoggerLoader.setup_logger(paths["log"]),
+                "plot_file": paths["plot"]
             }
         }
     
@@ -33,3 +34,4 @@ class SettingsLoader():
         timestamp = timestamp.replace(":", "-")
 
         return timestamp
+    

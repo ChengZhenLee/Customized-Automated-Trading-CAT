@@ -1,5 +1,5 @@
 import json
-from business_logic.config.constants import *
+from business_logic.constants.constants import *
 from business_logic.utilities.validator import Validator
 from business_logic.trading_logic.strategies import STRATEGY_MAP
 

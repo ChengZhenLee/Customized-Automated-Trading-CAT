@@ -1,14 +1,14 @@
 ALPACA_API_KEYS = "keys.json"
 
-LOGIC_CONFIG_FOLDER = "business_logic/config"
+RUNS_DIR = "backtest_runs"
 
-LOGIC_TRADER_SETTINGS = "trader_settings.json"
+TRADER_SETTINGS_FILE = "trader_settings.json"
 
-LOGIC_DATA_SETTINGS = "data_settings.json"
+DATA_SETTINGS_FILE = "data_settings.json"
 
-LOGIC_SIGNALS = "signals.json"
+SIGNALS_FILE = "signals.json"
 
-LOGIC_STRATEGIES = "strategies.json"
+STRATEGIES_FILE = "strategies.json"
 
 TRADER_SETTINGS_STRUCTURE = {
     "starting_cash": float, 

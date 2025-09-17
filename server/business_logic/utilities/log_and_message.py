@@ -1,6 +1,12 @@
-from business_logic.config.constants import LOG_FILE, BT_DATA_FORMAT
 import os
+from business_logic.utilities.dirs_and_files import DirsFiles
 
+
+class LoggerLoader():
+    def setup_logger(fullpath):
+        return Logger(fullpath)
+    
+    
 class Logger():
     def __init__(self, fileName):
         self.fileName = fileName
@@ -75,13 +81,3 @@ class MessageCreater():
         message += MessageCreater.create_signals_result_message(signals)
         message += "🏁 Final Portfolio Value: {:.2f}".format(final_value)
         return message
-
-
-class LoggerLoader():
-    def setup_logger(timestamp):
-        fileName = LoggerLoader._get_log_filename(timestamp)
-        return Logger(fileName)
-
-    def _get_log_filename(timestamp):
-        name = (LOG_FILE.split('.'))[0]
-        return name + "_" + timestamp + "." + (LOG_FILE.split('.'))[1]

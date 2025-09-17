@@ -1,7 +1,7 @@
 {
     "STARTING_CASH": 1000000,
     "COMMISSION": 0.001,
-    "OPTIMIZE": false,
+    "OPTIMIZE": true,
     "PLOT": true,
     "SIZE": 10
 }
