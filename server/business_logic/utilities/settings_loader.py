@@ -1,16 +1,12 @@
 from datetime import datetime
-from business_logic.constants.constants import *
+from business_logic.constants.constants import BT_DATA_FORMAT
 from business_logic.utilities.parser import *
 from business_logic.utilities.alpaca_api_handler import AlpacaAPIHandler
 from business_logic.utilities.log_and_message import LoggerLoader
-from business_logic.utilities.dirs_and_files import DirsFiles
 
 
 class SettingsLoader():
-    def load_all_settings(task_dir):
-        timestamp = SettingsLoader._get_timestamp()
-        paths = DirsFiles.build_paths(task_dir, timestamp)
-
+    def load_all_settings(paths):
         return {
             "data_generator_settings": {
                 "data_settings": DataSettingsParser.parse_data_settings_from_file(paths["data_settings"]),
@@ -27,11 +23,4 @@ class SettingsLoader():
                 "plot_file": paths["plot"]
             }
         }
-    
-    def _get_timestamp():
-        timestamp = datetime.now().strftime(BT_DATA_FORMAT["dtformat"])
-        timestamp = timestamp.replace(" ", "-")
-        timestamp = timestamp.replace(":", "-")
-
-        return timestamp
     

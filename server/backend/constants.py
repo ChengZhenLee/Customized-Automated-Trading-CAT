@@ -1,5 +1,7 @@
 ALPACA_API_KEYS = "keys.json"
 
+REDIS_URL = "redis://localhost:6379/0"
+
 RUNS_DIR = "backtest_runs"
 
 TRADER_SETTINGS_FILE = "trader_settings.json"

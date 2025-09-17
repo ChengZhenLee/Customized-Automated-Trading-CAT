@@ -13,3 +13,5 @@ class LogicInputHandler():
             
         with open(file_name, 'w') as file:
             json.dump(input, file, indent=4)
+        
+        file.close()

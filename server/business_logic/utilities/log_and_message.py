@@ -20,6 +20,8 @@ class Logger():
         if self.fileName:
             with open(self.fileName, 'a', encoding='UTF-8') as outFile:
                 outFile.write(message)
+                
+            outFile.close()
         else:
             print(message)
 
