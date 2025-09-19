@@ -1,13 +1,13 @@
 import base64
 import uuid
 from flask import Flask, request, jsonify
-from backend.tasks import run_backtest_task, celery_app
+from backend.celery_app import run_backtest_task, celery_app
 from backend.InputChecker import InputChecker
 from business_logic.cleanup.cleaner import Cleaner
 
-app = Flask(__name__)
+flask_app = Flask(__name__)
 
-@app.route('/backtrader', methods=["POST"])
+@flask_app.route('/backtrader', methods=["POST"])
 def run_backtester():
     configs = request.get_json()
     error_message = InputChecker.check_inputs(configs)
@@ -25,42 +25,44 @@ def run_backtester():
     }), 202
     
     
-@app.route('/backtrader/results/<task_id>', methods=["GET"])
+@flask_app.route('/backtrader/results/<task_id>', methods=["GET"])
 def get_backtester_results(task_id):
     task_result = celery_app.AsyncResult(task_id)
     
+    # If the task completed
     if task_result.successful():
         return_value = task_result.get()
         
-        abs_task_dir = return_value.get("abs_task_dir")
-        abs_log_file = return_value.get("abs_log_file")
-        abs_plot_file = return_value.get("abs_plot_file")
+        task_dir = return_value.get("task_dir")
+        log_file = return_value.get("log_file")
+        plot_file = return_value.get("plot_file")
         
         try:
-            with open(abs_log_file, 'r', encoding='utf-8') as f:
+            with open(log_file, 'r', encoding='utf-8') as f:
                 log_data = f.read()
             f.close()
-        except:
-            log_data = None
+        # If the log file doesnt exist, business_logic might have failed or the result was already retrieved and cleaned up
+        except Exception as e:
+            return jsonify({"status": "failed", "error": str(e) + " or result for task already retrieved"}), 500
             
         try:
-            with open(abs_plot_file, 'rb') as f:
+            with open(plot_file, 'rb') as f:
                 plot_data = base64.b64encode(f.read()).decode('utf-8')
             f.close()
         except:
             plot_data = None
             
-        Cleaner.clean_up(abs_task_dir)
+        Cleaner.clean_up(task_dir)
         
         return jsonify({"status": "completed", "log_data": log_data, "plot_data": plot_data }), 200
     
+    # the task failed
     elif task_result.failed():
         metadata = task_result.info
         error_message = metadata.get("error")
         return jsonify({"status": "failed", "error": error_message}), 500
     
+    # the task is still pending
     else:
-        return jsonify({"status": "pending", "message": "Backtest is still in progress"}), 200        
-    
-if __name__ == "__main__":
-    app.run(debug=True)
+        return jsonify({"status": "pending", 
+                        "message": f"Task {task_id} is still pending or doesn not exist"}), 200  
