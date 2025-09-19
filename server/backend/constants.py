@@ -1,6 +1,6 @@
 ALPACA_API_KEYS = "keys.json"
 
-REDIS_URL = "redis://localhost:6379/0"
+REDIS_URL = "redis://localhost:6379"
 
 RUNS_DIR = "backtest_runs"
 
@@ -11,6 +11,10 @@ DATA_SETTINGS_FILE = "data_settings.json"
 SIGNALS_FILE = "signals.json"
 
 STRATEGIES_FILE = "strategies.json"
+
+LOG_FILE = "results.txt"
+
+PLOT_FILE = "plot.png"
 
 TRADER_SETTINGS_STRUCTURE = {
     "starting_cash": float, 

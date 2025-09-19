@@ -1,11 +1,11 @@
+import base64
 import uuid
 from flask import Flask, request, jsonify
+from backend.tasks import run_backtest_task, celery_app
 from backend.InputChecker import InputChecker
-from backend.tasks import run_backtest_task
-from backend.tasks import app as task_app
+from business_logic.cleanup.cleaner import Cleaner
 
 app = Flask(__name__)
-
 
 @app.route('/backtrader', methods=["POST"])
 def run_backtester():
@@ -16,7 +16,7 @@ def run_backtester():
         return jsonify({"error": error_message}), 400
     
     task_id = str(uuid.uuid4())
-    run_backtest_task.delay(task_id, configs)
+    print(run_backtest_task.apply_async(args=[task_id, configs], task_id=task_id))
     
     return ({
         "message": "Backtest started",
@@ -27,12 +27,32 @@ def run_backtester():
     
 @app.route('/backtrader/results/<task_id>', methods=["GET"])
 def get_backtester_results(task_id):
-    task_result = task_app.AsyncResult(task_id)
+    task_result = celery_app.AsyncResult(task_id)
     
     if task_result.successful():
         return_value = task_result.get()
         
-        paths = return_value.get("paths")
+        abs_task_dir = return_value.get("abs_task_dir")
+        abs_log_file = return_value.get("abs_log_file")
+        abs_plot_file = return_value.get("abs_plot_file")
+        
+        try:
+            with open(abs_log_file, 'r', encoding='utf-8') as f:
+                log_data = f.read()
+            f.close()
+        except:
+            log_data = None
+            
+        try:
+            with open(abs_plot_file, 'rb') as f:
+                plot_data = base64.b64encode(f.read()).decode('utf-8')
+            f.close()
+        except:
+            plot_data = None
+            
+        Cleaner.clean_up(abs_task_dir)
+        
+        return jsonify({"status": "completed", "log_data": log_data, "plot_data": plot_data }), 200
     
     elif task_result.failed():
         metadata = task_result.info
@@ -40,22 +60,7 @@ def get_backtester_results(task_id):
         return jsonify({"status": "failed", "error": error_message}), 500
     
     else:
-        return jsonify({"status": "pending", "message": "Backtest is still in progress"}), 200
-        
-
-# import json
-# from business_logic.core.main_logic import MainLogic
-# from backend.LogicInputHandler import LogicInputHandler
-# from backend.DirsFiles import DirsFiles
-# if __name__ == "__main__":
-#     #app.run(debug=True)
+        return jsonify({"status": "pending", "message": "Backtest is still in progress"}), 200        
     
-#     with open("example_configs.json", 'r') as file:
-#         configs = json.load(file)
-    
-#     task_id = "test"
-#     task_dir = DirsFiles.create_task_dir(task_id)
-#     paths = DirsFiles.build_paths(task_dir)
-#     LogicInputHandler.input_to_logic(paths, configs)
-#     MainLogic.run(task_dir)
-#     print(MainLogic.run(task_dir))
+if __name__ == "__main__":
+    app.run(debug=True)

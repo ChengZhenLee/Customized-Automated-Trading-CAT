@@ -5,7 +5,6 @@ SIGNAL_PREFIX = "sig"
 
 KEYS_FILE = "keys.json"
 
-DATA_DIR = "data"
 DATA_CSV = "data.csv"
 
 TRADER_SETTINGS_FILE = "trader_settings.json"
@@ -13,10 +12,8 @@ DATA_SETTINGS_FILE = "data_settings.json"
 SIGNALS_SETTINGS_FILE = "signals.json"
 STRATEGIES_SETTINGS_FILE = "strategies.json"
 
-LOG_DIR = "results"
 LOG_FILE = "results.txt"
 
-PLOT_DIR = "plots"
 PLOT_FILE = "plot.png"
 
 BT_DATA_FORMAT = {

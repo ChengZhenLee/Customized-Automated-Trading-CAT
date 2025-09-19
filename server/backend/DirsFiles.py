@@ -6,6 +6,9 @@ class DirsFiles():
         task_dir = os.path.join(RUNS_DIR, task_id)
         os.makedirs(task_dir, exist_ok=True)
         return task_dir
+    
+    def create_abs_path(project_root, name):
+        return os.path.join(project_root, name)
         
     def build_paths(task_dir):
         paths = {}
