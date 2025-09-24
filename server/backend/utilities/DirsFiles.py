@@ -1,5 +1,5 @@
 import os
-from backend.constants import *
+from backend.constants.constants import *
 
 class DirsFiles():
     def create_task_dir(task_id):

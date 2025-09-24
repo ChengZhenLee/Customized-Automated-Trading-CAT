@@ -6,6 +6,8 @@ import { TraderSettings } from "../components/TraderSettings";
 import { SignalSettings } from "../components/signals/SignalSettings";
 import { StrategySettings } from "../components/strategies/StrategySettings";
 
+// implement master context here to store the configs for saving and sending to backend
+
 export function DashboardPage() {
     return (
         <>

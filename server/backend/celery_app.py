@@ -1,8 +1,8 @@
 # Celery app and tasks
 from celery import Celery
-from backend.constants import REDIS_URL
-from backend.DirsFiles import DirsFiles
-from backend.LogicInputHandler import LogicInputHandler
+from backend.constants.constants import REDIS_URL
+from backend.utilities.DirsFiles import DirsFiles
+from backend.utilities.LogicInputHandler import LogicInputHandler
 from business_logic.core.main_logic import MainLogic
 
 # set up the Celery app

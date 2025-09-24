@@ -1,6 +1,6 @@
-from backend.AlpacaApiHandler import AlpacaApiHandler
-from backend.constants import *
-from backend.ErrorMessages import ErrorMessages as em
+from backend.utilities.AlpacaApiHandler import AlpacaApiHandler
+from backend.constants.constants import *
+from backend.utilities.ErrorMessages import ErrorMessages as em
 
 class InputChecker():
     def check_inputs(configs):

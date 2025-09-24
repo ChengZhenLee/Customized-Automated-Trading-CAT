@@ -1,3 +1,3 @@
 docker run -d -p 6379:6379 redis
-celery -A backend.tasks worker --pool=solo --loglevel=info
-flask run
+python run.py flask
+python run.py celery

@@ -2,8 +2,8 @@ from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 from alpaca.common.exceptions import APIError
-from backend.constants import ALPACA_API_KEYS
-from backend.ErrorMessages import ErrorMessages as em
+from backend.constants.constants import ALPACA_API_KEYS
+from backend.utilities.ErrorMessages import ErrorMessages as em
 from datetime import datetime
 import json
 

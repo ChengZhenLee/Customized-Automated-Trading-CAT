@@ -2,7 +2,7 @@ import base64
 import uuid
 from flask import Flask, request, jsonify
 from backend.celery_app import run_backtest_task, celery_app
-from backend.InputChecker import InputChecker
+from backend.utilities.InputChecker import InputChecker
 from business_logic.cleanup.cleaner import Cleaner
 
 flask_app = Flask(__name__)
