@@ -1,7 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
-export function ProtectedRoute({ user, redirectPath="/" }) {
+export function ProtectedRoute() {
+    const { user, _ } = useAuth();
+    
     return (
-        (user != null) ? <Outlet /> : <Navigate to={redirectPath} replace />
+        (user != null) ? <Outlet /> : <Navigate to={"/"} replace />
     );
 }

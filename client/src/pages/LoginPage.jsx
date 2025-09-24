@@ -29,8 +29,7 @@ export function LoginPage() {
             await signInWithEmailAndPassword(auth, email, password);
             console.log("User logged in successfully!");
             navigate("/dashboard");
-        }
-        catch (e) {
+        } catch (e) {
             setError(e.message);
             console.log(error);
         }
