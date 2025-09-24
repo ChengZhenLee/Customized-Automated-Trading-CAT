@@ -3,20 +3,20 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { SignalNames, SignalParametersConfig } from "../configs/SignalSettingsConfig";
 
-const SelectedSignals = createContext();
+const SelectedSignalsContext = createContext();
 
 export function SelectedSignalsProvider({ children }) {
     const [selectedSignals, setSelectedSignals] = useState([]);
 
     return (
-        <SelectedSignals.Provider value={{ selectedSignals, setSelectedSignals }}>
+        <SelectedSignalsContext.Provider value={{ selectedSignals, setSelectedSignals }}>
             {children}
-        </SelectedSignals.Provider>
+        </SelectedSignalsContext.Provider>
     );
 }
 
 export function UseSelectedSignals() {
-    return useContext(SelectedSignals);
+    return useContext(SelectedSignalsContext);
 }
 
 function AvailableSignals() {
@@ -51,7 +51,10 @@ function DraggableSignal({ signal }) {
                 cursor: "move"
             }}>
             <div>{signal.label}</div>
-            <div style={{ visibility: "hidden" }}>{signal.description}</div>
+            <div 
+                style={{ visibility: "hidden" }}
+                >{signal.description}
+            </div>
         </div>
     );
 }
@@ -63,7 +66,8 @@ export function SelectedSignalsBlock() {
         accept: "SIGNAL",
         drop: (signal) => {
             setSelectedSignals((prevSignals) => {
-                if (!selectedSignals.some((elem) => elem.name === signal.name)) {
+                if (!selectedSignals.some(
+                        (elem) => elem.name === signal.name)) {
                     return ([...prevSignals, signal]);
                 }
             });
@@ -118,7 +122,6 @@ function AllRequiredParamsBlock() {
             {selectedSignals.map((signal) => {
                 return (
                     <div key={signal.name}>
-                        <div>Parameters for {signal.label}</div>
                         <RequiredParams signal={signal} />
                     </div>
                 );
@@ -136,6 +139,7 @@ function RequiredParams({ signal }) {
 
     return (
         <>
+            <div>Parameters for {signal.label}</div>
             {params.map((param) => {
                 return (
                     <div key={param.name}>
