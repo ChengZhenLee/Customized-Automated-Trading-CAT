@@ -22,7 +22,7 @@ export const DataSettingsConfig = [
 
     {
         name: "end_time",
-        type: "data",
+        type: "date",
         label: "Start Date"
     }
 ];

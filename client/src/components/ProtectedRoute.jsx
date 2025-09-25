@@ -1,10 +1,10 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-export function ProtectedRoute() {
+export function ProtectedRoute({ children }) {
     const { user, _ } = useAuth();
     
     return (
-        (user != null) ? <Outlet /> : <Navigate to={"/"} replace />
+        (user != null) ? {children} : <Navigate to={"/"} replace />
     );
 }
