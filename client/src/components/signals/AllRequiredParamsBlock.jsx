@@ -1,9 +1,33 @@
+import { useEffect } from "react";
 import { SignalParametersConfig } from "../../configs/SignalSettingsConfig";
 import { useSelectedSignals } from "../../hooks/useSelectedSignals";
 import { useConfigContext } from "../../hooks/useConfigContext";
 
 export function AllRequiredParamsBlock() {
     const { selectedSignals, _ } = useSelectedSignals();
+    const { config, setConfig } = useConfigContext();
+
+    const optimize = config.trader_settings.optimize || false;
+
+    useEffect(() => {
+        const inactiveParamsKey = optimize ? "all_signal_params" : "all_signal_optimize_params";
+
+        setConfig((prevConfig) => {
+            const signals = prevConfig.signals || {};
+            const inactiveParams = signals[inactiveParamsKey] || {};
+            if (Object.keys(inactiveParams).length === 0) {
+                return (prevConfig);
+            }
+            
+            return ({
+                ...prevConfig,
+                "signals": {
+                    ...signals,
+                    [inactiveParamsKey]: {}
+                }
+            });
+        });
+    }, [optimize, setConfig]);
 
     return (
         <div>
@@ -16,7 +40,10 @@ export function AllRequiredParamsBlock() {
 
                 return (
                     <div key={signal.name}>
-                        <RequiredParams paramsInfo={paramsInfo} />
+                        {optimize ? 
+                        /*implement this component*/
+                        <RequiredOptimizeParams paramsInfo={paramsInfo} /> : 
+                        <RequiredParams paramsInfo={paramsInfo}/>}
                     </div>
                 );
             })}
