@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { TraderSettingsConfig } from "../configs/TraderSettingsConfig"
+import { TraderSettingsConfig } from "../../configs/TraderSettingsConfig"
 import { SingleTraderSetting } from "./SingleTraderSetting";
 import { useConfigContext } from "../../hooks/useConfigContext";
 

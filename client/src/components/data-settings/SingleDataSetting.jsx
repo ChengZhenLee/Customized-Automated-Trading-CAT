@@ -46,7 +46,7 @@ export function SingleDataSetting({ setting }) {
                                         id={`${setting.name}-${option}`}
                                         defaultChecked={defaultChecked}
                                         onChange={(event)=>{
-                                            handleInput(setting.name, event.target.checked)
+                                            handleInput(setting.name, event.target.value)
                                         }}
                                     />
                                     <label 

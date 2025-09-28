@@ -20,7 +20,7 @@ export const SignalNames = [
 
 export const SignalParametersConfig = [
     {
-        name: "sma",
+        signalName: "sma",
         params: [
             {
                 name: "fast",
@@ -38,7 +38,7 @@ export const SignalParametersConfig = [
     },
 
     {
-        name: "rsi",
+        signalName: "rsi",
         params: [
             {
                 name: "period",
@@ -64,7 +64,7 @@ export const SignalParametersConfig = [
     },
 
     {
-        name: "pricediff",
+        signalName: "pricediff",
         params: [
             {
                 name: "price_drop_pct",

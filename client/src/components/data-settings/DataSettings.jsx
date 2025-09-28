@@ -10,7 +10,7 @@ export function DataSettings() {
         const defaultDataSettings = DataSettingsConfig.reduce((acc, setting) => {
             const value = setting.type === "date" ?
                 null :
-                setting.defaultValue;
+                setting.defaultValue || setting.defaultOption;
             acc[setting.name] = value;
             return acc;
         }, {});
@@ -19,7 +19,7 @@ export function DataSettings() {
             ...prevSettings,
             "data_settings": defaultDataSettings
         }));
-    });
+    }, [setConfig]);
 
     return (
         <>

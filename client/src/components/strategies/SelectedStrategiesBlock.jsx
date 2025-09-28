@@ -32,7 +32,7 @@ export function SelectedStrategiesBlock() {
             <div
                 ref={drop}
                 style={{
-                    backgroundColor: isOver ? 'lightgreen' : 'black'
+                    backgroundColor: isOver ? 'lightgreen' : 'gray'
                 }}>
                 {selectedStrategies.length === 0 ? (
                     <p>Drag and drop strategies here</p>

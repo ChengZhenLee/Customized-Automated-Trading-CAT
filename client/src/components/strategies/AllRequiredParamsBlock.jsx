@@ -7,9 +7,15 @@ export function AllRequiredParamsBlock() {
     return (
         <div>
             {selectedStrategies.map((strategy) => {
+                const paramsInfo = StrategyParametersConfig.find(
+                    (elem) => elem.strategyName === strategy.name
+                );
+
+                if (!paramsInfo) return;
+
                 return (
                     <div key={strategy.name}>
-                        <RequiredParams strategy={strategy} />
+                        <RequiredParams paramsInfo={paramsInfo} />
                     </div>
                 );
             })}
@@ -17,21 +23,11 @@ export function AllRequiredParamsBlock() {
     );
 }
 
-function RequiredParams({ strategy }) {
-    const foundStrategy = StrategyParametersConfig.find(
-        (strategyParam) => strategyParam.name === strategy.name
-    );
-
-    if (!foundStrategy) {
-        return;
-    }
-
-    const params = foundStrategy.params;
-
+function RequiredParams({ paramsInfo }) {
     return (
         <>
-            <div>Parameters for {strategy.label}</div>
-            {params.map((param) => {
+            <div>Parameters for {paramsInfo.strategyName}</div>
+            {paramsInfo.params.map((param) => {
                 return (
                     <div key={param.name}>
                         <div key={param.name}>

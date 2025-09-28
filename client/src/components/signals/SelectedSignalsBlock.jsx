@@ -1,17 +1,28 @@
+import { useEffect } from "react";
 import { useDrop } from "react-dnd";
 import { useSelectedSignals } from "../../hooks/useSelectedSignals";
+import { useConfigContext } from "../../hooks/useConfigContext";
 
 export function SelectedSignalsBlock() {
     const { selectedSignals, setSelectedSignals } = useSelectedSignals();
+    const { _, setConfig } = useConfigContext();
 
+    // Update the config everytime selectedSignals is updated
+    useEffect(() => {
+        const signalNames = selectedSignals.map((signal) => signal.name);
+        updateConfigSignalNames(signalNames);
+    }, [selectedSignals]);
+
+    // Define the behaviour when items are dropped on the block
     const [{ isOver }, drop] = useDrop(() => ({
         accept: "SIGNAL",
         drop: (signal) => {
             setSelectedSignals((prevSignals) => {
-                if (!selectedSignals.some(
-                    (elem) => elem.name === signal.name)) {
-                    return ([...prevSignals, signal]);
+                if (!prevSignals.some((elem) => elem.name === signal.name)) {
+                    const newSignals = [...prevSignals, signal];
+                    return (newSignals);
                 }
+                return (prevSignals);
             });
         },
         collect: (monitor) => ({
@@ -24,6 +35,36 @@ export function SelectedSignalsBlock() {
             (signal) => signal.name !== signalToRemove.name
         );
         setSelectedSignals(newSignals);
+
+        setConfig((prevConfigs) => {
+            const signals = prevConfigs.signals || {};
+            const allSignalParameters = signals.all_signal_parameters || {};
+
+            const { [signalToRemove.name]: _, ...restSignalParameters} = allSignalParameters;
+
+            return ({
+                ...prevConfigs,
+                "signals": {
+                    ...signals,
+                    "all_signal_parameters": restSignalParameters
+                }
+            });
+        });
+    }
+
+    // Update the signal names in the config
+    function updateConfigSignalNames(signalNames) {
+        setConfig((prevConfigs) => {
+            const signals = prevConfigs.signals || {};
+
+            return ({
+                ...prevConfigs,
+                "signals": {
+                    ...signals,
+                    "signal_names": signalNames
+                }
+            });
+        });
     }
 
     return (
@@ -32,7 +73,7 @@ export function SelectedSignalsBlock() {
             <div
                 ref={drop}
                 style={{
-                    backgroundColor: isOver ? 'lightgreen' : 'black'
+                    backgroundColor: isOver ? 'lightgreen' : 'gray'
                 }}>
                 {selectedSignals.length === 0 ? (
                     <p>Drag and drop signals here</p>

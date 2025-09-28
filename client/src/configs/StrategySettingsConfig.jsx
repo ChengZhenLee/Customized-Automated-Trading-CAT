@@ -20,7 +20,7 @@ export const StrategyNames = [
 
 export const StrategyParametersConfig = [
     {
-        name: "duration",
+        strategyName: "duration",
         params: [
             {
                 name: "duration",
