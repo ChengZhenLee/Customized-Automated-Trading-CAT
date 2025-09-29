@@ -66,7 +66,7 @@ function RequiredParams({ paramsInfo }) {
                 ...prevConfig,
                 "strategies": {
                     ...strategies,
-                    "all_signal_params": {
+                    "all_strategy_params": {
                         ...allStrategyParams,
                         [paramsInfo.strategyName]: paramsObject
                     }
@@ -131,7 +131,7 @@ function RequiredParams({ paramsInfo }) {
 }
 
 function RequiredOptimizeParams({ paramsInfo }) {
-    const { _, setConfig } = useConfigContext();
+    const { config, setConfig } = useConfigContext();
     const inputRefs = useRef({});
 
     // Set the default configs
@@ -213,12 +213,18 @@ function RequiredOptimizeParams({ paramsInfo }) {
         });
     }
 
+    // Gets the array of values for a specific param of a strategy
+    function getParamValues(strategyName, paramName) {
+        return config.strategies?.all_strategy_optimize_params?.[strategyName]?.[paramName] || [];
+    }
+
     return (
         <>
             <div>Parameters for {paramsInfo.strategyName}</div>
             {paramsInfo.params.map((param) => {
                 const strategyName = paramsInfo.strategyName;
                 const paramName = param.name;
+                const currentValues = getParamValues(strategyName, paramName);
                 return (
                     <div key={paramName}>
                         <div key={paramName}>
@@ -248,6 +254,10 @@ function RequiredOptimizeParams({ paramsInfo }) {
                                 clearParamArray(strategyName, paramName);
                             }}>Clear
                         </button>
+
+                        <div>
+                            Selected Values: {currentValues.join(', ')}
+                        </div>
                     </div>
                 );
             })}
