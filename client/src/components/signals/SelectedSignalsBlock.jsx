@@ -10,8 +10,18 @@ export function SelectedSignalsBlock() {
     // Update the config everytime selectedSignals is updated
     useEffect(() => {
         const signalNames = selectedSignals.map((signal) => signal.name);
-        updateConfigSignalNames(signalNames);
-    }, [selectedSignals]);
+        setConfig((prevConfigs) => {
+            const signals = prevConfigs.signals || {};
+
+            return ({
+                ...prevConfigs,
+                "signals": {
+                    ...signals,
+                    "signal_names": signalNames
+                }
+            });
+        });
+    }, [selectedSignals, setConfig]);
 
     // Define the behaviour when items are dropped on the block
     const [{ isOver }, drop] = useDrop(() => ({
@@ -47,21 +57,6 @@ export function SelectedSignalsBlock() {
                 "signals": {
                     ...signals,
                     "all_signal_parameters": restSignalParameters
-                }
-            });
-        });
-    }
-
-    // Update the signal names in the config
-    function updateConfigSignalNames(signalNames) {
-        setConfig((prevConfigs) => {
-            const signals = prevConfigs.signals || {};
-
-            return ({
-                ...prevConfigs,
-                "signals": {
-                    ...signals,
-                    "signal_names": signalNames
                 }
             });
         });
