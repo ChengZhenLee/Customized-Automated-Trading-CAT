@@ -28,9 +28,9 @@ export function SelectedSignalsBlock() {
         accept: "SIGNAL",
         drop: (signal) => {
             setSelectedSignals((prevSignals) => {
-                if (!prevSignals.some((elem) => elem.name === signal.name)) {
-                    const newSignals = [...prevSignals, signal];
-                    return (newSignals);
+                if (!prevSignals.some(
+                    (elem) => elem.name === signal.name)) {
+                    return ([...prevSignals, signal]);
                 }
                 return (prevSignals);
             });
@@ -48,15 +48,15 @@ export function SelectedSignalsBlock() {
 
         setConfig((prevConfigs) => {
             const signals = prevConfigs.signals || {};
-            const allSignalParameters = signals.all_signal_parameters || {};
+            const allSignalParams = signals.all_signal_params || {};
 
-            const { [signalToRemove.name]: _, ...restSignalParameters} = allSignalParameters;
+            const { [signalToRemove.name]: _, ...restSignalParams } = allSignalParams;
 
             return ({
                 ...prevConfigs,
                 "signals": {
                     ...signals,
-                    "all_signal_parameters": restSignalParameters
+                    "all_signal_params": restSignalParams
                 }
             });
         });

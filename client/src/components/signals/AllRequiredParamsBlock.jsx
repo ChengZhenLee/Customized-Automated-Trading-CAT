@@ -36,10 +36,11 @@ export function AllRequiredParamsBlock() {
 
                 return (
                     <div key={signal.name}>
-                        {optimize ?
-                            /*implement this component*/
+                        {
+                            optimize ?
                             <RequiredOptimizeParams paramsInfo={paramsInfo} /> :
-                            <RequiredParams paramsInfo={paramsInfo} />}
+                            <RequiredParams paramsInfo={paramsInfo} />
+                        }
                     </div>
                 );
             })}
@@ -59,14 +60,14 @@ function RequiredParams({ paramsInfo }) {
 
         setConfig((prevConfig) => {
             const signals = prevConfig.signals || {};
-            const allSignalParameters = signals.all_signal_parameters || {};
+            const allSignalParams = signals.all_signal_params || {};
 
             return ({
                 ...prevConfig,
                 "signals": {
                     ...signals,
                     "all_signal_params": {
-                        ...allSignalParameters,
+                        ...allSignalParams,
                         [paramsInfo.signalName]: paramsObject
                     }
                 }
@@ -79,15 +80,15 @@ function RequiredParams({ paramsInfo }) {
     function updateConfigParameters(signalName, paramName, value) {
         setConfig((prevConfig) => {
             const signals = prevConfig.signals || {};
-            const allSignalParameters = signals.all_signal_parameters || {};
-            const signalParams = allSignalParameters[signalName] || {};
+            const allSignalParams = signals.all_signal_params || {};
+            const signalParams = allSignalParams[signalName] || {};
 
             return ({
                 ...prevConfig,
                 "signals": {
                     ...signals,
                     "all_signal_params": {
-                        ...allSignalParameters,
+                        ...allSignalParams,
                         [signalName]: {
                             ...signalParams,
                             [paramName]: value
@@ -102,22 +103,25 @@ function RequiredParams({ paramsInfo }) {
         <>
             <div>Parameters for {paramsInfo.signalName}</div>
             {paramsInfo.params.map((param) => {
+                const signalName = paramsInfo.signalName;
+                const paramName = param.name
+
                 return (
-                    <div key={param.name}>
-                        <div key={param.name}>
+                    <div key={paramName}>
+                        <div key={paramName}>
                             {param.label}
                         </div>
                         <input
-                            name={param.name}
+                            name={paramName}
                             type="number"
                             step={param.type === "float" ? 0.01 : 1}
                             defaultValue={param.defaultValue}
                             onChange={(event) => {
                                 updateConfigParameters(
-                                    paramsInfo.signalName,
-                                    param.name,
+                                    signalName,
+                                    paramName,
                                     event.target.valueAsNumber
-                                )
+                                );
                             }}
                         />
                     </div>
@@ -140,28 +144,28 @@ function RequiredOptimizeParams({ paramsInfo }) {
 
         setConfig((prevConfig) => {
             const signals = prevConfig.signals || {};
-            const allSignalOptimizeParameters = signals.all_signal_optimize_params || {};
+            const allSignalOptimizeParams = signals.all_signal_optimize_params || {};
 
             return ({
                 ...prevConfig,
                 "signals": {
                     ...signals,
                     "all_signal_optimize_params": {
-                        ...allSignalOptimizeParameters,
+                        ...allSignalOptimizeParams,
                         [paramsInfo.signalName]: paramsObject
                     }
                 }
             });
-        })
+        });
     }, [setConfig, paramsInfo]);
 
     //Add a value to the array of a param
     function addValueToParamArray(signalName, paramName, value) {
         setConfig((prevConfig) => {
             const signals = prevConfig.signals || {};
-            const allSignalOptimizeParameters = signals.all_signal_optimize_params || {};
-            const signalOptimizeParameters = allSignalOptimizeParameters[signalName] || {};
-            const oldParam = signalOptimizeParameters[paramName] || [];
+            const allSignalOptimizeParams = signals.all_signal_optimize_params || {};
+            const signalOptimizeParams = allSignalOptimizeParams[signalName] || {};
+            const oldParam = signalOptimizeParams[paramName] || [];
 
             const exists = oldParam.some((item) => item === value);
 
@@ -176,9 +180,9 @@ function RequiredOptimizeParams({ paramsInfo }) {
                 "signals": {
                     ...signals,
                     "all_signal_optimize_params": {
-                        ...allSignalOptimizeParameters,
+                        ...allSignalOptimizeParams,
                         [signalName]: {
-                            ...signalOptimizeParameters,
+                            ...signalOptimizeParams,
                             [paramName]: newParam
                         }
                     }
@@ -191,17 +195,17 @@ function RequiredOptimizeParams({ paramsInfo }) {
     function clearParamArray(signalName, paramName) {
         setConfig((prevConfig) => {
             const signals = prevConfig.signals || {};
-            const allSignalOptimizeParameters = signals.all_signal_optimize_params || {};
-            const signalOptimizeParameters = allSignalOptimizeParameters[signalName] || {};
+            const allSignalOptimizeParams = signals.all_signal_optimize_params || {};
+            const signalOptimizeParams = allSignalOptimizeParams[signalName] || {};
 
             return ({
                 ...prevConfig,
                 "signals": {
                     ...signals,
                     "all_signal_optimize_params": {
-                        ...allSignalOptimizeParameters,
+                        ...allSignalOptimizeParams,
                         [signalName]: {
-                            ...signalOptimizeParameters,
+                            ...signalOptimizeParams,
                             [paramName]: []
                         }
                     }
