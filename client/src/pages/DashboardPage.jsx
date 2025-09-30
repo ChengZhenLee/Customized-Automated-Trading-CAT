@@ -6,6 +6,7 @@ import { TraderSettings } from "../components/trader-settings/TraderSettings";
 import { SignalSettings } from "../components/signals/SignalSettings";
 import { StrategySettings } from "../components/strategies/StrategySettings";
 import { ConfigContextProvider } from "../components/provider/ConfigContextProvider";
+import { SaveConfigs } from "../components/SaveConfigs";
 
 export function DashboardPage() {
     return (
@@ -20,6 +21,8 @@ export function DashboardPage() {
                     <SignalSettings />
                     <StrategySettings />
                 </DndProvider>
+
+                <SaveConfigs />
             </ConfigContextProvider>
         </>
     );

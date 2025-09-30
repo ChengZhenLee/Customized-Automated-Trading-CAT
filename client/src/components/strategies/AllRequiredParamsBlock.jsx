@@ -156,6 +156,10 @@ function RequiredOptimizeParams({ paramsInfo }) {
                 }
             });
         });
+
+        paramsInfo.params.forEach((param) => {
+            inputRefs.current[param.name] = param.defaultValue;
+        });
     }, [setConfig, paramsInfo]);
 
     //Add a value to the array of a param
@@ -225,6 +229,7 @@ function RequiredOptimizeParams({ paramsInfo }) {
                 const strategyName = paramsInfo.strategyName;
                 const paramName = param.name;
                 const currentValues = getParamValues(strategyName, paramName);
+
                 return (
                     <div key={paramName}>
                         <div key={paramName}>

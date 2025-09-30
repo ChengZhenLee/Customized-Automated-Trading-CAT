@@ -132,7 +132,7 @@ function RequiredParams({ paramsInfo }) {
 }
 
 function RequiredOptimizeParams({ paramsInfo }) {
-    const { _, setConfig } = useConfigContext();
+    const { config, setConfig } = useConfigContext();
     const inputRefs = useRef({});
 
     // Set the default configs
@@ -156,6 +156,10 @@ function RequiredOptimizeParams({ paramsInfo }) {
                     }
                 }
             });
+        });
+
+        paramsInfo.params.forEach((param) => {
+            inputRefs.current[param.name] = param.defaultValue;
         });
     }, [setConfig, paramsInfo]);
 
@@ -214,12 +218,18 @@ function RequiredOptimizeParams({ paramsInfo }) {
         });
     }
 
+    function getParamValues(signalName, paramName) {
+        return config?.signals?.all_signal_optimize_params?.[signalName]?.[paramName] || [];
+    }
+
     return (
         <>
             <div>Parameters for {paramsInfo.signalName}</div>
             {paramsInfo.params.map((param) => {
                 const signalName = paramsInfo.signalName;
                 const paramName = param.name;
+                const currentValues = getParamValues(signalName, paramName);
+
                 return (
                     <div key={paramName}>
                         <div key={paramName}>
@@ -249,6 +259,10 @@ function RequiredOptimizeParams({ paramsInfo }) {
                                 clearParamArray(signalName, paramName);
                             }}>Clear
                         </button>
+
+                        <div>
+                            Selected Values: {currentValues.join(', ')}
+                        </div>
                     </div>
                 );
             })}
