@@ -4,14 +4,14 @@ import { useAuth } from "../hooks/useAuth";
 import { db } from "../firebase/firebaseStore";
 import { collection, doc, addDoc } from "firebase/firestore";
 
-export function SaveConfigs() {
+export function SaveConfig() {
     const [message, setMessage] = useState("");
     const [isSaving, setIsSaving] = useState(false);
     const [configName, setConfigName] = useState("");
     const { config, _ } = useConfigContext();
     const { user, __ } = useAuth();
     
-    const userEmail = user?.email;
+    const userUid = user?.uid;
 
     async function saveConfigs() {
         try {
@@ -27,8 +27,8 @@ export function SaveConfigs() {
             return;
         }
 
-        if (!userEmail) {
-            setMessage("Error: user email not found. Please log in again");
+        if (!userUid) {
+            setMessage("Error: user id not found. Please log in again");
             return;
         }
 
@@ -36,7 +36,7 @@ export function SaveConfigs() {
         setMessage("Saving config...");
 
         try {
-            const userDocRef = doc(db, "users", userEmail);
+            const userDocRef = doc(db, "/users", userUid);
             const configsCollectionRef = collection(userDocRef, "configs");
 
             await addDoc(configsCollectionRef, {
@@ -44,6 +44,8 @@ export function SaveConfigs() {
                 createdAt: new Date(),
                 config: config
             });
+
+            setMessage("Config saved!");
         } catch (error) {
             setMessage(`Error saving config: ${error.message}`);
         }
@@ -62,7 +64,7 @@ export function SaveConfigs() {
 
             <button
                 onClick={saveConfigs}
-                disabled={!configName.trim() || !userEmail || isSaving}
+                disabled={!configName.trim() || isSaving}
             >Save Configs
             </button>
 

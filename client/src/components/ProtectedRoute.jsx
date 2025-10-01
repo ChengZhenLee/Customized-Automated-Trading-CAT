@@ -5,6 +5,6 @@ export function ProtectedRoute() {
     const { user, _ } = useAuth();
     
     return (
-        (user != null) ? <Outlet /> : <Navigate to={"/"} replace />
+        (user != null) ? <Outlet /> : <Navigate to={"/login"} replace />
     );
 }
