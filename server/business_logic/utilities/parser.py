@@ -48,22 +48,22 @@ class TraderSettingsParser():
     
 
 class SignalParser():
-    def parse_signal_file(filename):
+    def parse_signal_file(filename, optimize):
         try:
             with open(filename, "r") as signalsFile:
                 config = json.load(signalsFile)
         except FileNotFoundError as e:
             print("File not found error: {}".format(e))
 
-        return SignalParser.parse_signal_config(config)
+        return SignalParser.parse_signal_config(config, optimize)
 
-    def parse_signal_config(config):
+    def parse_signal_config(config, optimize):
         signal_names = config["SIGNAL_NAMES"]
         all_signal_params = config["ALL_SIGNAL_PARAMS"]
         all_signal_optimize_params = config["ALL_SIGNAL_OPTIMIZE_PARAMS"]
 
         try:
-            Validator.validate_signal_params(signal_names, all_signal_params, all_signal_optimize_params)
+            Validator.validate_signal_params(signal_names, all_signal_params, all_signal_optimize_params, optimize)
         except ValueError as e:
             print("Validation error {}".format(e))
 
@@ -71,22 +71,22 @@ class SignalParser():
     
 
 class StrategyParser():
-    def parse_strategies_from_file(filename):
+    def parse_strategies_from_file(filename, optimize):
         try:
             with open(filename, "r") as strategiesFile:
                 config = json.load(strategiesFile)
         except FileNotFoundError as e:
             print("File not found error: {}".format(e))
         
-        return StrategyParser.parse_strategies_from_config(config)
+        return StrategyParser.parse_strategies_from_config(config, optimize)
     
-    def parse_strategies_from_config(config):
+    def parse_strategies_from_config(config, optimize):
         strategy_names = config["STRATEGY_NAMES"]
         all_strategy_params = config["ALL_STRATEGY_PARAMS"]
         all_strategy_optimize_params = config["ALL_STRATEGY_OPTIMIZE_PARAMS"]
 
         try:
-            Validator.validate_strategy_params(strategy_names, all_strategy_params, all_strategy_optimize_params)
+            Validator.validate_strategy_params(strategy_names, all_strategy_params, all_strategy_optimize_params, optimize)
         except ValueError as e:
             print("Validation error {}".format(e))
 

@@ -1,0 +1,16 @@
+2024-06-13: 📈 BUY CREATE: 214.24
+2024-06-14: 🟢 BUY EXECUTED: 213.85
+2025-04-07: 📉 SELL CREATE: 181.46
+2025-04-08: 🔴 SELL EXECUTED: 186.70
+2025-04-08: 💲 OPERATION PROFIT: GROSS -27.15, NET -27.15
+2025-09-15: 📈 BUY CREATE: 236.70
+2025-09-16: 🟢 BUY EXECUTED: 237.18
+==============================
+Strategy: SinglePositionStrategy
+==============================
+==============================
+Signal: SMASignal
+fast: 50.00
+slow: 200.00
+==============================
+🏁 Final Portfolio Value: 99992.80

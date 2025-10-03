@@ -1,0 +1,12 @@
+{
+    "SIGNAL_NAMES": [
+        "sma"
+    ],
+    "ALL_SIGNAL_PARAMS": {
+        "sma": {
+            "fast": 50,
+            "slow": 200
+        }
+    },
+    "ALL_SIGNAL_OPTIMIZE_PARAMS": {}
+}

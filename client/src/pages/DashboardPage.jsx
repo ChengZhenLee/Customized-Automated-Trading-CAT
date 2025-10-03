@@ -7,6 +7,7 @@ import { SignalSettings } from "../components/signals/SignalSettings";
 import { StrategySettings } from "../components/strategies/StrategySettings";
 import { ConfigContextProvider } from "../components/provider/ConfigContextProvider";
 import { SaveConfig } from "../components/SaveConfig";
+import { SubmitConfig } from "../components/SubmitConfig";
 
 export function DashboardPage() {
     return (
@@ -23,6 +24,8 @@ export function DashboardPage() {
                 </DndProvider>
 
                 <SaveConfig />
+
+                <SubmitConfig />
             </ConfigContextProvider>
         </>
     );

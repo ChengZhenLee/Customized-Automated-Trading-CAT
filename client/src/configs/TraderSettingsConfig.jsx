@@ -4,7 +4,7 @@ export const TraderSettingsConfig = [
         type: "float",
         label: "Starting Cash",
         placeholder: "starting cash for backtesting",
-        defaultValue: "100000"
+        defaultValue: 100000
     },
 
     {
@@ -12,7 +12,7 @@ export const TraderSettingsConfig = [
         type: "float",
         label: "Broker Commission Percentage",
         placeholder: "e.g. 0.01 for 1%",
-        defaultValue: "0.0"
+        defaultValue: 0.0
     },
 
     {
@@ -33,7 +33,7 @@ export const TraderSettingsConfig = [
         name: "size",
         type: "int",
         label: "Position Size",
-        defaultValue: "1",
+        defaultValue: 1,
         description: "The number of shares to trade per position"
     }
 ];

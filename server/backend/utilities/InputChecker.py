@@ -52,10 +52,10 @@ class InputChecker():
 
             # Check for numeric types, as ints are compatible with floats
             if expected_type is float:
-                if not isinstance(value, (int, float)):
+                if not InputChecker._is_acceptable_type(value, (int, float)):
                     return False, em.type_mismatch(param, "int or float", type(value).__name__)
             else:
-                if not isinstance(value, expected_type):
+                if not InputChecker._is_acceptable_type(value, expected_type):
                     return False, em.type_mismatch(param, expected_type.__name__, type(value).__name__)
 
             # Check if they are only positive numbers
@@ -73,19 +73,10 @@ class InputChecker():
         
         for param, value in data_settings.items():
             expected_type = DATA_SETTINGS_STRUCTURE.get(param)
-
-            # If the value is a list
-            if isinstance(expected_type, list):
-                if not isinstance(value, list):
-                    return False, em.type_mismatch(param, "list", type(value).__name__)
-                
-                for item in value:
-                    if not isinstance(item, expected_type[0]):
-                        return False, em.type_mismatch(param, f"list of {expected_type[0].__name__}", type(item).__name__)
-
+            
             # If the value is a dict
-            elif isinstance(expected_type, dict):
-                if not isinstance(value, dict):
+            if InputChecker._is_acceptable_type(expected_type, dict):
+                if not InputChecker._is_acceptable_type(value, dict):
                     return False, em.type_mismatch(param, dict.__name__, type(value).__name__)
 
                 # Check if the keys match
@@ -97,11 +88,11 @@ class InputChecker():
                 # Check the datatype for each value in the dict
                 for nested_param, nested_expected_type in expected_type.items():
                     nested_value = value.get(nested_param)
-                    if not isinstance(nested_value, nested_expected_type):
+                    if not InputChecker._is_acceptable_type(nested_value, nested_expected_type):
                         return False, em.type_mismatch(nested_param, nested_expected_type.__name__, type(nested_value).__name__)
             
             else:
-                if not isinstance(value, expected_type):
+                if not InputChecker._is_acceptable_type(value, expected_type):
                     return False, em.type_mismatch(param, expected_type.__name__, type(value).__name__)
 
         # If the structure and datatypes are correct, perform the API specific check
@@ -150,16 +141,16 @@ class InputChecker():
             for param, value in params.items():
                 expected_type = signal_schema.get(param)
 
-                if isinstance(expected_type, list):
-                    if not isinstance(value, list):
+                if InputChecker._is_acceptable_type(expected_type, list):
+                    if not InputChecker._is_acceptable_type(value, list):
                         return False, em.type_mismatch(param, "list", type(value).__name__)
                     
                     for item in value:
-                        if not isinstance(item, expected_type[0]):
+                        if not InputChecker._is_acceptable_type(item, expected_type[0]):
                             return False, em.type_mismatch(f"item in {param}", expected_type[0].__name__, type(item).__name__)
                         
                 else:
-                    if not isinstance(value, expected_type):
+                    if not InputChecker._is_acceptable_type(value, expected_type):
                         return False, em.type_mismatch(param, expected_type.__name__, type(value).__name__)
         
         return True, None
@@ -211,16 +202,26 @@ class InputChecker():
                 expected_type = strategy_schema.get(param)
 
                 # if the expected_type is a list, check the types in the list
-                if isinstance(expected_type, list):
-                    if not isinstance(value, list):
+                if InputChecker._is_acceptable_type(expected_type, list):
+                    if not InputChecker._is_acceptable_type(value, list):
                         return False, em.type_mismatch(param, "list", type(value).__name__)
                     
                     for item in value:
-                        if not isinstance(item, expected_type[0]):
+                        if not InputChecker._is_acceptable_type(item, expected_type[0]):
                             return False, em.type_mismatch(f"item in {param}", expected_type[0].__name__, type(item).__name__)
                             
                 else:
-                    if not isinstance(value, expected_type):
+                    if not InputChecker._is_acceptable_type(value, expected_type):
                         return False, em.type_mismatch(param, expected_type.__name__, type(value).__name__)
 
         return True, None
+    
+    def _is_acceptable_type(value, expected_type):
+        if expected_type is float:
+            return isinstance(value, (int, float))
+        
+        elif expected_type is int:
+            return isinstance(value, int)
+        
+        else:
+            return isinstance(value, expected_type)

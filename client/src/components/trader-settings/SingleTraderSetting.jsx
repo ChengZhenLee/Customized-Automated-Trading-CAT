@@ -27,7 +27,7 @@ export function SingleTraderSetting({ setting }) {
                         defaultValue={setting.defaultValue}
                         step={setting.type === "float" ? "0.01" : "1"}
                         onChange={(event) => {
-                            handleInput(setting.name, event.target.value);
+                            handleInput(setting.name, event.target.valueAsNumber);
                         }}
                     />
                 </div>

@@ -3,9 +3,11 @@ from business_logic.constants.constants import DIVIDER1, DIVIDER2, STRATEGY_PREF
 class SignalParameterManager():
     def serialize_signals(signal_names, all_signal_params):
         signals = {}
-
+        
         for signal_name in signal_names:
-            for param, value in all_signal_params[signal_name].items():
+            signal_params = all_signal_params.get(signal_name, {})
+            
+            for param, value in signal_params.items():
                 key = "{}{}{}".format(signal_name, DIVIDER1, param)
                 signals[key] = value
             
@@ -14,7 +16,7 @@ class SignalParameterManager():
     def deserialize_signals(signals):
         signal_names = []
         all_signal_params = {}
-
+        
         for key, value in signals.items():
             split_key = key.split(DIVIDER1)
             signal_name = split_key[0]

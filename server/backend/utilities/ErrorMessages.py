@@ -3,6 +3,8 @@ class ErrorMessages():
         return f"Missing key: {', '.join(keys)}"
 
     def keys_mismatch(input_keys, master_keys):
+        if len(master_keys) == 0:
+            return f"Key mismatch: '{input_keys}' mismatched with empty set"
         return f"Key mismatch: '{input_keys}' mismatched with '{master_keys}'"
 
     def type_mismatch(param, expected_type, received_type):

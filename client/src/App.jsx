@@ -7,6 +7,7 @@ import { SignUpPage } from "./pages/SignUpPage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { useAuth } from './hooks/useAuth';
 import { MyConfigsPage } from "./pages/MyConfigsPage";
+import { ResultsPage } from "./pages/ResultsPage";
 
 function App() {
   const { _, loading } = useAuth();
@@ -31,6 +32,7 @@ function App() {
           <Route index element={<MainMenuPage />} />
           <Route path="/myconfigs" element={<MyConfigsPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/results" element={<ResultsPage />} />
         </Route>
       </Routes>
     );

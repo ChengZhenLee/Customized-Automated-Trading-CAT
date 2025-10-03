@@ -67,6 +67,14 @@ export const SignalParametersConfig = [
         signalName: "pricediff",
         params: [
             {
+                name: "initial_entry_price",
+                label: "Initial Entry Price",
+                type: "float",
+                defaultValue: 100.0,
+                placeholder: "Input a stock price"
+            },
+
+            {
                 name: "price_drop_pct",
                 label: "Price Drop in Percentage",
                 type: "float",

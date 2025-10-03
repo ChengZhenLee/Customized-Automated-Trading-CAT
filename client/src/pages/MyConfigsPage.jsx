@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { db } from "../firebase/firebaseStore";
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore";
 import { useAuth } from "../hooks/useAuth";
+import { SubmitConfig } from "../components/SubmitConfig";
 
 export function MyConfigsPage() {
     const [message, setMessage] = useState("");
@@ -84,6 +85,14 @@ export function MyConfigsPage() {
                         }) :
                     "You do not have any saved configs"
                 }
+            </div>
+
+            <div>
+                <div>
+                    Backtest with selected config
+                </div>
+
+                <SubmitConfig />
             </div>
         </div>
     )

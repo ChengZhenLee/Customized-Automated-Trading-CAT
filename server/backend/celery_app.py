@@ -9,7 +9,7 @@ from business_logic.core.main_logic import MainLogic
 celery_app = Celery("backtester", broker=REDIS_URL+"/0", backend=REDIS_URL+"/1")
 
 celery_app.conf.update(
-    broker_connection_retry_on_startup=True
+    broker_connection_retry_on_startup=True,
 )
 
 @celery_app.task(bind=True)
@@ -23,16 +23,16 @@ def run_backtest_task(self, task_id, configs):
         log_file = paths.get("log")
         plot_file = paths.get("plot")
         
-        result = {"status": "Completed", 
-                "task_id": task_id, 
-                "task_dir": task_dir,
-                "log_file": log_file,
-                "plot_file": plot_file
-                }
+        result = {
+            "status": "Completed", 
+            "task_id": task_id, 
+            "task_dir": task_dir,
+            "log_file": log_file,
+            "plot_file": plot_file
+        }
         return result
     except Exception as e:
-        self.update_state(state="FAILURE", meta={"error": str(e)})
-        return {"status": "Failed", "task_id": task_id, "error": str(e)}
+        raise e
 
 if __name__ == "__main__":
     celery_app.start()

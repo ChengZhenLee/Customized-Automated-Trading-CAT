@@ -25,8 +25,8 @@ TRADER_SETTINGS_STRUCTURE = {
 }
 
 DATA_SETTINGS_STRUCTURE = {
-    "symbols_to_trade": [str], 
-    "timeframe": [str], 
+    "symbols_to_trade": str, 
+    "timeframe": str, 
     "start_time": {"year": int, "month": int, "day": int}, 
     "end_time": {"year": int, "month": int, "day": int}
 }

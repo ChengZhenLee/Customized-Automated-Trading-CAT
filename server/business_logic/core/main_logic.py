@@ -28,3 +28,7 @@ class MainLogic():
         
         return paths
 
+
+# For testing
+if __name__ == "__main__":
+    MainLogic.run(os.path.join("backtest_runs", "test"))

@@ -38,8 +38,8 @@ export function AllRequiredParamsBlock() {
                     <div key={signal.name}>
                         {
                             optimize ?
-                            <RequiredOptimizeParams paramsInfo={paramsInfo} /> :
-                            <RequiredParams paramsInfo={paramsInfo} />
+                                <RequiredOptimizeParams paramsInfo={paramsInfo} /> :
+                                <RequiredParams paramsInfo={paramsInfo} />
                         }
                     </div>
                 );
@@ -254,7 +254,7 @@ function RequiredOptimizeParams({ paramsInfo }) {
                             }}>Add
                         </button>
 
-                        <button 
+                        <button
                             onClick={() => {
                                 clearParamArray(signalName, paramName);
                             }}>Clear

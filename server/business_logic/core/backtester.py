@@ -58,8 +58,6 @@ class Backtester():
         result = self.cerebro.run()
 
         self.plot_backtester()
-
-        return result
     
     def plot_backtester(self):
         if self.plot and not self.optimize:

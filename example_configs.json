@@ -8,9 +8,9 @@
     },
 
     "data_settings": {
-        "symbols_to_trade": [
+        "symbols_to_trade": 
             "AAPL"
-        ],
+        ,
         "timeframe": "Day",
         "start_time": {
             "year": 2021,
@@ -35,18 +35,6 @@
             }
         },
         "all_signal_optimize_params": {
-            "sma": {
-                "fast": [
-                    5,
-                    10,
-                    15
-                ],
-                "slow": [
-                    20,
-                    25,
-                    30
-                ]
-            }
         }
     },
 
