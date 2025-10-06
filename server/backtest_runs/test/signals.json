@@ -4,9 +4,14 @@
     ],
     "ALL_SIGNAL_PARAMS": {
         "sma": {
-            "fast": 50,
-            "slow": 200
+            "fast": 20,
+            "slow": 100
         }
     },
-    "ALL_SIGNAL_OPTIMIZE_PARAMS": {}
+    "ALL_SIGNAL_OPTIMIZE_PARAMS": {
+        "sma": {
+            "fast": [20],
+            "slow": [100]
+        }
+    }
 }

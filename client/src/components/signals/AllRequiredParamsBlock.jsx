@@ -115,6 +115,7 @@ function RequiredParams({ paramsInfo }) {
                             name={paramName}
                             type="number"
                             step={param.type === "float" ? 0.01 : 1}
+                            placeholder={param.placeholder ? param.placeholder : ""}
                             defaultValue={param.defaultValue}
                             onChange={(event) => {
                                 updateConfigParameters(
@@ -240,6 +241,7 @@ function RequiredOptimizeParams({ paramsInfo }) {
                             type="number"
                             step={param.type === "float" ? 0.01 : 1}
                             defaultValue={param.defaultValue}
+                            placeholder={param.placeholder ? param.placeholder : ""}
                             onChange={
                                 (event) => {
                                     if (isNaN(event.target.valueAsNumber)) return;

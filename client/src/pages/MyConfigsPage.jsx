@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebaseStore";
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore";
 import { useAuth } from "../hooks/useAuth";
@@ -9,6 +10,7 @@ export function MyConfigsPage() {
     const [allDocs, setAllDocs] = useState({});
     const [selectedConfigName, setSelectedConfigName] = useState("");
     const { user, _ } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchData() {
@@ -93,6 +95,13 @@ export function MyConfigsPage() {
                 </div>
 
                 <SubmitConfig />
+            </div>
+
+            <div>
+                <button
+                    onClick={() => navigate("/dashboard")}>
+                    Go to Dashboard
+                </button>
             </div>
         </div>
     )

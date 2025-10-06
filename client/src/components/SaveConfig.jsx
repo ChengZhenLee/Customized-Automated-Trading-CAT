@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { useConfigContext } from "../hooks/useConfigContext";
 import { useAuth } from "../hooks/useAuth";
 import { db } from "../firebase/firebaseStore";
 import { collection, doc, addDoc } from "firebase/firestore";
+import { useConfigContext } from "../hooks/useConfigContext";
 
 export function SaveConfig() {
     const [message, setMessage] = useState("");
     const [isSaving, setIsSaving] = useState(false);
     const [configName, setConfigName] = useState("");
-    const { config, _ } = useConfigContext();
+    const { config, setConfig } = useConfigContext();
     const { user, __ } = useAuth();
     
     const userUid = user?.uid;
@@ -32,6 +32,12 @@ export function SaveConfig() {
             return;
         }
 
+        // Save the config name
+        setConfig((prevConfig) => ({
+            ...prevConfig,
+            "config_name": configName.trim()
+        }));
+
         setIsSaving(true);
         setMessage("Saving config...");
 
@@ -47,6 +53,11 @@ export function SaveConfig() {
 
             setMessage("Config saved!");
         } catch (error) {
+            // Delete the config name
+            setConfig((prevConfig) => ({
+                ...prevConfig,
+                "config_name": ""
+            }))
             setMessage(`Error saving config: ${error.message}`);
         }
 

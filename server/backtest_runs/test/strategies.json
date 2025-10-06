@@ -1,7 +1,25 @@
 {
     "STRATEGY_NAMES": [
-        "single"
+        "pricediff"
     ],
-    "ALL_STRATEGY_PARAMS": {},
-    "ALL_STRATEGY_OPTIMIZE_PARAMS": {}
+    "ALL_STRATEGY_PARAMS": {
+        "pricediff": {
+            "price_drop_pct": 0.05,
+            "price_rise_pct": 0.05,
+            "initial_entry_price": 100
+        }
+    },
+    "ALL_STRATEGY_OPTIMIZE_PARAMS": {
+        "pricediff": {
+            "price_drop_pct": [
+                0.1
+            ],
+            "price_rise_pct": [
+                0.1
+            ],
+            "initial_entry_price": [
+                100
+            ]
+        }
+    }
 }

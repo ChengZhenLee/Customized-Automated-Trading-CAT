@@ -114,6 +114,7 @@ function RequiredParams({ paramsInfo }) {
                             name={paramName}
                             type="number"
                             step={param.type === "float" ? 0.01 : 1}
+                            placeholder={param.placeholder ? param.placeholder : ""}
                             defaultValue={param.defaultValue}
                             onChange={(event) => {
                                 updateConfigParameters(
@@ -239,6 +240,7 @@ function RequiredOptimizeParams({ paramsInfo }) {
                             name={paramName}
                             type="number"
                             step={param.type === "float" ? 0.01 : 1}
+                            placeholder={param.placeholder ? param.placeholder : ""}
                             defaultValue={param.defaultValue}
                             onChange={
                                 (event) => {

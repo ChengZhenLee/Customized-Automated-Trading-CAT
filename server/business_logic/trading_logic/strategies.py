@@ -5,6 +5,8 @@ from business_logic.utilities.log_and_message import MessageCreater
 
 
 class CombinedStrategy(bt.Strategy):
+    plotinfo = dict(plot=False)
+    
     def __init__(self, **kwargs):
         self.signals = []
         self.strategies = []
@@ -43,8 +45,6 @@ class CombinedStrategy(bt.Strategy):
         
         
 class GenericStrategy():
-    plotinfo = dict(subplot=True)
-
     required_params = []
 
     def __init__(self, parent, **kwargs):
@@ -164,10 +164,74 @@ class DurationStrategy(GenericStrategy):
 
         if order_creation_message:
             self.logger.log(order_creation_message, self.date(0))
+            
+class PriceDiffStrategy(GenericStrategy):
+    required_params = ["price_drop_pct", "price_rise_pct", "initial_entry_price"]
+    
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
+        self.price_drop_pct = kwargs.get("price_drop_pct")
+        self.price_rise_pct = kwargs.get("price_rise_pct")
+        self.initial_entry_price = kwargs.get("initial_entry_price")
+        self.previous_entry_price = None
+        
+        
+    # Custom notify order required to update the previous entry price
+    def notify_order(self, order):
+        for signal in self.signals:
+            signal.update_state_with_order(order)
+
+        if order.status in [order.Submitted, order.Accepted]:
+            return
+
+        if order.status in [order.Completed]:
+            if order.isbuy():
+                order_executed_message = MessageCreater.create_order_executed_message(order.executed.price, "buy")
+            elif order.issell():
+                order_executed_message = MessageCreater.create_order_executed_message(order.executed.price, "sell")
+            # Update the previous entry price
+            self.previous_entry_price = order.executed.price
+        else:
+            order_executed_message = MessageCreater.create_order_executed_message(mode="Canceled/Margin/Rejected")
+        
+        self.logger.log(order_executed_message, self.date(0))
+        self.order = None
+    
+    def next(self):
+        order_creation_message = None
+        buy_signals = [signal.lines.buy_signal[0] for signal in self.signals]
+        all_buy_conditions_met = all(buy_signals)
+
+        sell_signals = [signal.lines.sell_signal[0] for signal in self.signals]
+        all_sell_conditions_met = all(sell_signals)
+
+        # No previous entries
+        if not self.previous_entry_price:
+            if self.dataclose <= self.initial_entry_price * (1 - self.price_drop_pct) and all_buy_conditions_met:
+                self.parent.order = self.parent.buy()
+                order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "buy")
+            elif self.dataclose >= self.initial_entry_price * (1 + self.price_rise_pct) and all_sell_conditions_met:
+                self.parent.order = self.parent.sell()
+                order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "sell")
+        
+        # There was a previous entry
+        elif self.previous_entry_price:
+            price_drop_threshold = self.previous_entry_price * (1 - self.price_drop_pct)
+            price_rise_threshold = self.previous_entry_price * (1 + self.price_rise_pct)
+            if self.dataclose <= price_drop_threshold and all_buy_conditions_met:
+                self.parent.order = self.parent.buy()
+                order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "buy")
+            if self.dataclose >= price_rise_threshold and all_sell_conditions_met:
+                self.parent.order = self.parent.sell()
+                order_creation_message = MessageCreater.create_order_creation_message(self.dataclose[0], "sell")
+
+        if order_creation_message:
+            self.logger.log(order_creation_message, self.date(0))
 
 
 STRATEGY_MAP = {
     "single": SinglePositionStrategy,
     "dca": DCAStrategy,
-    "duration": DurationStrategy
+    "duration": DurationStrategy,
+    "pricediff": PriceDiffStrategy
 }

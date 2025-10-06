@@ -3,6 +3,7 @@ import { ConfigContext } from "../../context/ConfigContext";
 
 export function ConfigContextProvider({ children }) {
     const [config, setConfig] = useState({
+        "config_name": "",
         "trader_settings": {},
         "data_settings": {},
         "signals": {

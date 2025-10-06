@@ -32,29 +32,29 @@ DATA_SETTINGS_STRUCTURE = {
 }
 
 SIGNALS_STRUCTURE = {
-    "signal_names": {"sma", "rsi", "pricediff"},
+    "signal_names": {"sma", "rsi"},
 
     "all_signal_params": {
         "sma": {"fast": int, "slow": int},
         "rsi": {"period": int, "overbought": float, "oversold": float},
-        "pricediff": {"price_drop_pct": float, "price_rise_pct": float, "initial_entry_price": float}
     },
 
     "all_signal_optimize_params": {
         "sma": {"fast": [int], "slow": [int]},
         "rsi": {"period": [int], "overbought": [float], "oversold": [float]},
-        "pricediff": {"price_drop_pct": [float], "price_rise_pct": [float], "initial_entry_price": [float]}
     }
 }
 
 STRATEGIES_STRUCTURE = {
-    "strategy_names": {"single", "dca", "duration"},
+    "strategy_names": {"single", "dca", "duration", "pricediff"},
 
     "all_strategy_params": {
-        "duration": {"duration": int}
+        "duration": {"duration": int},
+        "pricediff": {"price_drop_pct": float, "price_rise_pct": float, "initial_entry_price": float}
     },
 
     "all_strategy_optimize_params": {
-        "duration": {"duration": [int]}
+        "duration": {"duration": [int]},
+        "pricediff": {"price_drop_pct": [float], "price_rise_pct": [float], "initial_entry_price": [float]}
     }
 }

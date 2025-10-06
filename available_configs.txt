@@ -1,7 +1,7 @@
-signals: sma, rsi, pricediff
+signals: sma, rsi
     sma: fast, slow
     rsi: period, overbought, oversold
-    pricediff: price_drop_pct, price_rise_pct, initial_entry_price
 
-strategies: single, dca, duration
+strategies: single, dca, duration, pricediff
     duration: duration
+    pricediff: price_drop_pct, price_rise_pct, initial_entry_price

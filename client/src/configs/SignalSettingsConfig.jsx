@@ -9,12 +9,6 @@ export const SignalNames = [
         name: "rsi",
         label: "Relative Strength Index (RSI) Signal",
         description: "Signal based on RSI levels"
-    },
-
-    {
-        name: "pricediff",
-        label: "Price Difference Signal",
-        description: "Signal based on percentage price difference from a previous position"
     }
 ]
 
@@ -59,35 +53,6 @@ export const SignalParametersConfig = [
                 label: "RSI Oversold Level",
                 type: "float",
                 defaultValue: 30.0
-            }
-        ]
-    },
-
-    {
-        signalName: "pricediff",
-        params: [
-            {
-                name: "initial_entry_price",
-                label: "Initial Entry Price",
-                type: "float",
-                defaultValue: 100.0,
-                placeholder: "Input a stock price"
-            },
-
-            {
-                name: "price_drop_pct",
-                label: "Price Drop in Percentage",
-                type: "float",
-                defaultValue: 0.20,
-                placeholder: "e.g. 0.20 is 20%"
-            },
-
-            {
-                name: "price_rise_pct",
-                label: "Price Rise in Percentage",
-                type: "float",
-                defaultValue: 0.20,
-                placeholder: "e.g. 0.20 is 20%"
             }
         ]
     }
