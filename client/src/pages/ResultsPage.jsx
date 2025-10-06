@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 export function ResultsPage() {
     const location = useLocation();
     const statusUrlRef = useRef(null);
-    const stopPollingRef = useRef(false);
     const [finalData, setFinalData] = useState(null);
 
     // Get the statusUrl once on mount
@@ -16,8 +15,6 @@ export function ResultsPage() {
 
     // Start polling once on mount
     useEffect(() => {
-        let timeoutId;
-
         // If no statusUrl was received, don't poll
         if (!statusUrlRef.current) {
             return;
@@ -25,70 +22,67 @@ export function ResultsPage() {
 
         // The polling function
         const poll = async () => {
-            // Stop the polling
-            if (stopPollingRef.current) {
-                return;
-            }
 
             try {
                 const response = await axios.get(statusUrlRef.current);
                 const statusCode = response.status;
 
-                // The task is completed and successful
-                if (statusCode === 200 && response.data.status === "Completed") {
-                    console.log(response.data);
-                    setFinalData(response.data);
-                    stopPollingRef.current = true;
+                console.log(statusCode);
 
-                    // There was an issue in the backend 
-                    // or the results in the backend was already retrieved
+                // The task is completed and successful
+                if (statusCode === 200 && response.data.status === "completed") {
+                    console.log(response.data.message);
+                    setFinalData(response.data);
+                    return;
+
+                // The task was already retrieved
+                } else if (statusCode === 200 && response.data.status === "retrieved") {
+                    console.log(response.data.message);
+                    return;
+
+                // There was an issue in the backend 
+                // or the results in the backend was already retrieved
                 } else if (statusCode === 500) {
                     console.log(response.data);
-                    stopPollingRef.current = true;
+                    return;
 
-                    // The task is still pending
+                // The task is still pending
                 } else {
                     console.log("pending");
                 }
-                // If there was a server error or axios error
+            // If there was a server error or axios error
             } catch (error) {
                 console.log(error.message);
-                stopPollingRef.current = true;
+                return;
             }
 
-            // Poll again after 5 seconds
-            if (!stopPollingRef.current) {
-                timeoutId = setTimeout(poll, 5000);
-            }
+            // Poll again after 1 second
+            setTimeout(poll, 5000);
         }
 
-        // start polling immediately
-        timeoutId = setTimeout(poll, 0);
-
-        // On unmount
-        return () => {
-            // Clear any currently running Timeout
-            clearTimeout(timeoutId);
-            // Stop any currently running poll
-            stopPollingRef.current = true;
-        }
+        // start polling after 1 second
+        setTimeout(poll, 5000);
     }, [location]);
 
     return (
         <div>
-            <Plot />
-            <ResultsLog />
+            <Plot finalData={finalData} />
+            <ResultsLog finalData={finalData} />
         </div>
     );
 }
 
-export function Plot() {
+export function Plot({ finalData }) {
     return (
-        <></>
+        <>
+            {finalData &&
+                <img src={`data:image/jpeg;base64,${finalData.plot_data}`}></img>
+            }
+        </>
     );
 }
 
-export function ResultsLog() {
+export function ResultsLog({ finalData }) {
     return (
         <></>
     );

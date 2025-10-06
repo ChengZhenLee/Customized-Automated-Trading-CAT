@@ -3,10 +3,9 @@ import uuid
 from flask import Flask, request, jsonify
 from backend.celery_app import run_backtest_task, celery_app
 from backend.utilities.InputChecker import InputChecker
-from backend.utilities.DirsFiles import DirsFiles
+from backend.constants.constants import RUNS_DIR
 from business_logic.cleanup.cleaner import Cleaner
-
-import json
+import os
 
 flask_app = Flask(__name__)
 
@@ -53,8 +52,11 @@ def get_backtester_results(task_id):
     
     return_value = task_result.get(propagate=False)
     
-    task_dir = DirsFiles.create_task_dir(task_id)
+    task_dir = os.path.join(RUNS_DIR, task_id)
     
+    # Check if the task directory still exists
+    if not os.path.exists(task_dir):
+        return jsonify({"status": "retrieved", "message": f"Result for task {task_id} already retrieved and cleaned up."}), 200
     
     # If the task completed
     if task_result.successful():
@@ -64,22 +66,20 @@ def get_backtester_results(task_id):
         try:
             with open(log_file, 'r', encoding='utf-8') as f:
                 log_data = f.read()
-            f.close()
-        # If the log file doesnt exist, business_logic might have failed or the result was already retrieved and cleaned up
+        # If the log file doesnt exist, results were already retrieved and cleaned up
         except Exception as e:
-            return jsonify({"status": "failed", "error": str(e) + " or result for task already retrieved"}), 500
+            return jsonify({"status": "retrieved", "message": f"Result for task {task_id} already retrieved and cleaned up."}), 200
             
         # The plot file might not exist depending on the user's input
         try:
             with open(plot_file, 'rb') as f:
                 plot_data = base64.b64encode(f.read()).decode('utf-8')
-            f.close()
         except:
             plot_data = None
             
         Cleaner.clean_up(task_dir)
         
-        return jsonify({"status": "completed", "log_data": log_data, "plot_data": plot_data }), 200
+        return jsonify({"status": "completed", "message": "Results sent successfully", "log_data": log_data, "plot_data": plot_data }), 200
     
     # the task failed, the return_value from the celery task is an Exception object
     elif task_result.failed():
