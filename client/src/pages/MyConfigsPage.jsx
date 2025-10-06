@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebaseStore";
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore";
 import { useAuth } from "../hooks/useAuth";
+import { useConfigContext } from "../hooks/useConfigContext";
 import { SubmitConfig } from "../components/SubmitConfig";
 
 export function MyConfigsPage() {
     const [message, setMessage] = useState("");
     const [allDocs, setAllDocs] = useState({});
     const [selectedConfigName, setSelectedConfigName] = useState("");
-    const { user, _ } = useAuth();
+    const { user, __ } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,8 +41,6 @@ export function MyConfigsPage() {
         fetchData();
     }, [user]);
 
-    console.log(allDocs);
-
     // Remove a document from the state when it is deleted
     function removeDocFromState(docIdToRemove) {
         if (allDocs[docIdToRemove].configName === selectedConfigName) {
@@ -65,7 +64,7 @@ export function MyConfigsPage() {
 
 
             <div>
-                {selectedConfigName ? selectedConfigName : "no config selected"}
+                {selectedConfigName ? `Selected config: ${selectedConfigName}` : "no config selected"}
             </div>
 
             <div>
@@ -94,7 +93,7 @@ export function MyConfigsPage() {
                     Backtest with selected config
                 </div>
 
-                <SubmitConfig />
+                { selectedConfigName && <SubmitConfig /> }
             </div>
 
             <div>
@@ -110,7 +109,8 @@ export function MyConfigsPage() {
 function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMessage }) {
     const [isConfirming, setIsConfirming] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
-    const { user, _ } = useAuth();
+    const { _, setConfig } = useConfigContext();
+    const { user, __ } = useAuth();
 
     const configName = data.configName;
     const userUid = user?.uid;
@@ -134,14 +134,6 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
         setIsDeleting(false);
     }
 
-    function handleDeleteClick() {
-        setIsConfirming(true);
-    }
-
-    function handleCancelDelete() {
-        setIsConfirming(false);
-    }
-
     return (
         <>
             <div>
@@ -160,7 +152,7 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
                     </button>
 
                     <button
-                        onClick={handleCancelDelete}>
+                        onClick={() => setIsConfirming(false)}>
                         No
                     </button>
                 </div>
@@ -168,14 +160,16 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
             )}
 
             <button
-                onClick={handleDeleteClick}
+                onClick={() => setIsConfirming(true)}
                 disabled={isConfirming || isDeleting}>
                 Delete Config
             </button>
 
             <button
                 onClick={() => {
-                    setSelectedConfigName(configName)
+                    setSelectedConfigName(configName);
+                    setConfig(data.config);
+                    console.log(data.config);
                 }}
                 disabled={isConfirming || isDeleting}>
                 Select Config

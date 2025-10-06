@@ -45,4 +45,140 @@ Signal: SMASignal
 fast: 20.00
 slow: 100.00
 ==============================
+🏁 Final Portfolio Value: 99944.242023-08-30: 📉 SELL CREATE: 187.65
+2023-08-31: 🔴 SELL EXECUTED: 187.84
+2025-02-04: 📉 SELL CREATE: 232.80
+2025-02-05: 🔴 SELL EXECUTED: 228.53
+2025-07-22: 📈 BUY CREATE: 214.40
+2025-07-23: 🟢 BUY EXECUTED: 215.00
+==============================
+Strategy: PriceDiffStrategy
+price_drop_pct: 0.05
+price_rise_pct: 0.05
+initial_entry_price: 100.00
+==============================
+==============================
+Signal: SMASignal
+fast: 20.00
+slow: 100.00
+==============================
+🏁 Final Portfolio Value: 99944.242023-08-30: 📉 SELL CREATE: 187.65
+2023-08-31: 🔴 SELL EXECUTED: 187.84
+2025-02-04: 📉 SELL CREATE: 232.80
+2025-02-05: 🔴 SELL EXECUTED: 228.53
+2025-07-22: 📈 BUY CREATE: 214.40
+2025-07-23: 🟢 BUY EXECUTED: 215.00
+==============================
+Strategy: PriceDiffStrategy
+price_drop_pct: 0.05
+price_rise_pct: 0.05
+initial_entry_price: 100.00
+==============================
+==============================
+Signal: SMASignal
+fast: 20.00
+slow: 100.00
+==============================
+🏁 Final Portfolio Value: 99944.242023-08-30: 📉 SELL CREATE: 187.65
+2023-08-31: 🔴 SELL EXECUTED: 187.84
+2025-02-04: 📉 SELL CREATE: 232.80
+2025-02-05: 🔴 SELL EXECUTED: 228.53
+2025-07-22: 📈 BUY CREATE: 214.40
+2025-07-23: 🟢 BUY EXECUTED: 215.00
+==============================
+Strategy: PriceDiffStrategy
+price_drop_pct: 0.05
+price_rise_pct: 0.05
+initial_entry_price: 100.00
+==============================
+==============================
+Signal: SMASignal
+fast: 20.00
+slow: 100.00
+==============================
+🏁 Final Portfolio Value: 99944.242023-08-30: 📉 SELL CREATE: 187.65
+2023-08-31: 🔴 SELL EXECUTED: 187.84
+2025-02-04: 📉 SELL CREATE: 232.80
+2025-02-05: 🔴 SELL EXECUTED: 228.53
+2025-07-22: 📈 BUY CREATE: 214.40
+2025-07-23: 🟢 BUY EXECUTED: 215.00
+==============================
+Strategy: PriceDiffStrategy
+price_drop_pct: 0.05
+price_rise_pct: 0.05
+initial_entry_price: 100.00
+==============================
+==============================
+Signal: SMASignal
+fast: 20.00
+slow: 100.00
+==============================
+🏁 Final Portfolio Value: 99944.242023-08-30: 📉 SELL CREATE: 187.65
+2023-08-31: 🔴 SELL EXECUTED: 187.84
+2025-02-04: 📉 SELL CREATE: 232.80
+2025-02-05: 🔴 SELL EXECUTED: 228.53
+2025-07-22: 📈 BUY CREATE: 214.40
+2025-07-23: 🟢 BUY EXECUTED: 215.00
+==============================
+Strategy: PriceDiffStrategy
+price_drop_pct: 0.05
+price_rise_pct: 0.05
+initial_entry_price: 100.00
+==============================
+==============================
+Signal: SMASignal
+fast: 20.00
+slow: 100.00
+==============================
+🏁 Final Portfolio Value: 99944.242023-08-30: 📉 SELL CREATE: 187.65
+2023-08-31: 🔴 SELL EXECUTED: 187.84
+2025-02-04: 📉 SELL CREATE: 232.80
+2025-02-05: 🔴 SELL EXECUTED: 228.53
+2025-07-22: 📈 BUY CREATE: 214.40
+2025-07-23: 🟢 BUY EXECUTED: 215.00
+==============================
+Strategy: PriceDiffStrategy
+price_drop_pct: 0.05
+price_rise_pct: 0.05
+initial_entry_price: 100.00
+==============================
+==============================
+Signal: SMASignal
+fast: 20.00
+slow: 100.00
+==============================
+🏁 Final Portfolio Value: 99944.242023-08-30: 📉 SELL CREATE: 187.65
+2023-08-31: 🔴 SELL EXECUTED: 187.84
+2025-02-04: 📉 SELL CREATE: 232.80
+2025-02-05: 🔴 SELL EXECUTED: 228.53
+2025-07-22: 📈 BUY CREATE: 214.40
+2025-07-23: 🟢 BUY EXECUTED: 215.00
+==============================
+Strategy: PriceDiffStrategy
+price_drop_pct: 0.05
+price_rise_pct: 0.05
+initial_entry_price: 100.00
+==============================
+==============================
+Signal: SMASignal
+fast: 20.00
+slow: 100.00
+==============================
+🏁 Final Portfolio Value: 99944.242023-08-30: 📉 SELL CREATE: 187.65
+2023-08-31: 🔴 SELL EXECUTED: 187.84
+2025-02-04: 📉 SELL CREATE: 232.80
+2025-02-05: 🔴 SELL EXECUTED: 228.53
+2025-07-22: 📈 BUY CREATE: 214.40
+2025-07-23: 🟢 BUY EXECUTED: 215.00
+==============================
+Strategy: PriceDiffStrategy
+price_drop_pct: 0.05
+price_rise_pct: 0.05
+initial_entry_price: 100.00
+==============================
+==============================
+Signal: SMASignal
+fast: 20.00
+slow: 100.00
+==============================
 🏁 Final Portfolio Value: 99944.24

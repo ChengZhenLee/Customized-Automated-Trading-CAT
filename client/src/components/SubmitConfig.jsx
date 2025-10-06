@@ -7,9 +7,10 @@ export function SubmitConfig() {
     const navigate = useNavigate();
 
     async function submitConfig() {
+        const {"config_name": _, ...submissionData} = config;
         if (config) {
             try {
-                const response = await axios.post("/backtrader", config);
+                const response = await axios.post("/backtrader", submissionData);
 
                 // The config submission was successful
                 if (response.status === 202) {

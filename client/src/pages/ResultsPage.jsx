@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { useConfigContext } from "../hooks/useConfigContext";
 
 export function ResultsPage() {
     const location = useLocation();
@@ -35,22 +36,22 @@ export function ResultsPage() {
                     setFinalData(response.data);
                     return;
 
-                // The task was already retrieved
+                    // The task was already retrieved
                 } else if (statusCode === 200 && response.data.status === "retrieved") {
                     console.log(response.data.message);
                     return;
 
-                // There was an issue in the backend 
-                // or the results in the backend was already retrieved
+                    // There was an issue in the backend 
+                    // or the results in the backend was already retrieved
                 } else if (statusCode === 500) {
                     console.log(response.data);
                     return;
 
-                // The task is still pending
+                    // The task is still pending
                 } else {
                     console.log("pending");
                 }
-            // If there was a server error or axios error
+                // If there was a server error or axios error
             } catch (error) {
                 console.log(error.message);
                 return;
@@ -66,8 +67,17 @@ export function ResultsPage() {
 
     return (
         <div>
-            <Plot finalData={finalData} />
-            <ResultsLog finalData={finalData} />
+            <div>
+                <RenderConfig />
+            </div>
+
+            <div>
+                <Plot finalData={finalData} />
+            </div>
+
+            <div>
+                {/* Include download buttons here */}
+            </div>
         </div>
     );
 }
@@ -82,8 +92,16 @@ export function Plot({ finalData }) {
     );
 }
 
-export function ResultsLog({ finalData }) {
-    return (
-        <></>
-    );
+export function RenderConfig() {
+    const { config, _ } = useConfigContext();
+
+    const configName = config.config_name;
+    const traderSettings = config.trader_settings;
+    const dataSettings = config.data_settings;
+    const signals = config.signals;
+    const strategies = config.strategies;
+
+    // Render the trader settings
+    const optimize = traderSettings.optimize;
+    
 }

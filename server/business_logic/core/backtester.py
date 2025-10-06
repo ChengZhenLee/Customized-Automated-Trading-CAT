@@ -1,4 +1,5 @@
 import backtrader as bt
+import matplotlib.pyplot as plt
 from business_logic.utilities.parameter_manager import SignalParameterManager, StrategyParameterManager, BacktesterParameterManager
 from business_logic.trading_logic.strategies import CombinedStrategy
 
@@ -61,5 +62,7 @@ class Backtester():
     
     def plot_backtester(self):
         if self.plot and not self.optimize:
-            plt_fig = self.cerebro.plot()[0][0]
+            # Change the default plotsize
+            plt.rcParams["figure.figsize"] = (16, 8)
+            plt_fig = self.cerebro.plot(volume=False)[0][0]
             plt_fig.savefig(self.plot_file)
