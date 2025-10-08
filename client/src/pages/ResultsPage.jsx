@@ -14,7 +14,6 @@ export function ResultsPage() {
     useEffect(() => {
         // Try to retrieve cached results
         const cachedResults = getStorageResults();
-        console.log(resultsStale);
         // If there are already results cached
         if (cachedResults && !resultsStale) {
             setFinalData(getStorageResults());
@@ -82,28 +81,136 @@ export function ResultsPage() {
     );
 }
 
-export function Plot({ finalData }) {
+export function Plot({ plotData }) {
     return (
-        <>
-            {finalData &&
-                <img src={`data:image/jpeg;base64,${finalData.plot_data}`}></img>
-            }
-        </>
+        <img src={`data:image/jpeg;base64,${plotData}`}></img>
     );
 }
 
 export function Results({ finalData }) {
+    const plotData = finalData.plot_data;
+    const logData = finalData.log_data;
+    const configsData = finalData.configs;
     return (
         <div>
-            {/* <div>
-                <RenderConfig />
-            </div> */}
+            <div>
+                <RenderConfigs configsData={configsData} />
+            </div>
 
             <div>
-                <Plot finalData={finalData} />
+                <Plot plotData={plotData} />
+            </div>
+
+            <div>
+                <DownloadLog logData={logData} />
             </div>
         </div>
     );
+}
+
+export function RenderConfigs({ configsData }) {
+    const traderSettings = configsData.trader_settings;
+    const optimize = traderSettings.optimize;
+    const dataSettings = configsData.data_settings;
+    const signals = configsData.signals;
+    const strategies = configsData.strategies;
+
+    return (
+        <div>
+            <RenderTraderSettings traderSettings={traderSettings} />
+            <RenderDataSettings dataSettings={dataSettings} />
+            <RenderSignals signals={signals} optimize={optimize} />
+            <RenderStrategies strategies={strategies} optimize={optimize} />
+        </div>
+    )
+}
+
+export function RenderTraderSettings({ traderSettings }) {
+    const commission = traderSettings.commission;
+    const size = traderSettings.size;
+    const startingCash = traderSettings.starting_cash;
+
+    return (
+        <div>
+            <h1>Trader Settings</h1>
+            <p>Starting Cash: ${startingCash}</p>
+            <p>Trading Size: {size} {size === 1 ? "stock" : "stocks"}</p>
+            <p>Commission to Broker: ${commission}</p>
+        </div>
+    );
+}
+
+export function RenderDataSettings({ dataSettings }) {
+    const startTime = dataSettings.start_time;
+    const endTime = dataSettings.end_time;
+    const symbol = dataSettings.symbols_to_trade;
+    const timeframe = dataSettings.timeframe;
+
+    return (
+        <div>
+            <h1>Data Settings</h1>
+            <p>Stock Symbol Traded: {symbol}</p>
+            <p>Starting Time: {startTime.year} {MonthMap[startTime.month]} {startTime.day}</p>
+            <p>Ending Time: {endTime.year} {MonthMap[endTime.month]} {endTime.day}</p>
+            <p>Timeframe used: {timeframe}</p>
+        </div>
+    );
+}
+
+export function RenderSignals({ signals, optimize }) {
+    const key = optimize ? "all_signal_optimize_params" : "all_signal_params";
+    const allParams = signals[key];
+
+    return (
+        <div>
+            <h1>Signals and Parameters used:</h1>
+            {Object.keys(allParams).map((signal) => {
+                return (
+                    <div key={signal}>
+                        Signal: {SignalNameMap[signal]}
+                        {Object.keys(allParams[signal]).map((param) => {
+                            return (
+                                <div key={`${signal}-${param}`}>
+                                    {SignalParamNameMap[signal][param]}: {allParams[signal][param]}
+                                </div>
+                            );
+                        })}
+                    </div>
+                );
+            })}
+        </div>
+    );
+}
+
+export function RenderStrategies({ strategies, optimize }) {
+    const key = optimize ? "all_strategy_optimize_params" : "all_strategy_params";
+    const names = strategies.strategy_names;
+    const allParams = strategies[key];
+    console.log(allParams);
+
+    return (
+        <div>
+            <h1>Strategies and Parameters used:</h1>
+            {names.map((strategy) => {
+                return (
+                    <div key={strategy}>
+                        Strategy: {StrategyNameMap[strategy]}
+                        {allParams[strategy] && Object.keys(allParams[strategy]).map((param) => {
+                            return (
+                                <div key={`${strategy}-${param}`}>
+                                    {SignalParamNameMap[strategy][param]}: {allParams[strategy][param]}
+                                </div>
+                            );
+                        })}
+                    </div>
+                );
+            })}
+        </div>
+    );
+}
+
+export function DownloadLog({ logData }) {
+
 }
 
 export function NavButtons() {
@@ -129,4 +236,56 @@ export function NavButtons() {
             </div>
         </>
     );
+}
+
+const SignalNameMap = {
+    "sma": "Simple Moving Average Crossover Signal",
+    "rsi": "Relative Strength Index (RSI) Signal"
+}
+
+const SignalParamNameMap = {
+    "sma": {
+        "fast": "Fast Moving Average",
+        "slow": "Slow Moving Average"
+    },
+
+    "rsi": {
+        "period": "RSI Period",
+        "overbought": "RSI Overbought Level",
+        "oversold": "RSI Oversold Level"
+    }
+}
+
+const StrategyNameMap = {
+    "single": "Single Position",
+    "dca": "Dollar Cost Averaging Strategy",
+    "duration": "Duration in Position Strategy",
+    "pricediff": "Price Difference Strategy"
+}
+
+const StrategyParamNameMap = {
+    "duration": {
+        "duration": "Duration in Position"
+    },
+
+    "pricediff": {
+        "initial_entry_price": "Initial Entry Price",
+        "price_drop_pct": "Price Drop in Percentage",
+        "price_rise_pct": "Price Rise in Percentage"
+    }
+}
+
+const MonthMap = {
+    "1": "Jan",
+    "2": "Feb",
+    "3": "Mac",
+    "4": "Apr",
+    "5": "May",
+    "6": "Jun",
+    "7": "Jul",
+    "8": "Aug",
+    "9": "Sep",
+    "10": "Oct",
+    "11": "Nov",
+    "12": "Dec",
 }
