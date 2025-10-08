@@ -102,6 +102,13 @@ export function MyConfigsPage() {
                     Go to Dashboard
                 </button>
             </div>
+
+            <div>
+                <button
+                    onClick={() => navigate("/results")}>
+                    Go to Results
+                </button>
+            </div>
         </div>
     )
 }
@@ -168,7 +175,10 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
             <button
                 onClick={() => {
                     setSelectedConfigName(configName);
-                    setConfig(data.config);
+                    setConfig({
+                        ...data.config,
+                        "config_name": configName
+                    });
                     console.log(data.config);
                 }}
                 disabled={isConfirming || isDeleting}>

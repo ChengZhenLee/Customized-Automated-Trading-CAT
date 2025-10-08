@@ -20,6 +20,13 @@ export function MainMenuPage() {
                 }}>
                 Go To My Configs
             </button>
+
+            <button
+                onClick={() => {
+                    navigate("/results");
+                }}>
+                Go to Results
+            </button>
         </>
     )
 }

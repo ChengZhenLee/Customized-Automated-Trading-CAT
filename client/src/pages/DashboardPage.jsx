@@ -17,31 +17,28 @@ export function DashboardPage() {
     const navigate = useNavigate();
 
     function toggleMakeNewConfig() {
-        setMakeNewConfig((prevState) => {
-            const newState = !prevState;
+        // Reset the config if the current state is False (i.e., about to become True)
+        if (!makeNewConfig) {
+            setConfig(
+                {
+                    "config_name": "",
+                    "trader_settings": {},
+                    "data_settings": {},
+                    "signals": {
+                        "signal_names": [],
+                        "all_signal_params": {},
+                        "all_signal_optimize_params": {}
+                    },
+                    "strategies": {
+                        "strategy_names": [],
+                        "all_strategy_params": {},
+                        "all_strategy_optimize_params": {}
+                    }
+                });
+        }
 
-            // Reset the config
-            if (newState === true) {
-                setConfig(
-                    {
-                        "config_name": "",
-                        "trader_settings": {},
-                        "data_settings": {},
-                        "signals": {
-                            "signal_names": [],
-                            "all_signal_params": {},
-                            "all_signal_optimize_params": {}
-                        },
-                        "strategies": {
-                            "strategy_names": [],
-                            "all_strategy_params": {},
-                            "all_strategy_optimize_params": {}
-                        }
-                    });
-            }
-
-            return newState;
-        });
+        // Toggle the state
+        setMakeNewConfig((prevState) => !prevState);
     }
 
     return (
@@ -51,7 +48,7 @@ export function DashboardPage() {
             {
                 !makeNewConfig && (
                     <>
-                        {config.config_name ? 
+                        {config.config_name ?
                             <p>Selected Config: {config.config_name}</p> :
                             <p>No Config Selected</p>
                         }
@@ -81,7 +78,7 @@ export function DashboardPage() {
                 )
             }
 
-            {   (makeNewConfig || config.config_name) &&
+            {(makeNewConfig || config.config_name) &&
                 <SubmitConfig />
             }
 
@@ -89,6 +86,11 @@ export function DashboardPage() {
                 <button
                     onClick={() => navigate("/myconfigs")}>
                     Go to Your Configs
+                </button>
+
+                <button
+                    onClick={() => navigate("/results")}>
+                    Go to Results
                 </button>
             </div>
         </>

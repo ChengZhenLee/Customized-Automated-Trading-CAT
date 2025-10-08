@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useConfigContext } from "../hooks/useConfigContext";
+import { useResultsStaleContext } from "../hooks/useResultsStaleContext";
 
 export function SubmitConfig() {
-    const { config, _ } = useConfigContext();
+    const { config } = useConfigContext();
+    const { setResultsStale } = useResultsStaleContext();
     const navigate = useNavigate();
 
     async function submitConfig() {
@@ -15,6 +17,7 @@ export function SubmitConfig() {
                 // The config submission was successful
                 if (response.status === 202) {
                     console.log(response.data);
+                    setResultsStale(true);
                     navigate("/results", { state: { data: response.data } });
                 }
 
@@ -24,7 +27,7 @@ export function SubmitConfig() {
                 }
             // axios error
             } catch (error) {
-                console.log(error.response.data);
+                console.log(error);
             }
 
         }

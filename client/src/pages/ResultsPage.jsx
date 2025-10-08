@@ -1,84 +1,84 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import { useConfigContext } from "../hooks/useConfigContext";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getStorageResults, setStorageResults } from "../storedData";
+import { useResultsStaleContext } from "../hooks/useResultsStaleContext";
 
 export function ResultsPage() {
     const location = useLocation();
-    const statusUrlRef = useRef(null);
+    const statusUrlRef = useRef(location.state?.data?.status_url);
     const [finalData, setFinalData] = useState(null);
+    const [pollStatus, setPollStatus] = useState("pending");
+    const { resultsStale, setResultsStale } = useResultsStaleContext();
 
-    // Get the statusUrl once on mount
     useEffect(() => {
-        statusUrlRef.current = location.state?.data?.status_url;
-        console.log(statusUrlRef.current);
-    }, [location]);
+        // Try to retrieve cached results
+        const cachedResults = getStorageResults();
+        console.log(resultsStale);
+        // If there are already results cached
+        if (cachedResults && !resultsStale) {
+            setFinalData(getStorageResults());
+            setPollStatus("success");
+            return;
+        }
 
-    // Start polling once on mount
-    useEffect(() => {
-        // If no statusUrl was received, don't poll
+        // If there were no cached results and no valid status url
         if (!statusUrlRef.current) {
+            setPollStatus("fail");
             return;
         }
 
         // The polling function
-        const poll = async () => {
+        async function pollResults() {
+            const response = await axios.get(statusUrlRef.current);
+            const statusCode = response.status;
 
-            try {
-                const response = await axios.get(statusUrlRef.current);
-                const statusCode = response.status;
-
-                console.log(statusCode);
-
-                // The task is completed and successful
-                if (statusCode === 200 && response.data.status === "completed") {
-                    console.log(response.data.message);
+            // The task is completed and successful
+            if (statusCode === 200 && response.data.status === "completed") {
+                if (response.data.status === "completed") {
+                    setPollStatus("success");
                     setFinalData(response.data);
+                    setStorageResults(response.data);
+                    setResultsStale(false);
                     return;
-
-                    // The task was already retrieved
-                } else if (statusCode === 200 && response.data.status === "retrieved") {
-                    console.log(response.data.message);
-                    return;
-
-                    // There was an issue in the backend 
-                    // or the results in the backend was already retrieved
-                } else if (statusCode === 500) {
-                    console.log(response.data);
-                    return;
-
-                    // The task is still pending
-                } else {
-                    console.log("pending");
                 }
-                // If there was a server error or axios error
-            } catch (error) {
-                console.log(error.message);
-                return;
+                // There was an issue in the backend 
+            } else if (statusCode === 500) {
+                setPollStatus("fail");
             }
 
-            // Poll again after 1 second
-            setTimeout(poll, 5000);
+            // Poll again after 5 second
+            setTimeout(pollResults, 5000);
         }
 
-        // start polling after 1 second
-        setTimeout(poll, 5000);
-    }, [location]);
+        // Start polling for the results if the results is stale
+        if (resultsStale) {
+            pollResults();
+        }
+    }, [location, statusUrlRef, resultsStale, setResultsStale]);
 
     return (
-        <div>
-            <div>
-                <RenderConfig />
-            </div>
-
-            <div>
-                <Plot finalData={finalData} />
-            </div>
-
-            <div>
-                {/* Include download buttons here */}
-            </div>
-        </div>
+        <>
+            {pollStatus === "success" && (
+                <>
+                    <Results finalData={finalData} />
+                    <NavButtons />
+                </>
+            )}
+            {pollStatus === "pending" && (
+                <div>
+                    Loading...
+                </div>
+            )}
+            {pollStatus === "fail" && (
+                <>
+                    <div>
+                        Unable to perform backtest and fetch results. Please resubmit a config.
+                    </div>
+                    <NavButtons />
+                </>
+            )}
+        </>
     );
 }
 
@@ -92,16 +92,41 @@ export function Plot({ finalData }) {
     );
 }
 
-export function RenderConfig() {
-    const { config, _ } = useConfigContext();
+export function Results({ finalData }) {
+    return (
+        <div>
+            {/* <div>
+                <RenderConfig />
+            </div> */}
 
-    const configName = config.config_name;
-    const traderSettings = config.trader_settings;
-    const dataSettings = config.data_settings;
-    const signals = config.signals;
-    const strategies = config.strategies;
+            <div>
+                <Plot finalData={finalData} />
+            </div>
+        </div>
+    );
+}
 
-    // Render the trader settings
-    const optimize = traderSettings.optimize;
-    
+export function NavButtons() {
+    const navigate = useNavigate();
+
+    return (
+        <>
+            <div>
+                <button
+                    onClick={() => navigate("/")}>
+                    Go to Main Menu
+                </button>
+
+                <button
+                    onClick={() => navigate("/myconfigs")}>
+                    Go to Your Configs
+                </button>
+
+                <button
+                    onClick={() => navigate("/dashboard")}>
+                    Go to Dashboard
+                </button>
+            </div>
+        </>
+    );
 }
