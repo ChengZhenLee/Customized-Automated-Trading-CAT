@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { SignalParametersConfig } from "../../configs/SignalSettingsConfig";
+import { SignalParametersConfig } from "../../constants/configs/SignalSettingsConfig";
 import { useSelectedSignals } from "../../hooks/useSelectedSignals";
 import { useConfigContext } from "../../hooks/useConfigContext";
 

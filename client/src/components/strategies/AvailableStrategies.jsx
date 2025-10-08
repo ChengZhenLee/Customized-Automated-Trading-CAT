@@ -1,5 +1,5 @@
 import { useDrag } from "react-dnd";
-import { StrategyNames } from "../../configs/StrategySettingsConfig";
+import { StrategyNames } from "../../constants/configs/StrategySettingsConfig";
 
 export function AvailableStrategies() {
     return (

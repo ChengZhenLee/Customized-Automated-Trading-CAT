@@ -1,5 +1,5 @@
 import { useDrag } from "react-dnd";
-import { SignalNames } from "../../configs/SignalSettingsConfig";
+import { SignalNames } from "../../constants/configs/SignalSettingsConfig";
 
 export function AvailableSignals() {
     return (

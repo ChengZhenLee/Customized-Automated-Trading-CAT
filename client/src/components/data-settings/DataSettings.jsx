@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { DataSettingsConfig } from "../../configs/DataSettingsConfig";
+import { DataSettingsConfig } from "../../constants/configs/DataSettingsConfig";
 import { SingleDataSetting } from "./SingleDataSetting";
 import { useConfigContext } from "../../hooks/useConfigContext";
 

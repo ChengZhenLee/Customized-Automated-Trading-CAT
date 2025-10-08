@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { StrategyParametersConfig } from "../../configs/StrategySettingsConfig";
+import { StrategyParametersConfig } from "../../constants/configs/StrategySettingsConfig";
 import { useSelectedStrategies } from "../../hooks/useSelectedStrategies";
 import { useConfigContext } from "../../hooks/useConfigContext";
 
