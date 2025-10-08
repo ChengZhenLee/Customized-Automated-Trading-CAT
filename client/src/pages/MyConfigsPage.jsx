@@ -114,8 +114,7 @@ export function MyConfigsPage() {
 }
 
 function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMessage }) {
-    const [isConfirming, setIsConfirming] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
+    const [isDeciding, setisDeciding] = useState(false);
     const { _, setConfig } = useConfigContext();
     const { user, __ } = useAuth();
 
@@ -123,9 +122,6 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
     const userUid = user?.uid;
 
     async function handleConfirmDelete() {
-        setIsConfirming(false);
-        setIsDeleting(true);
-
         try {
             const userDocRef = doc(db, "users", userUid);
             const configsCollectionRef = collection(userDocRef, "configs");
@@ -138,7 +134,7 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
             setMessage(`Error deleting config: ${error.message}`);
         }
 
-        setIsDeleting(false);
+        setisDeciding(false);
     }
 
     return (
@@ -147,7 +143,7 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
                 {configName}
             </div>
 
-            {isConfirming && (
+            {isDeciding && (
                 <div>
                     <span>
                         Are you sure?
@@ -159,7 +155,7 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
                     </button>
 
                     <button
-                        onClick={() => setIsConfirming(false)}>
+                        onClick={() => setisDeciding(false)}>
                         No
                     </button>
                 </div>
@@ -167,8 +163,8 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
             )}
 
             <button
-                onClick={() => setIsConfirming(true)}
-                disabled={isConfirming || isDeleting}>
+                onClick={() => setisDeciding(true)}
+                disabled={isDeciding}>
                 Delete Config
             </button>
 
@@ -181,7 +177,7 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
                     });
                     console.log(data.config);
                 }}
-                disabled={isConfirming || isDeleting}>
+                disabled={isDeciding}>
                 Select Config
             </button>
         </>

@@ -16,9 +16,8 @@ export function SubmitConfig() {
 
                 // The config submission was successful
                 if (response.status === 202) {
-                    console.log(response.data);
                     setResultsStale(true);
-                    navigate("/results", { state: { data: response.data } });
+                    navigate("/results", { state: { status_url: response.data.status_url } });
                 }
 
                 // There was an error trying to submit the config
@@ -27,7 +26,7 @@ export function SubmitConfig() {
                 }
             // axios error
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
 
         }

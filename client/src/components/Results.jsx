@@ -30,7 +30,13 @@ export function Results({ finalData }) {
 
 function Plot({ plotData }) {
     return (
-        <img src={`data:image/jpeg;base64,${plotData}`}></img>
+        <>
+            {
+                plotData && (
+                    <img src={`data:image/jpeg;base64,${plotData}`}></img>
+                )
+            }
+        </>
     );
 }
 
@@ -39,7 +45,7 @@ export function DownloadLog({ logData, name }) {
         type: "text/plain"
     });
 
-    const filename = name ? 
+    const filename = name ?
         `backtest_logs_${name}_${new Date().toISOString()}.txt` :
         `backtest_logs_${new Date().toISOString()}.txt`;
 

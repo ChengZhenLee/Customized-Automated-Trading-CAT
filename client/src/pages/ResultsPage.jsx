@@ -8,7 +8,7 @@ import { Results } from "../components/Results";
 
 export function ResultsPage() {
     const location = useLocation();
-    const statusUrlRef = useRef(location.state?.data?.status_url);
+    const statusUrlRef = useRef(location.state?.status_url);
     const [finalData, setFinalData] = useState(null);
     const [pollStatus, setPollStatus] = useState("pending");
     const { config } = useConfigContext();
@@ -89,7 +89,7 @@ export function ResultsPage() {
     );
 }
 
-export function NavButtons() {
+function NavButtons() {
     const navigate = useNavigate();
 
     return (
@@ -113,4 +113,3 @@ export function NavButtons() {
         </>
     );
 }
-

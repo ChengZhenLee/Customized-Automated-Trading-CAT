@@ -13,9 +13,9 @@ class Logger():
     
     def log(self, txt, dt=None):
         if dt:
-            message = "{}: {}\n".format(dt.isoformat(), txt)
+            message = f"{dt.isoformat()}: {txt}\n"
         else:
-            message = txt
+            message = f"{txt}\n"
 
         if self.fileName:
             with open(self.fileName, 'a', encoding='UTF-8') as outFile:
@@ -63,7 +63,6 @@ class MessageCreater():
             for param in strategy.required_params:
                 message += "{}: {:.2f}\n".format(param, getattr(strategy, param))
             message += "=" * 30 + "\n"
-        
         return message
 
     def create_signals_result_message(signals):
