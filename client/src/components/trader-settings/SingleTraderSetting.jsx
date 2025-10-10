@@ -17,7 +17,7 @@ export function SingleTraderSetting({ setting }) {
         case "float":
         case "int":
             return (
-                <div>
+                <>
                     <p>{setting.label}</p>
                     <input
                         name={setting.name}
@@ -30,13 +30,12 @@ export function SingleTraderSetting({ setting }) {
                             handleInput(setting.name, event.target.valueAsNumber);
                         }}
                     />
-                </div>
-
+                </>
             );
 
         case "bool":
             return (
-                <div>
+                <>
                     <p>{setting.label}</p>
                     <input
                         name={setting.name}
@@ -46,7 +45,7 @@ export function SingleTraderSetting({ setting }) {
                             handleInput(setting.name, event.target.checked);
                         }}
                     />
-                </div>
+                </>
             );
 
         default:

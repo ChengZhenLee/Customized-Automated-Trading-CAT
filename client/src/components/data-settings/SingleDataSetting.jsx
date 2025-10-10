@@ -1,3 +1,4 @@
+import "./DataSettings.css";
 import { useConfigContext } from "../../hooks/useConfigContext";
 
 export function SingleDataSetting({ setting }) {
@@ -36,7 +37,7 @@ export function SingleDataSetting({ setting }) {
     switch (setting.type) {
         case "string":
             return (
-                <div>
+                <>
                     <p>{setting.label}</p>
                     <input
                         name={setting.name}
@@ -46,12 +47,12 @@ export function SingleDataSetting({ setting }) {
                             handleInput(setting.name, event.target.value, event.target.type)
                         }}
                     />
-                </div>
+                </>
             );
 
         case "timeframe":
             return (
-                <div>
+                <>
                     <p>{setting.label}</p>
                     <div >
                         {setting.options.map((option) => {
@@ -77,12 +78,12 @@ export function SingleDataSetting({ setting }) {
                             );
                         })}
                     </div>
-                </div>
+                </>
             );
 
         case "date":
             return (
-                <div>
+                <>
                     <p>{setting.label}</p>
                     <input
                         name={setting.name}
@@ -91,7 +92,7 @@ export function SingleDataSetting({ setting }) {
                             handleInput(setting.name, event.target.value, event.target.type)
                         }}
                     />
-                </div>
+                </>
             );
     }
 }

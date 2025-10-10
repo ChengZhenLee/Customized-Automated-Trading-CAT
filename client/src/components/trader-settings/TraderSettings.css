@@ -1,0 +1,55 @@
+.trader-settings-container {
+    display: flex;
+    flex-grow: 1;
+    flex-basis: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    margin: 20px 10px;
+    padding: 20px;
+    max-width: 600px;
+    box-sizing: border-box;
+
+    background-color: #E6F0E6;
+    color: #333333;
+    border-radius: 8px;
+    border: 1px solid #D1E0D1;
+
+}
+
+.trader-setting-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px 5px;
+    padding: 5px 3px;
+
+    background-color: #8db58d;
+    border-radius: 5px;
+}
+
+.trader-settings-container p {
+    font-size: 1em;
+    font-weight: 600;
+    color: #444444;
+    margin-top: 0px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.trader-settings-container input[type="number"],
+.trader-settings-container input[type="date"] {
+    box-sizing: border-box;
+
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.trader-settings-container input[type="number"]:focus,
+.trader-settings-container input[type="date"]:focus {
+    border-color: #68A67B;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(104, 166, 123, 0.2);
+}

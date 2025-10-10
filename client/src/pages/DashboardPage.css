@@ -1,0 +1,31 @@
+/* Styles when the user is not making a config*/
+.new-config-container {
+    display: block;
+
+    text-align: center;
+}
+
+.new-config-container h2 { 
+    margin-bottom: 10px;
+
+    font-size: 1.2em;
+    color: #F0F0F0;
+}
+
+/* Styles when the user is making a new config */
+.settings-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.data-trader-settings-container {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+}

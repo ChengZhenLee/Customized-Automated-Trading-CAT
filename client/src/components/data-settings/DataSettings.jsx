@@ -1,3 +1,4 @@
+import "./DataSettings.css";
 import { useEffect } from "react";
 import { DataSettingsConfig } from "../../constants/configs/DataSettingsConfig";
 import { SingleDataSetting } from "./SingleDataSetting";
@@ -22,14 +23,14 @@ export function DataSettings() {
     }, [setConfig]);
 
     return (
-        <>
+        <div className="data-settings-container">
             {DataSettingsConfig.map((setting) => {
                 return (
-                    <div key={setting.name}>
+                    <div className="data-setting-container" key={setting.name}>
                         <SingleDataSetting setting={setting} />
                     </div>
                 );
             })}
-        </>
+        </div>
     )
 }

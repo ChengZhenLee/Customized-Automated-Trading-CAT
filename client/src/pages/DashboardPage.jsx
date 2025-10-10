@@ -1,3 +1,4 @@
+import "./DashboardPage.css";
 import { useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -43,14 +44,17 @@ export function DashboardPage() {
         <>
             <Header />
 
-            <div className="flex-container">
+            <div className="content-container">
                 {
                     !makeNewConfig && (
-                        <div>
-                            {config.config_name ?
-                                <p>Selected Config: {config.config_name}</p> :
-                                <p>No Config Selected</p>
-                            }
+                        <div className="new-config-container">
+                            <h2>
+                                {config.config_name ?
+                                    `Selected Config: ${config.config_name}` :
+                                    "No Config Selected"
+                                }
+                            </h2>
+
                             <button
                                 onClick={toggleMakeNewConfig}>
                                 Make a new config
@@ -59,27 +63,28 @@ export function DashboardPage() {
                     )
                 }
 
+                <div className="settings-container">
+                    {
+                        makeNewConfig && (
+                            <>
+                                <div className="data-trader-settings-container">
+                                    <DataSettings />
+                                    <TraderSettings />
+                                </div>
 
+                                <DndProvider backend={HTML5Backend}>
+                                    <SignalSettings />
+                                    <StrategySettings />
+                                </DndProvider>
 
-                {
-                    makeNewConfig && (
-                        <div>
-                            <DataSettings />
-                            <TraderSettings />
-
-                            <DndProvider backend={HTML5Backend}>
-                                <SignalSettings />
-                                <StrategySettings />
-                            </DndProvider>
-
-                            <SaveConfig />
-                        </div>
-                    )
-                }
-
-                {(makeNewConfig || config.config_name) &&
-                    <SubmitConfig />
-                }
+                                <SaveConfig />
+                                {(makeNewConfig || config.config_name) &&
+                                    <SubmitConfig />
+                                }
+                            </>
+                        )
+                    }
+                </div>
             </div>
         </>
     );

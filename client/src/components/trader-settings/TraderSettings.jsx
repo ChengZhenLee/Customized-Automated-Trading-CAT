@@ -1,3 +1,4 @@
+import "./TraderSettings.css";
 import { useEffect } from "react";
 import { TraderSettingsConfig } from "../../constants/configs/TraderSettingsConfig"
 import { SingleTraderSetting } from "./SingleTraderSetting";
@@ -22,14 +23,14 @@ export function TraderSettings() {
     }, [setConfig]);
 
     return (
-        <form>
+        <div className="trader-settings-container">
             {TraderSettingsConfig.map((setting) => {
                 return (
-                    <div key={setting.name}>
+                    <div className="trader-setting-container" key={setting.name}>
                         <SingleTraderSetting setting={setting} />
                     </div>
                 );
             })}
-        </form>
+        </div>
     );
 }
