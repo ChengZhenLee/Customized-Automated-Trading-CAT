@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { getStorageResults, setStorageResults } from "../storedData";
 import { useConfigContext } from "../hooks/useConfigContext";
 import { useResultsStaleContext } from "../hooks/useResultsStaleContext";
 import { Results } from "../components/Results";
+import { Header } from "../components/header/Header";
 
 export function ResultsPage() {
     const location = useLocation();
@@ -66,10 +67,11 @@ export function ResultsPage() {
 
     return (
         <>
+            <Header />
+
             {pollStatus === "success" && (
                 <>
                     <Results finalData={finalData} />
-                    <NavButtons />
                 </>
             )}
             {pollStatus === "pending" && (
@@ -82,34 +84,8 @@ export function ResultsPage() {
                     <div>
                         Unable to perform backtest and fetch results. Please resubmit a config.
                     </div>
-                    <NavButtons />
                 </>
             )}
-        </>
-    );
-}
-
-function NavButtons() {
-    const navigate = useNavigate();
-
-    return (
-        <>
-            <div>
-                <button
-                    onClick={() => navigate("/")}>
-                    Go to Main Menu
-                </button>
-
-                <button
-                    onClick={() => navigate("/myconfigs")}>
-                    Go to Your Configs
-                </button>
-
-                <button
-                    onClick={() => navigate("/dashboard")}>
-                    Go to Dashboard
-                </button>
-            </div>
         </>
     );
 }

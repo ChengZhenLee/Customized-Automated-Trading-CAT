@@ -1,32 +1,14 @@
-import { useNavigate } from "react-router-dom";
-import { Header } from "../components/Header";
+import { Header } from "../components/header/Header";
 
 export function MainMenuPage() {
-    const navigate = useNavigate();
-
     return (
         <>
             <Header />
-            <button
-                onClick={() => {
-                    navigate("/dashboard")
-                }}>
-                Go To Dashboard
-            </button>
-            
-            <button
-                onClick={() => {
-                    navigate("/myconfigs")
-                }}>
-                Go To My Configs
-            </button>
 
-            <button
-                onClick={() => {
-                    navigate("/results");
-                }}>
-                Go to Results
-            </button>
+            <div className="flex-container">
+                Insert README here
+            </div>
         </>
+
     )
 }

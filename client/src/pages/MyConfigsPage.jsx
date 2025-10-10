@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebaseStore";
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore";
 import { useAuth } from "../hooks/useAuth";
 import { useConfigContext } from "../hooks/useConfigContext";
 import { SubmitConfig } from "../components/SubmitConfig";
 import { RenderConfigs } from "../components/Renderer";
+import { Header } from "../components/header/Header"
 
 export function MyConfigsPage() {
     const [message, setMessage] = useState("");
     const [allDocs, setAllDocs] = useState({});
     const { user } = useAuth();
     const { config, setConfig } = useConfigContext();
-    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchData() {
@@ -72,64 +71,53 @@ export function MyConfigsPage() {
 
     return (
         <div>
+            <Header />
+
             {message && (
                 <div>
                     {message}
                 </div>
             )}
 
-
-            <div>
-                {config.config_name ? `Selected config: ${config.config_name}` : "no config selected"}
-            </div>
-
-            <div>
-                {
-                    Object.keys(allDocs).length > 0 ?
-                        Object.keys(allDocs)
-                            .map((docId) => {
-                                return (
-                                    <div key={docId}>
-                                        <SingleDoc
-                                            docId={docId}
-                                            data={allDocs[docId]}
-                                            onDeleteSuccess={removeDocFromState}
-                                            setMessage={setMessage}
-                                        />
-                                    </div>
-                                );
-                            }) :
-                        "You do not have any saved configs"
-                }
-            </div>
-
-            <div>
+            <div className="flex-container">
                 <div>
-                    Backtest with selected config
+                    {config.config_name ? `Selected config: ${config.config_name}` : "no config selected"}
                 </div>
 
-                {config.config_name && <SubmitConfig />}
-            </div>
-
-            <div>
-                <button
-                    onClick={() => navigate("/dashboard")}>
-                    Go to Dashboard
-                </button>
-            </div>
-
-            <div>
-                <button
-                    onClick={() => navigate("/results")}>
-                    Go to Results
-                </button>
-            </div>
-
-            {config.config_name && (
                 <div>
-                    <RenderConfigs configsData={config} />
+                    {
+                        Object.keys(allDocs).length > 0 ?
+                            Object.keys(allDocs)
+                                .map((docId) => {
+                                    return (
+                                        <div key={docId}>
+                                            <SingleDoc
+                                                docId={docId}
+                                                data={allDocs[docId]}
+                                                onDeleteSuccess={removeDocFromState}
+                                                setMessage={setMessage}
+                                            />
+                                        </div>
+                                    );
+                                }) :
+                            "You do not have any saved configs"
+                    }
                 </div>
-            )}
+
+                <div>
+                    <div>
+                        Backtest with selected config
+                    </div>
+
+                    {config.config_name && <SubmitConfig />}
+                </div>
+
+                {config.config_name && (
+                    <div>
+                        <RenderConfigs configsData={config} />
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

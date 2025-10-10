@@ -1,0 +1,65 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    background-color: #121212;
+    color: #F0F0F0;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style for the parent element of every page */
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Styles for the content container */
+.content-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Styles for buttons*/
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+
+    background-color: #68A67B;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+}
+
+button:hover {
+    background-color: #558B65;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+    background-color: #436C50;
+
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:focus {
+    outline: none;
+
+    box-shadow: 0 0 0 3px rgba(104, 166, 123, 0.5);
+}

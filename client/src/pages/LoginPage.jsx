@@ -1,3 +1,4 @@
+import "./LoginPage.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -40,20 +41,16 @@ export function LoginPage() {
     };
 
     return (
-        <>
-            <div>
+        <div className="content-container">
+            <div className="login-container">
                 <h2>Welcome to Customized Automated Trading</h2>
-            </div>
 
-            <div>
-                <div>
-                    <p
-                        style={{ display: exists ? "block" : "none" }}>
-                        {error}
-                    </p>
+                <div
+                    style={{ display: exists ? "block" : "none" }}>
+                    {error}
                 </div>
 
-                <form onSubmit={handleLogin}>
+                <form className="login-form" onSubmit={handleLogin}>
                     <div>
                         <label>Email</label>
                         <input
@@ -74,12 +71,12 @@ export function LoginPage() {
 
                     <button type='submit'>Login</button>
                 </form>
-            </div>
 
-            <div>
-                <p>Sign Up to CAT</p>
-                <button onClick={goToSignUp}>Sign Up</button>
+                <div>
+                    <p>Sign Up to CAT</p>
+                    <button onClick={goToSignUp}>Sign Up</button>
+                </div>
             </div>
-        </>
+        </div>
     );
 }

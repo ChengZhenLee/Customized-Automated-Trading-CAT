@@ -40,7 +40,7 @@ export function SignUpPage() {
     }
 
     return (
-        <>
+        <div>
             <div>
                 <h2>Create a new CAT account</h2>
             </div>
@@ -80,6 +80,6 @@ export function SignUpPage() {
                 <p>Go To Login Page</p>
                 <button onClick={goToLogin}>Login</button>
             </div>
-        </>
+        </div>
     );
 }
