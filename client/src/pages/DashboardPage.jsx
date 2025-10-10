@@ -81,18 +81,6 @@ export function DashboardPage() {
             {(makeNewConfig || config.config_name) &&
                 <SubmitConfig />
             }
-
-            <div>
-                <button
-                    onClick={() => navigate("/myconfigs")}>
-                    Go to Your Configs
-                </button>
-
-                <button
-                    onClick={() => navigate("/results")}>
-                    Go to Results
-                </button>
-            </div>
         </>
     );
 }

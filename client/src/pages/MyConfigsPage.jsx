@@ -5,12 +5,13 @@ import { collection, doc, getDocs, deleteDoc } from "firebase/firestore";
 import { useAuth } from "../hooks/useAuth";
 import { useConfigContext } from "../hooks/useConfigContext";
 import { SubmitConfig } from "../components/SubmitConfig";
+import { RenderConfigs } from "../components/Renderer";
 
 export function MyConfigsPage() {
     const [message, setMessage] = useState("");
     const [allDocs, setAllDocs] = useState({});
-    const [selectedConfigName, setSelectedConfigName] = useState("");
-    const { user, __ } = useAuth();
+    const { user } = useAuth();
+    const { config, setConfig } = useConfigContext();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,8 +44,23 @@ export function MyConfigsPage() {
 
     // Remove a document from the state when it is deleted
     function removeDocFromState(docIdToRemove) {
-        if (allDocs[docIdToRemove].configName === selectedConfigName) {
-            setSelectedConfigName("");
+        if (allDocs[docIdToRemove].configName === config.config_name) {
+            setConfig(
+                {
+                    "config_name": "",
+                    "trader_settings": {},
+                    "data_settings": {},
+                    "signals": {
+                        "signal_names": [],
+                        "all_signal_params": {},
+                        "all_signal_optimize_params": {}
+                    },
+                    "strategies": {
+                        "strategy_names": [],
+                        "all_strategy_params": {},
+                        "all_strategy_optimize_params": {}
+                    }
+                });
         }
 
         setAllDocs((prevDocs) => {
@@ -64,27 +80,26 @@ export function MyConfigsPage() {
 
 
             <div>
-                {selectedConfigName ? `Selected config: ${selectedConfigName}` : "no config selected"}
+                {config.config_name ? `Selected config: ${config.config_name}` : "no config selected"}
             </div>
 
             <div>
                 {
                     Object.keys(allDocs).length > 0 ?
-                    Object.keys(allDocs)
-                        .map((docId) => {
-                            return (
-                                <div key={docId}>
-                                    <SingleDoc
-                                        docId={docId}
-                                        data={allDocs[docId]}
-                                        setSelectedConfigName={setSelectedConfigName}
-                                        onDeleteSuccess={removeDocFromState}
-                                        setMessage={setMessage}
-                                    />
-                                </div>
-                            );
-                        }) :
-                    "You do not have any saved configs"
+                        Object.keys(allDocs)
+                            .map((docId) => {
+                                return (
+                                    <div key={docId}>
+                                        <SingleDoc
+                                            docId={docId}
+                                            data={allDocs[docId]}
+                                            onDeleteSuccess={removeDocFromState}
+                                            setMessage={setMessage}
+                                        />
+                                    </div>
+                                );
+                            }) :
+                        "You do not have any saved configs"
                 }
             </div>
 
@@ -93,7 +108,7 @@ export function MyConfigsPage() {
                     Backtest with selected config
                 </div>
 
-                { selectedConfigName && <SubmitConfig /> }
+                {config.config_name && <SubmitConfig />}
             </div>
 
             <div>
@@ -109,14 +124,20 @@ export function MyConfigsPage() {
                     Go to Results
                 </button>
             </div>
+
+            {config.config_name && (
+                <div>
+                    <RenderConfigs configsData={config} />
+                </div>
+            )}
         </div>
     )
 }
 
-function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMessage }) {
+function SingleDoc({ docId, data, onDeleteSuccess, setMessage }) {
     const [isDeciding, setisDeciding] = useState(false);
-    const { _, setConfig } = useConfigContext();
-    const { user, __ } = useAuth();
+    const { setConfig } = useConfigContext();
+    const { user } = useAuth();
 
     const configName = data.configName;
     const userUid = user?.uid;
@@ -170,12 +191,10 @@ function SingleDoc({ docId, data, setSelectedConfigName, onDeleteSuccess, setMes
 
             <button
                 onClick={() => {
-                    setSelectedConfigName(configName);
                     setConfig({
                         ...data.config,
                         "config_name": configName
                     });
-                    console.log(data.config);
                 }}
                 disabled={isDeciding}>
                 Select Config

@@ -2,17 +2,12 @@ import download from "downloadjs";
 import { RenderConfigs } from "./Renderer";
 
 export function Results({ finalData }) {
-    const configName = finalData.config_name;
     const plotData = finalData.plot_data;
     const logData = finalData.log_data;
-    const configsData = finalData.configs;
+    const configsData = finalData.config;
 
     return (
         <div>
-            <div>
-                Config Name: {configName}
-            </div>
-
             <div>
                 <RenderConfigs configsData={configsData} />
             </div>
@@ -22,7 +17,7 @@ export function Results({ finalData }) {
             </div>
 
             <div>
-                <DownloadLog logData={logData} name={configName} />
+                <DownloadLog logData={logData} name={configsData.config_name} />
             </div>
         </div>
     );

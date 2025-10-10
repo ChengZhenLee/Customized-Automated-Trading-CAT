@@ -40,8 +40,8 @@ export function ResultsPage() {
                 if (statusCode === 200 && response.data.status === "completed") {
                     if (response.data.status === "completed") {
                         setPollStatus("success");
-                        setFinalData({ ...response.data, "config_name": config.config_name });
-                        setStorageResults({ ...response.data, "config_name":config.config_name });
+                        setFinalData({ ...response.data, "config": config });
+                        setStorageResults({ ...response.data, "config": config });
                         setResultsStale(false);
                         return;
                     }

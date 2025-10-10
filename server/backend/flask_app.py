@@ -62,7 +62,6 @@ def get_backtester_results(task_id):
     if task_result.successful():
         log_file = return_value.get("log_file")
         plot_file = return_value.get("plot_file")
-        configs = return_value.get("configs")
         
         try:
             with open(log_file, 'r', encoding='utf-8') as f:
@@ -86,7 +85,6 @@ def get_backtester_results(task_id):
                         "message": "Results sent successfully", 
                         "log_data": log_data, 
                         "plot_data": plot_data,
-                        "configs": configs
                         }), 200
     
     # the task failed, the return_value from the celery task is an Exception object

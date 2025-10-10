@@ -29,7 +29,6 @@ def run_backtest_task(self, task_id, configs):
             "task_dir": task_dir,
             "log_file": log_file,
             "plot_file": plot_file,
-            "configs": configs
         }
         return result
     except Exception as e:
