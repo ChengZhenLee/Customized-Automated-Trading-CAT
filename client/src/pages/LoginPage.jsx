@@ -55,7 +55,7 @@ export function LoginPage() {
                         <label>Email</label>
                         <input
                             type='email'
-                            placeholder='e-mail'
+                            placeholder='email'
                             onChange={(event) => { setEmail(event.target.value); }}>
                         </input>
                     </div>

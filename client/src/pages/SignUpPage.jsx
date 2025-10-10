@@ -1,3 +1,4 @@
+import "./SignUpPage.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -40,20 +41,16 @@ export function SignUpPage() {
     }
 
     return (
-        <div>
-            <div>
+        <div className="content-container">
+            <div className="signup-container">
                 <h2>Create a new CAT account</h2>
-            </div>
 
-            <div>
-                <div>
-                    <p 
-                        style={{display: exists ? "block" : "none" }}>
-                        {error}
-                    </p>
+                <div
+                    style={{ display: exists ? "block" : "none" }}>
+                    {error}
                 </div>
 
-                <form onSubmit={handleSignUp}>
+                <form className="signup-form" onSubmit={handleSignUp}>
                     <div>
                         <label>Email</label>
                         <input
@@ -74,11 +71,11 @@ export function SignUpPage() {
 
                     <button type="submit">Create Account</button>
                 </form>
-            </div>
 
-            <div>
-                <p>Go To Login Page</p>
-                <button onClick={goToLogin}>Login</button>
+                <div>
+                    <p>Go To Login Page</p>
+                    <button onClick={goToLogin}>Login</button>
+                </div>
             </div>
         </div>
     );
