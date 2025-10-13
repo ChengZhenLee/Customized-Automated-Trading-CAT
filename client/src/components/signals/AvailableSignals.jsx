@@ -3,12 +3,10 @@ import { SignalNames } from "../../constants/configs/SignalSettingsConfig";
 
 export function AvailableSignals() {
     return (
-        <div>
+        <div className="available-signals-container">
             {SignalNames.map((signal) => {
                 return (
-                    <div key={signal.name}>
-                        <DraggableSignal signal={signal} />
-                    </div>
+                    <DraggableSignal signal={signal} />
                 );
             })}
         </div>
@@ -31,11 +29,11 @@ function DraggableSignal({ signal }) {
             style={{
                 opacity: isDragging ? 0.5 : 1,
                 cursor: "move"
-            }}>
+            }}
+            className="draggable-signal">
             <div>{signal.label}</div>
-            <div
-                style={{ visibility: "hidden" }}
-            >{signal.description}
+            <div>
+                {signal.description}
             </div>
         </div>
     );

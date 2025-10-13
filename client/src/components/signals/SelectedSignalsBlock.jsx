@@ -1,3 +1,4 @@
+import "./SignalSettings.css";
 import { useEffect } from "react";
 import { useDrop } from "react-dnd";
 import { useSelectedSignals } from "../../hooks/useSelectedSignals";
@@ -24,7 +25,7 @@ export function SelectedSignalsBlock() {
     }, [selectedSignals, setConfig]);
 
     // Define the behaviour when items are dropped on the block
-    const [{ isOver }, drop] = useDrop(() => ({
+    const [, drop] = useDrop(() => ({
         accept: "SIGNAL",
         drop: (signal) => {
             setSelectedSignals((prevSignals) => {
@@ -63,20 +64,18 @@ export function SelectedSignalsBlock() {
     }
 
     return (
-        <>
-            <h2>My Signals</h2>
+        <div className="selected-signals-container">
             <div
                 ref={drop}
-                style={{
-                    backgroundColor: isOver ? 'lightgreen' : 'gray'
-                }}>
+                className="dropped-signals-container">
                 {selectedSignals.length === 0 ? (
                     <p>Drag and drop signals here</p>
                 ) : (
                     selectedSignals.map((droppedSignal) => {
                         return (
-                            <div key={droppedSignal.name}>
-                                <div>
+                            <div key={droppedSignal.name}
+                                className="dropped-signal-container">
+                                <div className="dropped-signal-name">
                                     {droppedSignal.label}
                                 </div>
                                 <button
@@ -88,6 +87,6 @@ export function SelectedSignalsBlock() {
                     })
                 )}
             </div>
-        </>
+        </div>
     );
 }

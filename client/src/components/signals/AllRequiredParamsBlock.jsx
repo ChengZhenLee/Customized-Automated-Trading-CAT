@@ -1,3 +1,4 @@
+import "./SignalSettings.css";
 import { useEffect, useRef } from "react";
 import { SignalParametersConfig } from "../../constants/configs/SignalSettingsConfig";
 import { useSelectedSignals } from "../../hooks/useSelectedSignals";
@@ -35,7 +36,7 @@ export function AllRequiredParamsBlock() {
                 if (!paramsInfo) return;
 
                 return (
-                    <div key={signal.name}>
+                    <div key={signal.name} className="all-required-params-container">
                         {
                             optimize ?
                                 <RequiredOptimizeParams paramsInfo={paramsInfo} /> :
@@ -100,14 +101,14 @@ function RequiredParams({ paramsInfo }) {
     }
 
     return (
-        <>
-            <div>Parameters for {paramsInfo.signalName}</div>
+        <div className="params-settings-container">
+            <p>Parameters for {paramsInfo.signalName}</p>
             {paramsInfo.params.map((param) => {
                 const signalName = paramsInfo.signalName;
                 const paramName = param.name
 
                 return (
-                    <div key={paramName}>
+                    <div key={paramName} className="param-settings-container">
                         <div key={paramName}>
                             {param.label}
                         </div>
@@ -128,7 +129,7 @@ function RequiredParams({ paramsInfo }) {
                     </div>
                 );
             })}
-        </>
+        </div>
     );
 }
 
@@ -224,8 +225,8 @@ function RequiredOptimizeParams({ paramsInfo }) {
     }
 
     return (
-        <>
-            <div>Parameters for {paramsInfo.signalName}</div>
+        <div className="params-settings-container">
+            <p>Parameters for {paramsInfo.signalName}</p>
             {paramsInfo.params.map((param) => {
                 const signalName = paramsInfo.signalName;
                 const paramName = param.name;
@@ -268,6 +269,6 @@ function RequiredOptimizeParams({ paramsInfo }) {
                     </div>
                 );
             })}
-        </>
+        </div>
     );
 }
