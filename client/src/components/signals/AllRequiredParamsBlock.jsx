@@ -1,4 +1,4 @@
-import "./SignalSettings.css";
+import "../Settings.css";
 import { useEffect, useRef } from "react";
 import { SignalParametersConfig } from "../../constants/configs/SignalSettingsConfig";
 import { useSelectedSignals } from "../../hooks/useSelectedSignals";
@@ -233,7 +233,7 @@ function RequiredOptimizeParams({ paramsInfo }) {
                 const currentValues = getParamValues(signalName, paramName);
 
                 return (
-                    <div key={paramName}>
+                    <div key={paramName} className="param-settings-container">
                         <div key={paramName}>
                             {param.label}
                         </div>

@@ -1,14 +1,13 @@
+import "../Settings.css";
 import { useDrag } from "react-dnd";
 import { StrategyNames } from "../../constants/configs/StrategySettingsConfig";
 
 export function AvailableStrategies() {
     return (
-        <div>
+        <div className="available-container">
             {StrategyNames.map((strategy) => {
                 return (
-                    <div key={strategy.name}>
-                        <DraggableStrategy strategy={strategy} />
-                    </div>
+                    <DraggableStrategy strategy={strategy} key={strategy.name}/>
                 );
             })}
         </div>
@@ -31,11 +30,11 @@ function DraggableStrategy({ strategy }) {
             style={{
                 opacity: isDragging ? 0.5 : 1,
                 cursor: "move"
-            }}>
+            }}
+            className="draggable">
             <div>{strategy.label}</div>
-            <div
-                style={{ visibility: "hidden" }}
-            >{strategy.description}
+            <div>
+                {strategy.description}
             </div>
         </div>
     );

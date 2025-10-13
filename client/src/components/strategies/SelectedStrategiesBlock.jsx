@@ -1,3 +1,4 @@
+import "../Settings.css";
 import { useEffect } from "react";
 import { useDrop } from "react-dnd";
 import { useSelectedStrategies } from "../../hooks/useSelectedStrategies";
@@ -24,7 +25,7 @@ export function SelectedStrategiesBlock() {
     }, [selectedStrategies, setConfig]);
 
     //Define the behaviour when items are dropped on the block
-    const [{ isOver }, drop] = useDrop(() => ({
+    const [, drop] = useDrop(() => ({
         accept: "STRATEGY",
         drop: (strategy) => {
             setSelectedStrategies((prevStrategies) => {
@@ -63,20 +64,19 @@ export function SelectedStrategiesBlock() {
     }
 
     return (
-        <>
-            <h2>My Strategies</h2>
+        <div className="selected-container">
             <div
                 ref={drop}
-                style={{
-                    backgroundColor: isOver ? 'lightgreen' : 'gray'
-                }}>
+                className="all-dropped-container"
+            >
                 {selectedStrategies.length === 0 ? (
                     <p>Drag and drop strategies here</p>
                 ) : (
                     selectedStrategies.map((droppedStrategy) => {
                         return (
-                            <div key={droppedStrategy.name}>
-                                <div>
+                            <div key={droppedStrategy.name}
+                                className="single-dropped-container">
+                                <div className="dropped-name">
                                     {droppedStrategy.label}
                                 </div>
                                 <button
@@ -88,6 +88,6 @@ export function SelectedStrategiesBlock() {
                     })
                 )}
             </div>
-        </>
+        </div>
     );
 }

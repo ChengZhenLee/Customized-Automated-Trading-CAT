@@ -1,3 +1,4 @@
+import "../Settings.css";
 import { useEffect, useRef } from "react";
 import { StrategyParametersConfig } from "../../constants/configs/StrategySettingsConfig";
 import { useSelectedStrategies } from "../../hooks/useSelectedStrategies";
@@ -35,7 +36,7 @@ export function AllRequiredParamsBlock() {
                 if (!paramsInfo) return;
 
                 return (
-                    <div key={strategy.name}>
+                    <div key={strategy.name} className="all-required-params-container">
                         {
                             optimize ?
                                 <RequiredOptimizeParams paramsInfo={paramsInfo} /> :
@@ -99,14 +100,14 @@ function RequiredParams({ paramsInfo }) {
     }
 
     return (
-        <>
+        <div className="params-settings-container">
             <div>Parameters for {paramsInfo.strategyName}</div>
             {paramsInfo.params.map((param) => {
                 const strategyName = paramsInfo.strategyName;
                 const paramName = param.name;
 
                 return (
-                    <div key={paramName}>
+                    <div key={paramName} className="param-settings-container">
                         <div key={paramName}>
                             {param.label}
                         </div>
@@ -127,7 +128,7 @@ function RequiredParams({ paramsInfo }) {
                     </div>
                 );
             })}
-        </>
+        </div>
     );
 }
 
@@ -224,7 +225,7 @@ function RequiredOptimizeParams({ paramsInfo }) {
     }
 
     return (
-        <>
+        <div className="params-settings-container">
             <div>Parameters for {paramsInfo.strategyName}</div>
             {paramsInfo.params.map((param) => {
                 const strategyName = paramsInfo.strategyName;
@@ -233,7 +234,7 @@ function RequiredOptimizeParams({ paramsInfo }) {
 
                 return (
                     <div key={paramName}>
-                        <div key={paramName}>
+                        <div key={paramName} className="param-settings-container">
                             {param.label}
                         </div>
                         <input
@@ -268,6 +269,6 @@ function RequiredOptimizeParams({ paramsInfo }) {
                     </div>
                 );
             })}
-        </>
+        </div>
     );
 }

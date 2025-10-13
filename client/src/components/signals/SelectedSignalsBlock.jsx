@@ -1,4 +1,4 @@
-import "./SignalSettings.css";
+import "../Settings.css";
 import { useEffect } from "react";
 import { useDrop } from "react-dnd";
 import { useSelectedSignals } from "../../hooks/useSelectedSignals";
@@ -64,18 +64,18 @@ export function SelectedSignalsBlock() {
     }
 
     return (
-        <div className="selected-signals-container">
+        <div className="selected-container">
             <div
                 ref={drop}
-                className="dropped-signals-container">
+                className="all-dropped-container">
                 {selectedSignals.length === 0 ? (
                     <p>Drag and drop signals here</p>
                 ) : (
                     selectedSignals.map((droppedSignal) => {
                         return (
                             <div key={droppedSignal.name}
-                                className="dropped-signal-container">
-                                <div className="dropped-signal-name">
+                                className="single-dropped-container">
+                                <div className="dropped-name">
                                     {droppedSignal.label}
                                 </div>
                                 <button

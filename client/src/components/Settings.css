@@ -1,17 +1,18 @@
-.signal-settings-container {
+.signals-strategies-settings-container {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
     justify-content: space-around;
     align-items: stretch;
+    margin: 10px;
 
     background-color: white;
     border-radius: 8px;
     border: 1px solid white;
 }
 
-.available-signals-container,
-.selected-signals-container,
+.available-container,
+.selected-container,
 .all-required-params-container {
     display: flex;
     flex-grow: 1;
@@ -31,7 +32,7 @@
     border: 1px solid #D1E0D1;
 }
 
-.draggable-signal {
+.draggable {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -48,7 +49,7 @@
     text-align: center;
 }
 
-.draggable-signal>div:last-child {
+.draggable>div:last-child {
     visibility: hidden;
     opacity: 0;
 
@@ -66,12 +67,12 @@
     text-align: center;
 }
 
-.draggable-signal:hover>div:last-child {
+.draggable:hover>div:last-child {
     visibility: visible;
     opacity: 1;
 }
 
-.dropped-signals-container {
+.all-dropped-container {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -80,12 +81,12 @@
     height: 100%;
 }
 
-.dropped-signals-container>p {
+.dropped-container>p {
     font-weight: 600;
     font-size: 1.2em;
 }
 
-.dropped-signal-container {
+.single-dropped-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -100,7 +101,7 @@
     font-size: 0.9em;
 }
 
-.dropped-signal-name {
+.dropped-name {
     margin: 5px;
 
     font-weight: 600;
