@@ -1,3 +1,4 @@
+import "./SaveConfig.css";
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { db } from "../firebase/firebaseStore";
@@ -65,7 +66,7 @@ export function SaveConfig() {
     }
 
     return (
-        <div>
+        <div className="save-config-container">
             <input 
                 type="text"
                 placeholder="Please enter a name for your config"

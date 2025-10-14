@@ -1,16 +1,3 @@
-.signals-strategies-settings-container {
-    display: flex;
-    flex-flow: row wrap;
-    width: 100%;
-    justify-content: space-around;
-    align-items: stretch;
-    margin: 10px;
-
-    background-color: white;
-    border-radius: 8px;
-    border: 1px solid white;
-}
-
 .available-container,
 .selected-container,
 .all-required-params-container {

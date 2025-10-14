@@ -1,3 +1,11 @@
+.content-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Styles when the user is not making a config*/
 .new-config-container {
     display: block;
@@ -33,4 +41,16 @@
     background-color: white;
     border-radius: 8px;
     border: none;
+}
+
+.signals-strategies-settings-container {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    justify-content: space-around;
+    align-items: stretch;
+    margin: 10px;
+
+    background-color: white;
+    border-radius: 8px;
 }

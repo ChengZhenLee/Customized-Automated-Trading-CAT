@@ -73,8 +73,12 @@ export function DashboardPage() {
                                 </div>
 
                                 <DndProvider backend={HTML5Backend}>
-                                    <SignalSettings />
-                                    <StrategySettings />
+                                    <div className="signals-strategies-settings-container">
+                                        <SignalSettings />
+                                    </div>
+                                    <div className="signals-strategies-settings-container">
+                                        <StrategySettings />
+                                    </div>
                                 </DndProvider>
 
                                 <SaveConfig />

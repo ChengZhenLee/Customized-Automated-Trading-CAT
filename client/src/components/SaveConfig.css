@@ -1,0 +1,19 @@
+.save-config-container {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    margin: 5px 0px 0px 0px;
+    padding: 5px;
+    gap: 5px;
+}
+
+.save-config-container >input {
+    min-width: 250px;
+    min-height: 20px;
+
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+}
+

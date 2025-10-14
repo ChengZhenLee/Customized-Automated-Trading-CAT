@@ -233,8 +233,8 @@ function RequiredOptimizeParams({ paramsInfo }) {
                 const currentValues = getParamValues(strategyName, paramName);
 
                 return (
-                    <div key={paramName}>
-                        <div key={paramName} className="param-settings-container">
+                    <div key={paramName} className="param-settings-container">
+                        <div key={paramName} >
                             {param.label}
                         </div>
                         <input

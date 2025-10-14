@@ -1,3 +1,4 @@
+import "./MyConfigsPage.css"
 import { useState, useEffect } from "react";
 import { db } from "../firebase/firebaseStore";
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore";
@@ -32,7 +33,7 @@ export function MyConfigsPage() {
                     }));
                 });
 
-                setMessage("Configs fetched!");
+                setMessage("");
             } catch (error) {
                 setMessage(`Error fetching data: ${error.message}`);
             }
@@ -70,55 +71,63 @@ export function MyConfigsPage() {
     }
 
     return (
-        <div>
+        <>
             <Header />
 
-            {message && (
-                <div>
-                    {message}
-                </div>
-            )}
+            {message ?
+                (
+                    <div className="myconfigs-message">
+                        {message}
+                    </div>
+                ) :
 
-            <div className="flex-container">
-                <div>
-                    {config.config_name ? `Selected config: ${config.config_name}` : "no config selected"}
-                </div>
+                (
+                    <div className="myconfigs-name-content-container">
+                        <div className="selected-config-name">
+                            {config.config_name ?
+                                `Selected config: ${config.config_name}` :
+                                "no config selected"}
+                        </div>
 
-                <div>
-                    {
-                        Object.keys(allDocs).length > 0 ?
-                            Object.keys(allDocs)
-                                .map((docId) => {
-                                    return (
-                                        <div key={docId}>
-                                            <SingleDoc
-                                                docId={docId}
-                                                data={allDocs[docId]}
-                                                onDeleteSuccess={removeDocFromState}
-                                                setMessage={setMessage}
-                                            />
+                        {
+                            Object.keys(allDocs).length > 0 ? (
+                                <div className="myconfigs-content-container">
+                                    <div className="all-saved-configs-container">
+                                        {
+                                            Object.keys(allDocs)
+                                                .map((docId) => {
+                                                    return (
+                                                        <SingleDoc
+                                                            key={docId}
+                                                            docId={docId}
+                                                            data={allDocs[docId]}
+                                                            onDeleteSuccess={removeDocFromState}
+                                                            setMessage={setMessage}
+                                                        />
+                                                    );
+                                                })
+                                        }
+                                    </div>
+
+                                    {config.config_name ? (
+                                        <div className="config-details-container">
+                                            <RenderConfigs configsData={config} />
+                                            <SubmitConfig />
                                         </div>
-                                    );
-                                }) :
-                            "You do not have any saved configs"
-                    }
-                </div>
-
-                <div>
-                    <div>
-                        Backtest with selected config
+                                    ) :
+                                        <div className="config-details-blank"></div>
+                                    }
+                                </div>
+                            ) : (
+                                <div className="no-saved-configs">
+                                    You do not have any saved configs
+                                </div>
+                            )
+                        }
                     </div>
-
-                    {config.config_name && <SubmitConfig />}
-                </div>
-
-                {config.config_name && (
-                    <div>
-                        <RenderConfigs configsData={config} />
-                    </div>
-                )}
-            </div>
-        </div>
+                )
+            }
+        </>
     )
 }
 
@@ -147,13 +156,13 @@ function SingleDoc({ docId, data, onDeleteSuccess, setMessage }) {
     }
 
     return (
-        <>
+        <div className="fetched-config-container">
             <div>
                 {configName}
             </div>
 
             {isDeciding && (
-                <div>
+                <div className="delete-confirmation-container">
                     <span>
                         Are you sure?
                     </span>
@@ -187,6 +196,6 @@ function SingleDoc({ docId, data, onDeleteSuccess, setMessage }) {
                 disabled={isDeciding}>
                 Select Config
             </button>
-        </>
+        </div>
     );
 }

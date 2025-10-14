@@ -1,3 +1,4 @@
+import "./Renderer.css";
 import { MonthMap } from "../constants/maps/MonthMap";
 import { SignalNameMap, SignalParamNameMap } from "../constants/maps/SignalMaps";
 import { StrategyNameMap, StrategyParamNameMap } from "../constants/maps/StrategyMaps";
@@ -12,7 +13,7 @@ export function RenderConfigs({ configsData }) {
     const optimize = traderSettings.optimize;
 
     return (
-        <div>
+        <div className="settings-details-container">
             <RenderConfigName configName={configName} />
             <RenderTraderSettings traderSettings={traderSettings} />
             <RenderDataSettings dataSettings={dataSettings} />
@@ -24,8 +25,13 @@ export function RenderConfigs({ configsData }) {
 
 function RenderConfigName({ configName }) {
     return (
-        <div>
-            {configName ? `Config Name: ${configName}` : "No Config Name"}
+        <div className="setting-details-container">
+            {configName ?
+                (
+                    <div className="setting-title">Config Name: {configName}</div>
+                ) :
+                <div className="setting-title">No Config Name</div>
+            }
         </div>
     );
 
@@ -37,11 +43,11 @@ function RenderTraderSettings({ traderSettings }) {
     const startingCash = traderSettings.starting_cash;
 
     return (
-        <div>
-            <h1>Trader Settings</h1>
-            <p>Starting Cash: ${startingCash}</p>
-            <p>Trading Size: {size} {size === 1 ? "stock" : "stocks"}</p>
-            <p>Commission to Broker: ${commission}</p>
+        <div className="setting-details-container">
+            <div className="setting-title">Trader Settings</div>
+            <div>Starting Cash: ${startingCash}</div>
+            <div>Trading Size: {size} {size === 1 ? "stock" : "stocks"}</div>
+            <div>Commission to Broker: ${commission}</div>
         </div>
     );
 }
@@ -53,12 +59,12 @@ function RenderDataSettings({ dataSettings }) {
     const timeframe = dataSettings.timeframe;
 
     return (
-        <div>
-            <h1>Data Settings</h1>
-            <p>Stock Symbol Traded: {symbol}</p>
-            <p>Starting Time: {startTime.year} {MonthMap[startTime.month]} {startTime.day}</p>
-            <p>Ending Time: {endTime.year} {MonthMap[endTime.month]} {endTime.day}</p>
-            <p>Timeframe used: {timeframe}</p>
+        <div className="setting-details-container">
+            <div className="setting-title">Data Settings</div>
+            <div>Stock Symbol Traded: {symbol}</div>
+            <div>Starting Time: {startTime?.year} {MonthMap[startTime?.month]} {startTime?.day}</div>
+            <div>Ending Time: {endTime?.year} {MonthMap[endTime?.month]} {endTime?.day}</div>
+            <div>Timeframe used: {timeframe}</div>
         </div>
     );
 }
@@ -68,22 +74,27 @@ function RenderSignals({ signals, optimize }) {
     const allParams = signals[key];
 
     return (
-        <div>
-            <h1>Signals and Parameters used:</h1>
+        <div className="setting-details-container">
+            <div className="setting-title">Signals and Parameters used:</div>
             {Object.keys(allParams).map((signal) => {
                 return (
-                    <div key={signal}>
-                        Signal: {SignalNameMap[signal]}
-                        {Object.keys(allParams[signal]).map((param) => {
-                            return (
-                                <div key={`${signal}-${param}`}>
-                                    {SignalParamNameMap[signal][param]}: {
-                                        optimize ?
-                                            allParams[signal][param].join(", ") :
-                                            allParams[signal][param]}
-                                </div>
-                            );
-                        })}
+                    <div key={signal} className="single-details-container">
+                        <div className="single-details-title">
+                            {SignalNameMap[signal]}
+                        </div>
+
+                        <div className="param-details-container">
+                            {Object.keys(allParams[signal]).map((param) => {
+                                return (
+                                    <div key={`${signal}-${param}`}>
+                                        {SignalParamNameMap[signal][param]}: {
+                                            optimize ?
+                                                allParams[signal][param].join(", ") :
+                                                allParams[signal][param]}
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 );
             })}
@@ -98,22 +109,27 @@ function RenderStrategies({ strategies, optimize }) {
     console.log(allParams);
 
     return (
-        <div>
-            <h1>Strategies and Parameters used:</h1>
+        <div className="setting-details-container">
+            <div className="setting-title">Strategies and Parameters used:</div>
             {names.map((strategy) => {
                 return (
-                    <div key={strategy}>
-                        Strategy: {StrategyNameMap[strategy]}
-                        {allParams[strategy] && Object.keys(allParams[strategy]).map((param) => {
-                            return (
-                                <div key={`${strategy}-${param}`}>
-                                    {StrategyParamNameMap[strategy][param]}: {
-                                        optimize ?
-                                            allParams[strategy][param].join(", ") :
-                                            allParams[strategy][param]}
-                                </div>
-                            );
-                        })}
+                    <div key={strategy} className="single-details-container">
+                        <div className="single-details-title">
+                            {StrategyNameMap[strategy]}
+                        </div>
+
+                        <div className="param-details-container">
+                            {allParams[strategy] && Object.keys(allParams[strategy]).map((param) => {
+                                return (
+                                    <div key={`${strategy}-${param}`}>
+                                        {StrategyParamNameMap[strategy][param]}: {
+                                            optimize ?
+                                                allParams[strategy][param].join(", ") :
+                                                allParams[strategy][param]}
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 );
             })}

@@ -1,0 +1,38 @@
+.settings-details-container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+
+    color: black;
+    background-color: #E6F0E6;
+    text-align: left;
+    border-radius: 8px;
+    border: 1px solid #D1E0D1;
+    font-weight: 500;
+}
+
+.setting-details-container {
+    margin: 10px;
+    padding: 10px;
+
+    background-color: #8db58d;
+    border-radius: 8px;
+}
+
+.setting-title {
+    margin: 5px 0px;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.single-details-container {
+    margin: 10px;
+}
+
+.single-details-title {
+    font-weight: 600;
+}
+
+.param-details-container {
+    margin: 0px 0px 0px 10px;
+}

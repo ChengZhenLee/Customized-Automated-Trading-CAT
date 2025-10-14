@@ -1,3 +1,4 @@
+import "./SubmitConfig.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useConfigContext } from "../hooks/useConfigContext";
@@ -33,11 +34,11 @@ export function SubmitConfig() {
     }
 
     return (
-        <>
+        <div className="submit-config-container">
             <button
                 onClick={submitConfig}>
                 Submit your config!
             </button>
-        </>
+        </div>
     );
 }

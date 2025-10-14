@@ -1,3 +1,4 @@
+import "./ResultsPage.css";
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
@@ -69,23 +70,21 @@ export function ResultsPage() {
         <>
             <Header />
 
-            {pollStatus === "success" && (
-                <>
+            <div className="content-container">
+                {pollStatus === "success" && (
                     <Results finalData={finalData} />
-                </>
-            )}
-            {pollStatus === "pending" && (
-                <div>
-                    Loading...
-                </div>
-            )}
-            {pollStatus === "fail" && (
-                <>
+                )}
+                {pollStatus === "pending" && (
+                    <div>
+                        Loading...
+                    </div>
+                )}
+                {pollStatus === "fail" && (
                     <div>
                         Unable to perform backtest and fetch results. Please resubmit a config.
                     </div>
-                </>
-            )}
+                )}
+            </div>
         </>
     );
 }

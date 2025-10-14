@@ -9,20 +9,15 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 /* Style for the parent element of every page */
 #root {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-}
-
-/* Styles for the content container */
-.content-container {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
 }
 
 /* Styles for buttons*/
@@ -62,4 +57,10 @@ button:focus {
     outline: none;
 
     box-shadow: 0 0 0 3px rgba(104, 166, 123, 0.5);
+}
+
+button:disabled {
+    background-color: #D9D9D9;
+    color: #888888;
+    cursor: not-allowed;
 }

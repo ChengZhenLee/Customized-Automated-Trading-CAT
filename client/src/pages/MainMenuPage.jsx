@@ -1,3 +1,4 @@
+import "./MainMenuPage.css";
 import { Header } from "../components/header/Header";
 
 export function MainMenuPage() {
@@ -5,7 +6,7 @@ export function MainMenuPage() {
         <>
             <Header />
 
-            <div className="flex-container">
+            <div className="content-container">
                 Insert README here
             </div>
         </>

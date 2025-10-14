@@ -1,0 +1,27 @@
+.plot-container {
+    margin: 10px;
+    max-width: 90%;
+    max-height: 500px;
+
+    overflow: auto;
+}
+
+.plot-container::-webkit-scrollbar {
+    display: none;
+}
+
+.below-plot-container {
+    display: flex;
+    flex-direction: row wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.download-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 10px 0px 0px 0px;
+}

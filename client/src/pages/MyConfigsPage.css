@@ -1,0 +1,127 @@
+.myconfigs-name-content-container {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    margin: 10px;
+    padding: 8px;
+}
+
+.myconfigs-content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 10px;
+    padding: 8px;
+    width: 100%;
+    gap: 10px;
+}
+
+.myconfigs-message {
+    margin: 10px;
+
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.all-saved-configs-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 10px;
+
+    color: black;
+    background-color: white;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+}
+
+.selected-config-name {
+    text-align: center;
+    margin: 10px;
+    padding: 5px;
+
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.no-saved-configs {
+    text-align: center;
+    margin: 10px;
+    padding: 5px;
+
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.fetched-config-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    width: 100%;
+
+    background-color: #E6F0E6;
+    border-radius: 8px;
+    border: 1px solid #D1E0D1;
+    text-align: center;
+}
+
+.fetched-config-container>div {
+    flex-grow: 2;
+    flex-basis: 0;
+}
+
+.fetched-config-container>button {
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.delete-confirmation-container {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    display: flex;
+    flex-direction: row;
+    padding: 5px 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    color: #e74c3c;
+    background-color: black;
+    opacity: 90%;
+    font-weight: 600;
+    border-radius: 8px;
+
+}
+
+.config-details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 10px;
+
+    background-color: white;
+    border-radius: 8px;
+}
+
+.config-details-blank {
+    flex-grow: 1;
+    flex-basis: 0;
+
+    background-color: transparent;
+}
