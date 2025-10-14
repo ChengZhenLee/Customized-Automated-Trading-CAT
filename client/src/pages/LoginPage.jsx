@@ -28,11 +28,10 @@ export function LoginPage() {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            console.log("User logged in successfully!");
             navigate("/");
         } catch (e) {
             setError(e.message);
-            console.log(error);
+            console.error(error);
         }
     };
 

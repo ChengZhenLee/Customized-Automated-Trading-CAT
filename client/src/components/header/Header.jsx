@@ -16,9 +16,8 @@ export function Header() {
     async function LogOut() {
         try {
             await signOut(auth);
-            console.log("User successfully logged out");
         } catch (e) {
-            console.log(e.message);
+            console.error(e.message);
         }
 
         navigate("/");

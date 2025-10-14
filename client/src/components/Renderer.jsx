@@ -106,8 +106,7 @@ function RenderStrategies({ strategies, optimize }) {
     const key = optimize ? "all_strategy_optimize_params" : "all_strategy_params";
     const names = strategies.strategy_names;
     const allParams = strategies[key];
-    console.log(allParams);
-
+    
     return (
         <div className="setting-details-container">
             <div className="setting-title">Strategies and Parameters used:</div>

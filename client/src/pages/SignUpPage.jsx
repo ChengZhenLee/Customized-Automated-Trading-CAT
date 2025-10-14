@@ -28,11 +28,10 @@ export function SignUpPage() {
 
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            console.log("User successfully signed up");
             navigate("/");
         } catch (e) {
             setError(e.message);
-            console.log(e.message);
+            console.error(e.message);
         }
     };
 

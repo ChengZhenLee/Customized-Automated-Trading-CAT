@@ -11,9 +11,9 @@ export function Results({ finalData }) {
         <>
             <div className="download-buttons">
                 <DownloadLog logData={logData} name={configsData.config_name} />
-                <DownloadPlot potData={plotData} name={configsData.config_name} />
+                <DownloadPlot plotData={plotData} name={configsData.config_name} />
             </div>
-            
+
             <Plot plotData={plotData} />
 
             <div className="below-plot-container">
@@ -56,13 +56,11 @@ export function DownloadLog({ logData, name }) {
 }
 
 export function DownloadPlot({ plotData, name }) {
-    const blob = new Blob([plotData], {
-        type: "image/png"
-    });
+    const blob = convertBase64ToBlob(plotData, "image/jpeg");
 
     const filename = name ?
-        `backtest_plot_${name}_${new Date().toISOString()}.txt` :
-        `backtest_plot${new Date().toISOString()}.txt`;
+        `backtest_plot_${name}_${new Date().toISOString()}.jpeg` :
+        `backtest_plot${new Date().toISOString()}.jpeg`;
 
     return (
         <button
@@ -70,4 +68,22 @@ export function DownloadPlot({ plotData, name }) {
             Download Plot
         </button>
     );
+}
+
+function convertBase64ToBlob(data, contentType) {
+    // convert base64 string to binary string
+    const binaryString = atob(data);
+
+    // each character is a byte
+    const len = binaryString.length;
+
+    // create a buffer for Uint of byte sizes
+    const bytes = new Uint8Array(len);
+    
+    // convert each character into its corresponsing integer
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    
+    return new Blob([bytes], { type: contentType });
 }
