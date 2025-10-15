@@ -1,3 +1,4 @@
+# Server
 # python ignores
 __pycache__/
 */__pycache__/
@@ -7,10 +8,11 @@ venv/
 env/
 .env
 .vscode/
-keys.json
 run_commands.txt
 
-# client ignores
+
+# Client
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -34,7 +36,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-Thumbs.db
+
 
 # Result files
 server/backtest_runs/
+
+
+# API keys
+firebaseApp.js
+keys.json
