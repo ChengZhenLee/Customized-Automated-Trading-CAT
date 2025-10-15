@@ -29,7 +29,8 @@ This project is a full-stack web application for configuring, running, and analy
 - Node.js (for frontend)
 - Python 3.8+ (for backend)
 - Redis (for Celery broker)
-- (Optional) Firebase account
+- Alpaca account
+- Firebase account
 
 ### Setup
 
