@@ -1,6 +1,6 @@
 # Automated Trading Backtesting Platform
 
-This project is a full-stack web application for configuring, running, and analyzing automated trading strategies and signals. It features a React frontend and a Python backend with Flask and Celery for asynchronous backtesting.
+This project is a full-stack web application for configuring, running, and analyzing automated trading strategies and signals. It features a React frontend and a Python backend with Flask and Celery for asynchronous backtesting. Uses Alpaca to retrieve historical stock data
 
 ## Features
 
@@ -52,6 +52,20 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+#### 2. Include API keys
+1. Create an Alpaca account at https://app.alpaca.markets/account/login.
+
+2. In the ```server/``` directory, create a file named ```keys.json```.
+
+3. Add your API keys in the following format
+```json
+{
+    "ALPACA_API_KEY": "Your Alpaca API Key",
+
+    "ALPACA_SECRET_KEY": "Your Alpaca Secret Key"
+}
+```
+
 #### 2. Start Redis
 
 ```sh
@@ -84,8 +98,4 @@ npm run dev
 
 - **Signals and strategies**: Defined in `available_configs.txt` and frontend config files.
 - **API keys**: Place in `server/keys.json`.
-- **Backtest results**: Stored in `server/backtest_runs/`.
-
-## License
-
-MIT (or specify your license)
+- **Backtest results**: Stored in `server/backtest_runs/`. Any results are deleted automatically after a corresponding GET request from the frontend.
