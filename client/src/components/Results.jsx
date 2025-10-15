@@ -16,12 +16,7 @@ export function Results({ finalData }) {
 
             <Plot plotData={plotData} />
 
-            <div className="below-plot-container">
-                <RenderConfigs configsData={configsData} />
-
-            </div>
-
-
+            <RenderConfigs configsData={configsData} />
         </>
     );
 }
@@ -31,7 +26,9 @@ function Plot({ plotData }) {
         <div className="plot-container">
             {
                 plotData && (
-                    <img src={`data:image/jpeg;base64,${plotData}`}></img>
+                    <img
+                        src={`data:image/jpeg;base64,${plotData}`}>
+                    </img>
                 )
             }
         </div>
@@ -79,11 +76,11 @@ function convertBase64ToBlob(data, contentType) {
 
     // create a buffer for Uint of byte sizes
     const bytes = new Uint8Array(len);
-    
+
     // convert each character into its corresponsing integer
     for (let i = 0; i < len; i++) {
         bytes[i] = binaryString.charCodeAt(i);
     }
-    
+
     return new Blob([bytes], { type: contentType });
 }

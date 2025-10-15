@@ -19,6 +19,18 @@
     font-weight: 1000;
 }
 
+.signup-container div[style] {
+    padding: 10px;
+    margin-bottom: 20px;
+
+    border: 1px solid #e74c3c;
+    background-color: #fceae7;
+    color: #c0392b;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: left;
+}
+
 .signup-form div {
     margin-bottom: 20px;
 
