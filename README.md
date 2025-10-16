@@ -122,8 +122,27 @@ npm run dev
 
 - **Signals and strategies**: Defined in `available_configs.txt` and frontend config files.
 - **API keys**: Place in `server/keys.json`.
-- **Backtest results**: Stored in `server/backtest_runs/`. Any results are deleted automatically after a corresponding GET request from the frontend.
+- **Backtest results**: Stored in `server/backtest_runs/`.
 
 ## Notes
-- Ensure Redis is running before starting the backend.
-- DO NOT commit API keys from `keys.json` and `firebaseApp.js` to version control for security reasons.
+- **Redis**: Ensure Redis is running before starting the backend.
+```sh
+docker run -d -p 6379:6379 redis
+```
+
+- **API Keys**: Do not commit sensitive API keys (e.g. `keys.json` and `firebaseApp.js`) to version control. These files contain credentials that should remain private.
+
+- **Backtrader Plotting Issue**: By default, Backtrader attempts to render plots in a GUI window, which can block the backend from running properly. To resolve this, you need to *manually disable* the `plotter.show()` call in Backtrader's source code:
+1. Open the file `server/venv/Lib/site-packages/backtrader/cerebro.py`.
+2. Locate the line that calls `plotter.show()`.
+3. Comment out or remove this line to prevent the plot from being rendered interactively.
+
+- **Temporary Files**: Backtest results are stored in `backtest_runs/` and are automatically deleted after retrieval by the frontend or after an error in the computation is encountered.
+
+- **Example Configurations**: Use `example_configs.json` as a reference for creating your own trading configuration.
+
+- **Testing**: To test the backtester, run this command:
+```sh
+python -m business_logic.core.main_logic
+```
+The backtester will use the configurations stored in `server/backtest_runs/test`, and store its results in `server/backtest_runs/test` as well.

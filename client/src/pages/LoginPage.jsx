@@ -42,6 +42,7 @@ export function LoginPage() {
     return (
         <div className="content-container">
             <div className="login-container">
+                <h2 style={{ fontSize: 50 }}>CAT</h2>
                 <h2>Welcome to Customized Automated Trading</h2>
 
                 <div
