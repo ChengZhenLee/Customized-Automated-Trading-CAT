@@ -18,7 +18,6 @@ This project is a full-stack web application for configuring, running, and analy
 ├── server/           # Python backend (Flask, Celery, Backtrader)
 ├── available_configs.txt
 ├── example_configs.json
-├── run_commands.txt
 ├── .gitignore
 ```
 
