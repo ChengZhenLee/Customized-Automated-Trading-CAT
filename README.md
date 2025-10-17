@@ -146,3 +146,7 @@ docker run -d -p 6379:6379 redis
 python -m business_logic.core.main_logic
 ```
 The backtester will use the configurations stored in `server/backtest_runs/test`, and store its results in `server/backtest_runs/test` as well.
+
+## Demonstration Video
+https://github.com/user-attachments/assets/85fb1136-ebdb-4e41-966b-7c5ed8e6fd58
+
