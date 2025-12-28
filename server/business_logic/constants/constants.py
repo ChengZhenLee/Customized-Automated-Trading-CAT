@@ -28,3 +28,32 @@ BT_DATA_FORMAT = {
 
 DATAFRAME_FORMAT = ["timestamp", "open", "high", "low", "close", "volume"]
 DATAFRAME_RENAME = {"timestamp": "datetime"}
+
+
+# Ensure that KEYS_FILE file exists and is populated from the .env
+import os
+import json
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def ensure_keys_file():
+    file_path = os.path.join(os.getcwd(), KEYS_FILE)
+    alpaca_api_key = os.getenv("ALPACA_API_KEY")
+    alpaca_secret_key = os.getenv("ALPACA_SECRET_KEY")
+
+    if alpaca_api_key and alpaca_secret_key:
+        alpaca_keys = {
+            "ALPACA_API_KEY": alpaca_api_key,
+            "ALPACA_SECRET_KEY": alpaca_secret_key,
+        }
+
+        try:
+            with open(file_path, 'w') as outFile:
+                json.dump(alpaca_keys, outFile, indent=4)
+        except Exception as e:
+            print(f"Warning: Could not write keys.json: {e}")
+        
+    return file_path
+
+ensure_keys_file()
