@@ -1,8 +1,11 @@
 import backtrader as bt
-import matplotlib
 import matplotlib.pyplot as plt
 from business_logic.utilities.parameter_manager import SignalParameterManager, StrategyParameterManager, BacktesterParameterManager
 from business_logic.trading_logic.strategies import CombinedStrategy
+
+# Override internal Backtrader show() function
+from backtrader.plot.plot import Plot
+Plot.show = lambda self:None
 
 class Backtester():
     def __init__(self, signals, strategies, trader_settings, data_csv, bt_data_format, logger, plot_file):
