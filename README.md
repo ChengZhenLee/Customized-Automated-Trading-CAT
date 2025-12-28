@@ -73,7 +73,7 @@ pip install -r requirements.txt
 
 3. Copy the `firebaseConfig` object from the **Firebase SDK snippet**.
 
-4. Replace the `firebaseConfig` in `client/src/firebase/firebaseApp.js` with your own configuration:
+4. Create a `.env` file in `client/` and insert your `firebaseConfig` according to the template shown in `client/.env.example`.
 ```javascript
 import { initializeApp } from "firebase/app";
 
@@ -130,7 +130,7 @@ npm run dev
 docker run -d -p 6379:6379 redis
 ```
 
-- **API Keys**: Do not commit sensitive API keys (e.g. `keys.json` and `firebaseApp.js`) to version control. These files contain credentials that should remain private.
+- **API Keys**: Do not commit sensitive API keys (e.g. `keys.json`) to version control. These files contain credentials that should remain private.
 
 - **Backtrader Plotting Issue**: By default, Backtrader attempts to render plots in a GUI window, which can block the backend from running properly. To resolve this, you need to *manually disable* the `plotter.show()` call in Backtrader's source code:
 1. Open the file `server/venv/Lib/site-packages/backtrader/cerebro.py`.
