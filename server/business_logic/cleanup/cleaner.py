@@ -9,11 +9,9 @@ class Cleaner():
             print(f"Directory {target_path} does not exist.")
             return
         
-        test_path = os.path.abspath(os.path.join(os.getcwd(), "backtest_runs", "test"))
-        print(test_path)
-        print(target_path)
         # Do not delete the configuration files in the test directory
-        if task_dir == test_path:
+        test_path = os.path.abspath(os.path.join(os.getcwd(), "backtest_runs", "test"))
+        if target_path == test_path:
             files_to_remove = ["plot.png", "data.csv", "results.txt"]
 
             for file in files_to_remove:
