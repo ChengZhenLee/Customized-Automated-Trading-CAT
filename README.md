@@ -80,11 +80,6 @@ The app will be available at:
 docker-compose down
 ```
 
-- Run this command to stop the app, remove the container and delete the shared backtest_data volume
-```sh
-docker-compose down -v
-```
-
 - Run this command to stop the app without removing the container
 ```sh
 docker-compose stop
