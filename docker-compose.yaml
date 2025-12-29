@@ -12,8 +12,8 @@ services:
     build: ./server
     command: python run.py flask
     volumes:
-      - ./server:/app/server  # Live-sync code changes
-      - backtest_data:/app/server/backtest_runs
+      - ./server:/app/server  # Mirror code changes
+      - ./server/backtest_runs:/app/server/backtest_runs
     ports:
       - "5000:5000"
     depends_on:
@@ -26,8 +26,8 @@ services:
     build: ./server
     command: python run.py celery
     volumes:
-      - ./server:/app/server  # Live-sync code changes
-      - backtest_data:/app/server/backtest_runs
+      - ./server:/app/server  # Mirror code changes
+      - ./server/backtest_runs:/app/server/backtest_runs
     depends_on:
       - redis
       - backend
@@ -46,7 +46,3 @@ services:
       - ./client/.env
     depends_on:
       - backend
-
-# Shared storage so Flask can read the plots/logs that Celery creates
-volumes:
-  backtest_data:

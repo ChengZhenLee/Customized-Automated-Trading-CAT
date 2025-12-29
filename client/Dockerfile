@@ -17,5 +17,5 @@ COPY . .
 EXPOSE 5173
 
 # 7. Start Vite with the --host flag 
-# (Crucial: Docker needs --host to expose the server outside the container)
+# Docker needs --host to expose the server outside the container
 CMD ["npm", "run", "dev", "--", "--host"]

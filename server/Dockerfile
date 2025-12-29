@@ -1,8 +1,7 @@
 # 1. Use a lightweight Python image
 FROM python:3.11-slim
 
-# 2. Set the working directory (CWD)
-# This ensures os.getcwd() points here consistently
+# 2. Set the working directory
 WORKDIR /app/server
 
 # 3. Install system dependencies
@@ -19,11 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # 6. Create the results directory and set permissions
-# This prevents the "Permission Denied" errors in your Cleaner
+# This prevents the "Permission Denied" when deleting, creating or altering files
 RUN mkdir -p backtest_runs && chmod -R 777 backtest_runs
 
 # 7. Flask port
 EXPOSE 5000
-
-# Note: We don't put a CMD here because docker-compose will 
-# tell this image whether to run as 'flask' or 'celery'.

@@ -31,4 +31,4 @@ class MainLogic():
 
 # For testing
 if __name__ == "__main__":
-    MainLogic.run(os.path.join("backtest_runs", "test"))
+    MainLogic.run(os.path.join(os.getcwd(), "backtest_runs", "test"))

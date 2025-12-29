@@ -18,40 +18,21 @@ This project is a full-stack web application for configuring, running, and analy
 ├── server/           # Python backend (Flask, Celery, Backtrader)
 ├── available_configs.txt
 ├── example_configs.json
+├── docker-compose.yaml
+├── .dockerignore
 ├── .gitignore
+├── README.md
 ```
 
 ## Getting Started
 
-### Prerequisites
-- Node.js (for frontend)
-- Python 3.8+ (for backend)
-- Redis (for Celery broker)
+### Prerequisites 
 - Alpaca account
 - Firebase account
+- Docker Desktop installed and running
 
-### Setup
 
-#### 1. Install dependencies
-
-**Frontend:**
-```sh
-cd client
-npm install
-```
-
-**Backend:**
-```sh
-cd server
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On Mac/Linux:
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-#### 2. Include Alpaca API keys
+#### 1. Include Alpaca API keys
 1. Create an Alpaca account at https://app.alpaca.markets/account/login.
 
 2. In the `server/` directory, create a file named `.env`.
@@ -62,7 +43,7 @@ ALPACA_API_KEY=your_alpaca_api_key
 ALPACA_SECRET_KEY=your_alpaca_secret_key
 ```
 
-#### 3. Include Firebase API keys
+#### 2. Include Firebase API keys
 1. Go to https://console.firebase.google.com/ and create a new project.
 
 2. In the Firebase project settings, navigate to the **General** tab and locate the **Firebase SDK snippet**.
@@ -82,25 +63,31 @@ VITE_FIREBASE_APP_ID=your_firebase_app_ID
 VITE_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_ID
 ```
 
-#### 4. Start Redis
-
+#### 3. Launch with Docker
+Run this command in the terminal on the root directory
 ```sh
-docker run -d -p 6379:6379 redis
+docker-compose up --build
 ```
 
-#### 5. Run the backend
+#### 4. Access the App
+The app will be available at:
+- Frontend (Vite) at `http://localhost:5173`
+- Backend (Flask) at `http://localhost:5000`
 
+#### 5. Stop the App
+- Run this command in the terminal on the root directory to stop the app and remove the container
 ```sh
-cd server
-python run.py flask
-python run.py celery
+docker-compose down
 ```
 
-#### 6. Run the frontend
-
+- Run this command to stop the app, remove the container and delete the shared backtest_data volume
 ```sh
-cd client
-npm run dev
+docker-compose down -v
+```
+
+- Run this command to stop the app without removing the container
+```sh
+docker-compose stop
 ```
 
 ## Usage
@@ -118,11 +105,6 @@ npm run dev
 - **Backtest results**: Stored in `server/backtest_runs/`.
 
 ## Notes
-- **Redis**: Ensure Redis is running before starting the backend.
-```sh
-docker run -d -p 6379:6379 redis
-```
-
 - **API Keys Security**: Ensure both `client/.env` and `server/.env` are added to your `.gitignore`. The project includes a `keys.json` ignore rule by default to prevent accidental credential leaks.
 
 - **Headless Plotting**: The backtester is configured for headless environments (Docker/Servers). Plots are saved directly to the task directory as `.png` files.
@@ -131,21 +113,21 @@ docker run -d -p 6379:6379 redis
 
 - **Example Configurations**: Use `example_configs.json` as a reference for creating your own trading configuration.
 
-- **Testing**: To test the backtester, run this command in the directory `server/`:
+- **Testing**: To test the backtester, run this command in the root directory:
 ```sh
-python -m business_logic.core.main_logic
+docker-compose exec backend python -m business_logic.core.main_logic
 ```
 The backtester will use the configurations stored in `server/backtest_runs/test`, and store its results in `server/backtest_runs/test` as well.
+
+- **Ports**: To change ports, modify the `ports:` section in `docker-compose.yml`. For example, change `"5000:5000"` to `"8080:5000"` to access the backend (Flask) on port 8080.
 
 ## Maintenance
 
 ### Cleaning up test files
-The backtester generates temporary data in `server/backtest_runs/`. To manually clear the test directory:
+Testing the backtester generates temporary data in `server/backtest_runs/`. To manually clear the test directory:
 ```sh
-# Ensure you have the right permissions
-python -m business_logic.cleanup.cleaner
+docker-compose exec backend python -m business_logic.cleanup.cleaner
 ```
 
 ## Demonstration Video
 https://github.com/user-attachments/assets/85fb1136-ebdb-4e41-966b-7c5ed8e6fd58
-
