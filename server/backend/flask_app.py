@@ -52,7 +52,7 @@ def get_backtester_results(task_id):
     
     return_value = task_result.get(propagate=False)
     
-    task_dir = os.path.join(RUNS_DIR, task_id)
+    task_dir = os.path.join(os.getcwd(), RUNS_DIR, task_id)
     
     # Check if the task directory still exists
     if not os.path.exists(task_dir):

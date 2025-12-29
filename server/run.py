@@ -1,9 +1,10 @@
 import sys
 from backend.flask_app import flask_app
 from backend.celery_app import celery_app
+from backend.constants.constants import FLASK_PORT
 
 def run_flask():
-    flask_app.run(debug=True)
+    flask_app.run(host='0.0.0.0', port=FLASK_PORT, debug=True)
     
 def run_celery():
     celery_app.worker_main(["worker", "--pool=solo", "--loglevel=info"])

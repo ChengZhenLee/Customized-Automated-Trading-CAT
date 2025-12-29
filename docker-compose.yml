@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # 1. The Message Broker
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  # 2. The Flask API
+  backend:
+    build: ./server
+    command: python run.py flask
+    volumes:
+      - ./server:/app/server  # Live-sync code changes
+      - backtest_data:/app/server/backtest_runs
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    env_file:
+      - ./server/.env
+
+  # 3. The Celery Worker
+  worker:
+    build: ./server
+    command: python run.py celery
+    volumes:
+      - ./server:/app/server  # Live-sync code changes
+      - backtest_data:/app/server/backtest_runs
+    depends_on:
+      - redis
+      - backend
+    env_file:
+      - ./server/.env
+
+  # 4. The React Frontend
+  frontend:
+    build: ./client
+    volumes:
+      - ./client:/app/client
+      - /app/client/node_modules # Don't overwrite container modules with local ones
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./client/.env
+    depends_on:
+      - backend
+
+# Shared storage so Flask can read the plots/logs that Celery creates
+volumes:
+  backtest_data:

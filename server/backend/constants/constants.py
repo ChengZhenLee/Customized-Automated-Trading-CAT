@@ -1,6 +1,8 @@
 ALPACA_API_KEYS = "keys.json"
 
-REDIS_URL = "redis://localhost:6379"
+REDIS_URL = "redis://redis:6379"
+
+FLASK_PORT = 5000
 
 RUNS_DIR = "backtest_runs"
 
